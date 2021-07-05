@@ -10,6 +10,7 @@ public class Attendees {
     private Long id;
     private String email;
     private Event event;
+
     public Attendees() {};
     public Attendees(Long id, String email, Event event){
         this.id = id;

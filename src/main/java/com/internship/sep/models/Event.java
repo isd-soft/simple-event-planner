@@ -4,13 +4,20 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@Entity
+@Table(name = "Event")
+
 public class Event {
 
+    @Id
+    @GeneratedValue()
     private Long id;
     private String name;
     private String location;
@@ -20,6 +27,10 @@ public class Event {
     private String category;
     private User host;
     private Boolean isApproved;
+
+    @OneToMany
+    @JoinColumn
+    private Set<Attendees> attendees;
 
     public Event() {}
 
