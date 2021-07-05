@@ -1,20 +1,17 @@
 package com.internship.sep.models;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-@Getter
-@Setter
-@EqualsAndHashCode
+import lombok.Data;
+
+import javax.persistence.*;
+
+@Data
+@Entity
 public class Attendees {
+    @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long id;
     private String email;
+    @ManyToOne
     private Event event;
 
-    public Attendees() {};
-    public Attendees(Long id, String email, Event event){
-        this.id = id;
-        this.email = email;
-        this.event = event;
-    }
 }

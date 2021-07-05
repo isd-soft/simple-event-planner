@@ -1,23 +1,17 @@
 package com.internship.sep.models;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @Entity
-@Table(name = "Event")
-
 public class Event {
 
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String location;
@@ -25,23 +19,11 @@ public class Event {
     private LocalDateTime endDateTime;
     private String description;
     private String category;
+
+    @ManyToOne
     private User host;
     private Boolean isApproved;
 
-    @OneToMany
-    @JoinColumn
+    @OneToMany(mappedBy = "event" )
     private Set<Attendees> attendees;
-
-    public Event() {}
-
-    public Event(String name, String location, LocalDateTime startDateTime, LocalDateTime endDateTime, String description, String category, User host) {
-        this.name = name;
-        this.location = location;
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
-        this.description = description;
-        this.category = category;
-        this.host = host;
-        this.isApproved = false;
-    }
 }
