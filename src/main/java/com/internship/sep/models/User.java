@@ -20,7 +20,7 @@ public class User {
     private String phoneNumber;
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @Override
