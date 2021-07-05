@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "User")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,7 @@ public class User {
     private Integer age;
     private String phoneNumber;
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
