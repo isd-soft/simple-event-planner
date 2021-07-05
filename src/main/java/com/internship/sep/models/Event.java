@@ -25,5 +25,5 @@ public class Event {
     private Boolean isApproved;
 
     @OneToMany(mappedBy = "event" )
-    private Set<Attendees> attendees;
+    private Set<Attendee> attendees;
 }
