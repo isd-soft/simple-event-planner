@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
-        if (user == null) return;
-
-        repository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new IllegalStateException("The email is taken"));
-
         repository.save(user);
     }
 
