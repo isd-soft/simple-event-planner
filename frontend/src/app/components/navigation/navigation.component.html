@@ -1,29 +1,27 @@
 <mat-toolbar color="primary">
   <button mat-icon-button>
-    <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    <mat-icon>today</mat-icon>
   </button>
   <h1>SEP</h1>
   <span class="menu-spacer"></span>
-  <div>
-    <a mat-flat-button [routerLink]="'/log-in'"> Log In </a>
-    <span class="space"></span>
-    <a mat-flat-button [routerLink]="'/sign-up'"> Sign Up </a>
-  </div>
+  <a mat-button [routerLink]="'/events'"><mat-icon>today</mat-icon> Events </a>
+  <a mat-button [routerLink]="'/calendar'"
+    ><mat-icon>view_list</mat-icon> Events
+  </a>
+  <a mat-button [routerLink]="'/calendar'"
+    ><mat-icon>date_range</mat-icon> Calendar
+  </a>
+  <a mat-button [routerLink]="'/my-events'"
+    ><mat-icon>home</mat-icon> My Events
+  </a>
+  <a mat-button [routerLink]="'/new-events'"
+    ><mat-icon> library_add_check </mat-icon> New Events
+  </a>
+  <a mat-button [routerLink]="'/statistics'"
+    ><mat-icon>analytics</mat-icon> Analytics
+  </a>
+  <span class="menu-spacer"></span>
+  <a mat-flat-button [routerLink]="'/log-in'"> Log In </a>
+  <span class="space"></span>
+  <a mat-flat-button [routerLink]="'/sign-up'"> Sign Up </a>
 </mat-toolbar>
-
-<mat-sidenav-container>
-  <mat-sidenav #sidenav>
-    <mat-nav-list>
-      <a mat-list-item [routerLink]="'/events'"> Events </a>
-      <a mat-list-item [routerLink]="'/calendar'"> Calendar </a>
-      <a mat-list-item [routerLink]="'/my-events'"> My Events </a>
-      <a mat-list-item [routerLink]="'/new-events'"> New Events </a>
-      <a mat-list-item [routerLink]="'/statistics'"> Statistics </a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div style="height: 100vh">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
