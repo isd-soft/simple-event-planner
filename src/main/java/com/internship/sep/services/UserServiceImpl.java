@@ -1,13 +1,15 @@
 package com.internship.sep.services;
 
+import com.internship.sep.mapper.UserMapper;
 import com.internship.sep.models.Role;
 import com.internship.sep.models.User;
+import com.internship.sep.web.UserDTO;
 import com.internship.sep.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,18 +20,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsers() {
-        return repository.findAll();
+    public List<UserDTO> getUsers() {
+        return repository.findAll().stream()
+                .map(UserMapper::userToUserDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
-        return repository.findByEmail(email);
+    public UserDTO getUserByEmail(String email) {
+        return repository.findByEmail(email)
+                .map(UserMapper::userToUserDTO)
+                .orElseThrow(() -> new IllegalStateException("User with email '" + email + "' isn't registered"));
     }
 
     @Override
-    public void addUser(User user) {
-        repository.save(user);
+    public void addUser(UserDTO user) {
+        repository.save(UserMapper.userDTOToUser(user));
     }
 
     @Override

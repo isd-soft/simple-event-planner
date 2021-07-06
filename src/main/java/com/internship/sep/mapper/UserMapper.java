@@ -6,7 +6,7 @@ import com.internship.sep.web.UserDTO;
 
 public class UserMapper {
 
-    public UserDTO userToUserDTO(User entity) {
+    static public UserDTO userToUserDTO(User entity) {
 
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
@@ -18,5 +18,21 @@ public class UserMapper {
         dto.setPassword(entity.getPassword());
 
         return dto;
+    }
+
+    static public User userDTOToUser(UserDTO userDTO) {
+        User user = new User();
+        if (userDTO.getId() != null) {
+            user.setId(userDTO.getId());
+        }
+        user.setEmail(userDTO.getEmail());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setAge(userDTO.getAge());
+        user.setPhoneNumber(userDTO.getPhoneNumber());
+        user.setPassword(userDTO.getPassword());
+        user.setRole(userDTO.getRole());
+
+        return user;
     }
 }
