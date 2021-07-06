@@ -4,7 +4,9 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -27,7 +29,7 @@ public class Event {
     private User host;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event" )
-    private Set<Attendee> attendees = new HashSet<>();
+    private List<Attendee> attendees = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
