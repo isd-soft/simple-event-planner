@@ -21,15 +21,5 @@ public class EventDTO {
 
     private List <Attendee> attendees = new ArrayList<>();
 
-    public EventDTO(Event entity) {
-        this.id = entity.getId();
-        this.attendees = entity.getAttendees();
-        this.category = entity.getCategory();
-        this.description = entity.getDescription();
-        this.startDateTime = entity.getStartDateTime();
-        this.endDateTime = entity.getEndDateTime();
-        this.isApproved = entity.getIsApproved();
-        this.name = entity.getName();
     }
 
-}

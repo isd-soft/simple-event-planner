@@ -12,13 +12,5 @@ public class UserDTO {
     private String phoneNumber;
     private String password;
 
-    public UserDTO(User entity) {
-        this.id = entity.getId();
-        this.email = entity.getEmail();
-        this.firstName = entity.getFirstName();
-        this.lastName = entity.getLastName();
-        this.age = entity.getAge();
-        this.phoneNumber = entity.getPhoneNumber();
-        this.password = entity.getPassword();
-    }
+
 }
