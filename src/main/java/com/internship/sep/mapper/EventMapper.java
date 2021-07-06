@@ -1,10 +1,13 @@
 package com.internship.sep.mapper;
 
 import com.internship.sep.models.Event;
+import com.internship.sep.models.User;
 import com.internship.sep.web.EventDTO;
+import com.internship.sep.web.UserDTO;
 
-public class EventMapper {
-    public EventDTO toDto(Event entity) {
+public class EventMapper implements Mapper<Event, EventDTO> {
+    @Override
+    public EventDTO map(Event entity) {
         EventDTO dto = new EventDTO();
         dto.setId(entity.getId());
         dto.setAttendees(entity.getAttendees());
@@ -17,8 +20,8 @@ public class EventMapper {
 
         return dto;
     }
-
-    public Event toEntity(Event dto) {
+    @Override
+    public Event unmap(EventDTO dto) {
 
         Event event = new Event();
         event.setId(dto.getId());
