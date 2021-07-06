@@ -11,15 +11,11 @@ public interface UserService {
 
     UserDTO getUserByEmail(String email);
 
+    UserDTO getUserById(Long id);
+
     void addUser(UserDTO user);
 
-    void updateUser(Long userId,
-                   String firstName,
-                   String lastName,
-                   Integer age,
-                   String phoneNumber,
-                   String email,
-                   Role role);
+    void updateUser(UserDTO userDTO);
 
     void deleteUser(Long userId);
 }

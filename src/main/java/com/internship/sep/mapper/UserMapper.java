@@ -1,13 +1,14 @@
 package com.internship.sep.mapper;
 
 import com.internship.sep.models.User;
-import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
+import org.springframework.stereotype.Component;
 
-public class UserMapper {
+@Component
+class UserMapper implements Mapper<User, UserDTO> {
 
-    static public UserDTO userToUserDTO(User entity) {
-
+    @Override
+    public UserDTO map(User entity) {
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
@@ -16,15 +17,13 @@ public class UserMapper {
         dto.setAge(entity.getAge());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setPassword(entity.getPassword());
-
         return dto;
     }
 
-    static public User userDTOToUser(UserDTO userDTO) {
+    @Override
+    public User unmap(UserDTO userDTO) {
         User user = new User();
-        if (userDTO.getId() != null) {
-            user.setId(userDTO.getId());
-        }
+        user.setId(userDTO.getId());
         user.setEmail(userDTO.getEmail());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -35,4 +34,5 @@ public class UserMapper {
 
         return user;
     }
+
 }
