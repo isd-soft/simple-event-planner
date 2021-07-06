@@ -1,7 +1,12 @@
 <div class="example-container">
+  <h1>Login</h1>
+
   <mat-form-field appearance="fill">
     <mat-label>Enter your email</mat-label>
     <input matInput placeholder="pat@example.com" required />
+    <button mat-icon-button matSuffix>
+      <mat-icon>email</mat-icon>
+    </button>
     <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
   </mat-form-field>
 
