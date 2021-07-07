@@ -2,7 +2,9 @@
   <h1>My Events</h1>
 
   <div class="search-div"></div>
-  <button mat-mini-fab color="primary"><mat-icon>add</mat-icon></button>
+  <a mat-mini-fab color="primary" [routerLink]="'/create-event'"
+    ><mat-icon>add</mat-icon></a
+  >
   <mat-form-field class="search-form-field" floatLabel="never">
     <input
       matInput
