@@ -3,7 +3,10 @@
     <button mat-icon-button>
       <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
     </button>
-    <h1>SimpleCRM</h1>
+    <h1>SEP</h1>
+    <span class=""></span>
+    <mat-icon>today</mat-icon>
+
     <span class="menu-spacer"></span>
     <div>
       <span class="menu-spacer"></span>
@@ -18,7 +21,7 @@
   <mat-sidenav #sidenav>
     <mat-nav-list>
       <a mat-list-item [routerLink]="'/events'"
-        ><mat-icon>today</mat-icon> Events
+        ><mat-icon>view_list</mat-icon> Events
       </a>
       <a mat-list-item [routerLink]="'/calendar'"
         ><mat-icon>date_range</mat-icon> Calendar
