@@ -24,6 +24,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MyeventComponent } from './components/myevent/myevent.component';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { CreateEventComponent } from './components/create-event/create-event.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +39,7 @@ import { MyeventComponent } from './components/myevent/myevent.component';
     SignupComponent,
     EventComponent,
     MyeventComponent,
+    CreateEventComponent,
   ],
   imports: [
     MatCardModule,
@@ -52,6 +59,11 @@ import { MyeventComponent } from './components/myevent/myevent.component';
     MatPaginatorModule,
     MatSortModule,
     FormsModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatChipsModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent],

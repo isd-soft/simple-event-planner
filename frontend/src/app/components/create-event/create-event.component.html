@@ -1,0 +1,99 @@
+<form [formGroup]="event" class="example-container">
+  <h1>Create Event</h1>
+
+  <div class="example-form">
+    <mat-form-field appearance="fill" class="example-half-width">
+      <mat-label>Event Name</mat-label>
+      <input matInput required id="name" type="text" formControlName="name" />
+      <button mat-icon-button matSuffix>
+        <mat-icon>celebration</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="example-half-width">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category">
+        <mat-option value="Party">Party</mat-option>
+        <mat-option value="Conference">Conference</mat-option>
+        <mat-option value="Training">Training</mat-option>
+      </mat-select>
+      <button mat-icon-button matSuffix>
+        <mat-icon>category</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Location</mat-label>
+      <input
+        matInput
+        required
+        id="location"
+        type="text"
+        formControlName="location"
+      />
+      <button mat-icon-button matSuffix>
+        <mat-icon>location_on</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="fill" class="example-half-width">
+      <mat-label>Start Date</mat-label>
+      <input matInput [matDatepicker]="picker1" formControlName="startDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field color="accent" appearance="fill" class="example-half-width">
+      <mat-label>End Date</mat-label>
+      <input matInput [matDatepicker]="picker2" formControlName="endDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2 color="primary"></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="example-full-width">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        id="description"
+        type="text"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Favorite Fruits</mat-label>
+    <mat-chip-list #chipList aria-label="Fruit selection">
+      <mat-chip
+        *ngFor="let fruit of fruits"
+        [selectable]="selectable"
+        [removable]="removable"
+        (removed)="remove(fruit)"
+      >
+        {{ fruit }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="New attendee..."
+        #fruitInput
+        [formControl]="fruitCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+      />
+    </mat-chip-list>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selected($event)"
+    >
+      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+        {{ fruit }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" (click)="submit()">
+    Create Event
+  </button>
+</form>
