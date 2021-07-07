@@ -31,7 +31,7 @@ public class EventController {
     @PutMapping(path = "{eventId}")
     public void changeEvent(@PathVariable("eventId") Long eventId,
                             @RequestBody EventDTO eventDTO) {
-        eventService.saveEventByDTO(eventId, eventDTO);
+        eventService.saveEventByDTO(eventDTO);
     }
 
     @PutMapping(path = "/accept/{eventId}")

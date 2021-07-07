@@ -5,22 +5,21 @@ import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.web.EventDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.stereotype.Service;
 import org.w3c.dom.events.EventException;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class EventServiceImpl implements EventService {
+@Service
+@RequiredArgsConstructor
+class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
-    private final Mapper eventMapper;
-
-    public EventServiceImpl(EventRepository eventRepository, EventMapper eventMapper) {
-        this.eventRepository = eventRepository;
-        this.eventMapper = eventMapper;
-    }
+    private final Mapper <Event, EventDTO> eventMapper;
 
     @Override
     public List<EventDTO> getAllEvents() {
@@ -34,21 +33,23 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDTO getEventByName(String name) {
-        return eventMapper.map(eventRepository.findByName(name));
+        return eventMapper.map(eventRepository.findByName(name).get());
     }
 
     @Override
     public EventDTO getEventById(Long id) {
 
-        return eventRepository.findById()
+        return eventRepository.findById(id)
                 .map(eventMapper::map)
-                .orElseThrow(() -> throw )
+                .orElseThrow();
+
 
     }
 
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
-        return ;
+        return saveAndReturnDTO(eventMapper.unmap(eventDTO));
+
     }
     private EventDTO saveAndReturnDTO(Event event) {
         Event savedEvent = eventRepository.save(event);
@@ -58,17 +59,28 @@ public class EventServiceImpl implements EventService {
         return returnDto;
     }
     @Override
-    public EventDTO saveEventByDTO(Long id, EventDTO eventDTO) {
-        return null;
+    public EventDTO saveEventByDTO(EventDTO eventDTO) {
+        Event event = eventMapper.unmap(eventDTO);
+
+        return saveAndReturnDTO(event);
     }
 
     @Override
-    public EventDTO patchEvent(Long id, EventDTO eventDTO) {
-        return null;
+    public EventDTO patchEvent(EventDTO eventDTO) {
+        return eventRepository.findById(eventDTO.getId()).map(event-> {
+            if(eventDTO.getName() != null ){
+                event.setName(eventDTO.getName());
+            }
+            EventDTO returnDto = eventMapper.map(eventRepository.save(event));
+
+            return returnDto;
+        })
+                .orElseThrow();
     }
 
     @Override
     public void deleteEventById(Long id) {
+        eventRepository.deleteById(id);
 
     }
 }

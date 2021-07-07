@@ -8,6 +8,7 @@ import com.internship.sep.web.UserDTO;
 public class EventMapper implements Mapper<Event, EventDTO> {
     @Override
     public EventDTO map(Event entity) {
+
         EventDTO dto = new EventDTO();
         dto.setId(entity.getId());
         dto.setAttendees(entity.getAttendees());

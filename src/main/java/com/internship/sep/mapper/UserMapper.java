@@ -9,6 +9,7 @@ class UserMapper implements Mapper<User, UserDTO> {
 
     @Override
     public UserDTO map(User entity) {
+        
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
