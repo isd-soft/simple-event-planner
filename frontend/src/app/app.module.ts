@@ -20,6 +20,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { EventComponent } from './components/event/event.component';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatMenuModule,
     MatTableModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

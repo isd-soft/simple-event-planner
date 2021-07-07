@@ -1,50 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-export interface Element {
-  name: string;
-  location: string;
-  category: string;
-  description: string;
-  startDateTime: string;
-  endDateTime: string;
-  test: string;
-}
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
-const ELEMENT_DATA: Element[] = [
-  {
-    name: 'Event1',
-    location: 'dsadsad',
-    category: 'dsadsad',
-    description: 'dasdsad ',
-    startDateTime: 'dsadsad',
-    endDateTime: 'dasdasda',
-    test: '',
-  },
-  {
-    name: 'Event2',
-    location: 'dasdsa',
-    category: 'dasdada',
-    description: ' dasdsad',
-    startDateTime: 'dasda',
-    endDateTime: 'dsadad',
-    test: '',
-  },
-  {
-    name: 'Event3',
-    location: 'cevamndje',
-    category: 'sebdej',
-    description: 'dbejbdj ',
-    startDateTime: 'ndhdb',
-    endDateTime: 'sbcjsbcj',
-    test: 'sdbjbd',
-  },
-];
-
+/**
+ * @title Table with pagination
+ */
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css'],
 })
-export class EventComponent implements OnInit {
+export class EventComponent implements AfterViewInit {
   displayedColumns: string[] = [
     'name',
     'location',
@@ -52,10 +18,107 @@ export class EventComponent implements OnInit {
     'description',
     'startDateTime',
     'endDateTime',
-    'test',
+    'button',
   ];
-  dataSource = ELEMENT_DATA;
-  constructor() {}
+  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
 
-  ngOnInit(): void {}
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
 }
+
+export interface Element {
+  name: string;
+  location: string;
+  category: string;
+  description: string;
+  startDateTime: string;
+  endDateTime: string;
+  button: string;
+}
+
+const ELEMENT_DATA: Element[] = [
+  {
+    name: 'Event1',
+    location: 'H',
+    category: 'H',
+    description: 'Hdfb',
+    startDateTime: 'ndkhkh ',
+    endDateTime: 'bdssndkenfbd',
+    button: 'sdnkdkd',
+  },
+  {
+    name: 'Event2',
+    location: 'H',
+    category: 'H',
+    description: 'Hdfvj',
+    startDateTime: 'sbdjekdfjejfhjdjfbdjbfjd',
+    endDateTime: 'sfkfkek',
+    button: 'dnknvk',
+  },
+  {
+    name: 'Event3',
+    location: 'H',
+    category: 'H',
+    description: 'Hbdv',
+    startDateTime: 'dbfdbk ',
+    endDateTime: 'dnfefn',
+    button: 'slkfeogh',
+  },
+  {
+    name: 'Event4',
+    location: 'H',
+    category: 'H',
+    description: 'Hdfjg',
+    startDateTime: ' ',
+    endDateTime: '',
+    button: '',
+  },
+  {
+    name: 'Event5',
+    location: 'H',
+    category: 'H',
+    description: 'Hsjkh',
+    startDateTime: ' ',
+    endDateTime: '',
+    button: '',
+  },
+  {
+    name: 'Event6',
+    location: 'H',
+    category: 'H',
+    description: 'Hhfkh',
+    startDateTime: ' ',
+    endDateTime: '',
+    button: '',
+  },
+  {
+    name: 'Event7',
+    location: 'H',
+    category: 'H',
+    description: 'Hfkehf',
+    startDateTime: ' ',
+    endDateTime: '',
+    button: '',
+  },
+  {
+    name: 'Event8',
+    location: 'H',
+    category: 'H',
+    description: 'Hdfhehf',
+    startDateTime: ' ',
+    endDateTime: '',
+    button: '',
+  },
+  {
+    name: 'Event9',
+    location: 'H',
+    category: 'H',
+    description: 'Hkjdh',
+    startDateTime: ' ',
+    endDateTime: '',
+    button: '',
+  },
+];
