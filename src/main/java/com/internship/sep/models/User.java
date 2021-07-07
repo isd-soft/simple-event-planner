@@ -1,14 +1,15 @@
 package com.internship.sep.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
+@Entity
 @Table(name = "users")
 public class User {
     @Id
