@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { SignupComponent } from './components/signup/signup.component';
 import { EventComponent } from './components/event/event.component';
 import { MatTableModule } from '@angular/material/table';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MatTableModule } from '@angular/material/table';
     MatInputModule,
     MatMenuModule,
     MatTableModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

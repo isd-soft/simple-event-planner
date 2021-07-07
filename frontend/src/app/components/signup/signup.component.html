@@ -1,42 +1,65 @@
-<div class="example-container">
+<form [formGroup]="user" class="example-container">
   <h1>Sign Up</h1>
 
   <mat-form-field appearance="fill">
     <mat-label>Enter your email</mat-label>
-    <input matInput placeholder="pat@example.com" required />
+    <input matInput required id="email" type="text" formControlName="email" />
     <button mat-icon-button matSuffix>
       <mat-icon>email</mat-icon>
     </button>
-    <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>First Name</mat-label>
-    <input matInput placeholder="Placeholder" />
+    <input
+      matInput
+      required
+      id="fname"
+      type="text"
+      formControlName="firstName"
+    />
     <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Last Name</mat-label>
-    <input matInput placeholder="Placeholder" />
+    <input
+      matInput
+      required
+      id="lname"
+      type="text"
+      formControlName="lastName"
+    />
     <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Age</mat-label>
-    <input matInput placeholder="Placeholder" />
+    <input matInput required id="age" type="text" formControlName="age" />
     <mat-icon matSuffix>cake</mat-icon>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Phone Number</mat-label>
-    <input matInput placeholder="Placeholder" />
+    <input
+      matInput
+      required
+      id="number"
+      type="text"
+      formControlName="phoneNumber"
+    />
     <mat-icon matSuffix>call</mat-icon>
   </mat-form-field>
 
   <mat-form-field appearance="fill">
     <mat-label>Enter your password</mat-label>
-    <input matInput [type]="hide ? 'password' : 'text'" />
+    <input
+      matInput
+      [type]="hide ? 'password' : 'text'"
+      required
+      id="password"
+      formControlName="password"
+    />
     <button
       mat-icon-button
       matSuffix
@@ -50,7 +73,13 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Confirm your password</mat-label>
-    <input matInput [type]="hide ? 'password' : 'text'" />
+    <input
+      matInput
+      [type]="hide ? 'password' : 'text'"
+      required
+      id="passwordCheck"
+      [formControl]="passwordCheck"
+    />
     <button
       mat-icon-button
       matSuffix
@@ -61,4 +90,6 @@
       <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
     </button>
   </mat-form-field>
-</div>
+
+  <button mat-flat-button color="primary" (click)="submit()">Login</button>
+</form>

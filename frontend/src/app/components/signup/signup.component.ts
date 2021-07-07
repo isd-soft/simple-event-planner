@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
@@ -13,17 +13,23 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  user = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    age: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [Validators.required]),
+  });
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  passwordCheck = new FormControl('', [Validators.required])
 
   hide = true;
 
-  getErrorMessage() {
-    if (this.email.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return this.email.hasError('email') ? 'Not a valid email' : '';
-  }
+  submit() {
+    if(this.passwordCheck.value === this.user.value.password)
+      console.log(this.user.value);
+    else alert("Passwords don't match!");
+  };
 
 }
