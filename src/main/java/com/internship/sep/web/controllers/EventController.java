@@ -1,4 +1,4 @@
-package com.internship.sep.controllers;
+package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.EventService;
 import com.internship.sep.web.EventDTO;

@@ -4,7 +4,9 @@ import com.internship.sep.models.Event;
 import com.internship.sep.models.User;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EventMapper implements Mapper<Event, EventDTO> {
     @Override
     public EventDTO map(Event entity) {

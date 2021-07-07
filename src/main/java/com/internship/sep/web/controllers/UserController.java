@@ -1,4 +1,4 @@
-package com.internship.sep.controllers;
+package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.UserDTO;
