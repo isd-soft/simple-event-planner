@@ -5,7 +5,6 @@ import com.internship.sep.web.AttendeeDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
 @Component
 class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
 
@@ -14,15 +13,17 @@ class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
         AttendeeDTO dto = new AttendeeDTO();
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
-
+        dto.setEvent(entity.getEvent());
         return dto;
     }
 
     @Override
     public Attendee unmap(AttendeeDTO dto) {
+
         Attendee entity = new Attendee();
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
+        entity.setEvent(dto.getEvent());
 
         return entity;
     }

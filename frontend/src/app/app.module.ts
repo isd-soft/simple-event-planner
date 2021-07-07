@@ -21,6 +21,8 @@ import { EventComponent } from './components/event/event.component';
 import { MatTableModule } from '@angular/material/table';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatTableModule,
     ReactiveFormsModule,
     MatPaginatorModule,
+    MatSortModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

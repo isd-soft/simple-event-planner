@@ -9,8 +9,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(path = "/events")
+@RequestMapping(EventController.BASE_URL)
 public class EventController {
+
+    public static final String BASE_URL = "/events";
+
     private final EventService eventService;
 
     @GetMapping

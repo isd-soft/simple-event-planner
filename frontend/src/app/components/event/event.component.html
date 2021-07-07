@@ -1,46 +1,60 @@
 <div class="table-container">
   <h1>Events</h1>
-  <br />
-  <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource">
+
+  <div class="search-div"></div>
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input
+      matInput
+      [(ngModel)]="searchKey"
+      placeholder="Search"
+      autocomplete="off"
+      (keyup)="applyFilter()"
+    />
+  </mat-form-field>
+
+  <button mat-button (click)="onSearchClear()">
+    <mat-icon>search</mat-icon>
+  </button>
+  <div class="custom-elevation">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="location">
-        <th mat-header-cell *matHeaderCellDef>Location</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
         <td mat-cell *matCellDef="let element">{{ element.location }}</td>
       </ng-container>
 
       <!-- Weight Column -->
       <ng-container matColumnDef="category">
-        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
         <td mat-cell *matCellDef="let element">{{ element.category }}</td>
       </ng-container>
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
         <td mat-cell *matCellDef="let element">{{ element.description }}</td>
       </ng-container>
 
       <ng-container matColumnDef="startDateTime">
-        <th mat-header-cell *matHeaderCellDef>startDateTime</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>startDateTime</th>
         <td mat-cell *matCellDef="let element">{{ element.startDateTime }}</td>
       </ng-container>
 
       <ng-container matColumnDef="endDateTime">
-        <th mat-header-cell *matHeaderCellDef>endDateTime</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>endDateTime</th>
         <td mat-cell *matCellDef="let element">{{ element.endDateTime }}</td>
       </ng-container>
 
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef></th>
         <mat-cell *matCellDef="let row">
-          <button mat-mini-fab class="button" color="primary">
+          <button mat-icon-button color="primary">
             <mat-icon>more_horiz</mat-icon>
           </button>
         </mat-cell>
