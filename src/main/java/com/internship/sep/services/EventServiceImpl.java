@@ -33,7 +33,7 @@ class EventServiceImpl implements EventService {
 
     @Override
     public EventDTO getEventByName(String name) {
-        return eventMapper.map(eventRepository.findByName(name).get());
+        return eventMapper.map(eventRepository.findByName(name).orElseThrow(ResourceNotFoundException::new));
     }
 
     @Override
@@ -41,7 +41,7 @@ class EventServiceImpl implements EventService {
 
         return eventRepository.findById(id)
                 .map(eventMapper::map)
-                .orElseThrow();
+                .orElseThrow(ResourceNotFoundException::new);
 
 
     }
@@ -75,7 +75,7 @@ class EventServiceImpl implements EventService {
 
             return returnDto;
         })
-                .orElseThrow();
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
