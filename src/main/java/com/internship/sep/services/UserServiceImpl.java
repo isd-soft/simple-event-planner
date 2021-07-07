@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserService {
         user.setAge(userDTO.getAge());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setEmail(userDTO.getEmail());
-        user.setRole(userDTO.getRole());
     }
 
     @Override
