@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+  margin: auto;
+}
+
+.table-container {
+  width: 100%;
+  height: 100%;
+  margin: 20px 20px 20px 20px;
+}
+.paginator-container {
+  width: 100%;
+  height: 100%;
+  margin: 20px 0px 20px 0px;
+}
+
+.custom-elevation {
+  width: 95%;
+  margin: 20px 20px 20px 20px;
+}
+th.mat-sort-header-sorted {
+  color: black;
+}
+.search-div {
+  margin: 10px;
+}
+.search-form-field {
+  width: 20%;
+  margin-left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  min-width: 300px;
+}

@@ -23,6 +23,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
+import { MyeventComponent } from './components/myevent/myevent.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     SignupComponent,
     EventComponent,
+    MyeventComponent,
   ],
   imports: [
     MatCardModule,
