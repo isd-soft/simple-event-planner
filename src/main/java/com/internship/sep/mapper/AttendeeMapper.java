@@ -6,14 +6,19 @@ import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
+
 @Component
 class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
 
     private final Mapper<Event, EventDTO> eventMapper;
+
+    public AttendeeMapper(@Lazy Mapper<Event, EventDTO> eventMapper) {
+        this.eventMapper = eventMapper;
+    }
 
     @Synchronized
     @Nullable
@@ -27,7 +32,11 @@ class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
         AttendeeDTO dto = new AttendeeDTO();
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
-        dto.setEvent(eventMapper.map(entity.getEvent()));
+
+        if (entity.getEvent() != null ) {
+            dto.setEvent(eventMapper.map(entity.getEvent()));
+        }
+
         return dto;
     }
 
@@ -43,8 +52,10 @@ class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
         Attendee entity = new Attendee();
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
-        entity.setEvent(eventMapper.unmap(dto.getEvent()));
 
+        if (dto.getEvent() != null ) {
+            entity.setEvent(eventMapper.unmap(dto.getEvent()));
+        }
         return entity;
     }
 }
