@@ -19,48 +19,33 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<EventDTO> getEvents() {
-        return eventService.getAllEvents();
+    public ResponseEntity<List<EventDTO>> getAllEvents() {
+        return ResponseEntity.ok(eventService.getAllEvents());
     }
 
     @GetMapping(path = "/{eventId}")
-    @ResponseStatus(HttpStatus.OK)
-    public EventDTO getEvent(@PathVariable("eventId") Long eventId) {
-        return eventService.getEventById(eventId);
+    public ResponseEntity<EventDTO> getEventById(@PathVariable("eventId") Long eventId) {
+        return ResponseEntity.ok(eventService.getEventById(eventId));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createEvent(@RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
         eventService.createNewEvent(eventDTO);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{eventId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void updateEvent(@PathVariable("eventId") Long eventId,
-                            @RequestBody EventDTO eventDTO) {
-        eventService.saveEventByDTO(eventDTO);
+    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
+                                            @RequestBody EventDTO eventDTO) {
+        eventService.saveEventByDTO(eventId, eventDTO);
+        return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = "/accept/{eventId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void acceptEvent(@PathVariable("eventId") Long eventId) {
-        // TODO: Cale doar pentru admini
-        // TODO: eventService.acceptEvent();
-            // Adminul accepta evenimentul
-    }
-
-    @DeleteMapping(path = "{eventId}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteEvent(@PathVariable("eventId") Long eventId) {
+    @DeleteMapping(path = "/{eventId}")
+    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId) {
         eventService.deleteEventById(eventId);
+        return ResponseEntity.noContent().build();
+
     }
 
-    @PatchMapping(path = "/{eventId}")
-    public ResponseEntity<EventDTO> patchEvent(@PathVariable("eventId") Long eventId,
-                                              @RequestBody EventDTO eventDTO){
-        return ResponseEntity.status(HttpStatus.CREATED).body(eventService.patchEvent(eventDTO));
-        //return eventService.patchEvent(eventDTO);
-    }
 }

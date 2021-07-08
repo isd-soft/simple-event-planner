@@ -8,6 +8,7 @@ import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.events.EventException;
 
 import java.util.List;
@@ -19,8 +20,9 @@ import java.util.stream.Collectors;
 class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
-    private final Mapper <Event, EventDTO> eventMapper;
+    private final Mapper<Event, EventDTO> eventMapper;
 
+    @Transactional
     @Override
     public List<EventDTO> getAllEvents() {
         return eventRepository
@@ -30,12 +32,12 @@ class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
 
     }
-
+    @Transactional
     @Override
     public EventDTO getEventByName(String name) {
         return eventMapper.map(eventRepository.findByName(name).orElseThrow(ResourceNotFoundException::new));
     }
-
+    @Transactional
     @Override
     public EventDTO getEventById(Long id) {
 
@@ -45,12 +47,13 @@ class EventServiceImpl implements EventService {
 
 
     }
-
+    @Transactional
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
         return saveAndReturnDTO(eventMapper.unmap(eventDTO));
 
     }
+
     private EventDTO saveAndReturnDTO(Event event) {
         Event savedEvent = eventRepository.save(event);
 
@@ -58,17 +61,19 @@ class EventServiceImpl implements EventService {
 
         return returnDto;
     }
+    @Transactional
     @Override
-    public EventDTO saveEventByDTO(EventDTO eventDTO) {
+    public EventDTO saveEventByDTO(Long id, EventDTO eventDTO) {
         Event event = eventMapper.unmap(eventDTO);
+        event.setId(id);
 
         return saveAndReturnDTO(event);
     }
-
+    @Transactional
     @Override
-    public EventDTO patchEvent(EventDTO eventDTO) {
-        return eventRepository.findById(eventDTO.getId()).map(event-> {
-            if(eventDTO.getName() != null ){
+    public EventDTO patchEvent(Long id,EventDTO eventDTO) {
+        return eventRepository.findById(id).map(event -> {
+            if (eventDTO.getName() != null) {
                 event.setName(eventDTO.getName());
             }
             EventDTO returnDto = eventMapper.map(eventRepository.save(event));
@@ -77,7 +82,7 @@ class EventServiceImpl implements EventService {
         })
                 .orElseThrow(ResourceNotFoundException::new);
     }
-
+    @Transactional
     @Override
     public void deleteEventById(Long id) {
         eventRepository.deleteById(id);

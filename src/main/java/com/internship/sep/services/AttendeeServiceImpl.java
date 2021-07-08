@@ -7,6 +7,7 @@ import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ public class AttendeeServiceImpl implements AttendeeService {
     private final AttendeeRepository attendeeRepository;
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
 
+    @Transactional
     @Override
     public List<AttendeeDTO> getAllAttendees() {
         return attendeeRepository.findAll()
@@ -25,7 +27,7 @@ public class AttendeeServiceImpl implements AttendeeService {
                 .map(attendeeMapper::map)
                 .collect(Collectors.toList());
     }
-
+    @Transactional
     @Override
     public AttendeeDTO getAttendeeByEmail(String email) {
         return attendeeMapper.map(attendeeRepository.findByEmail(email).orElseThrow(ResourceNotFoundException::new));

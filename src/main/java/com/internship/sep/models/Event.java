@@ -1,5 +1,7 @@
 package com.internship.sep.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,7 +33,9 @@ public class Event {
     @ManyToOne
     private User host;
 
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event" )
+    @JsonIgnore
     private List<Attendee> attendees = new ArrayList<>();
 
     @Override
