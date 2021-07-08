@@ -11,7 +11,6 @@ import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Date;
 
-
 public class GEventMapper implements GoogleAPIMapper<Event, com.internship.sep.models.Event> {
 
     private GoogleAPIMapper<EventAttendee, Attendee> attendeeMapper;
