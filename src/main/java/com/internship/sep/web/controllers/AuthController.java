@@ -13,6 +13,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final UserDetailsService userDetailsService;
-
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
     @PostMapping("/login")
@@ -37,13 +38,12 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO) throws Exception {
-        System.out.println(userDTO);
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userService.addUser(userDTO);
-        authenticate(userDTO.getEmail(), userDTO.getPassword());
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());
-
         String token = jwtTokenUtil.generateToken(userDetails);
+
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
