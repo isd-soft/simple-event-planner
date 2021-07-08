@@ -9,6 +9,7 @@ import { CreateEventComponent } from './components/create-event/create-event.com
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { NewEventsComponent } from './components/new-events/new-events.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { EventInfoComponent } from './components/event-info/event-info.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'statistics',
     component: AnalyticsComponent,
+  },
+  {
+    path: 'event-info',
+    component: EventInfoComponent,
   },
 ];
 

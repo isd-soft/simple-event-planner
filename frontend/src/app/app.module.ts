@@ -49,6 +49,8 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
 import { NewEventsComponent } from './components/new-events/new-events.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { ChartsModule } from 'ng2-charts';
+import { EventInfoComponent } from './components/event-info/event-info.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { ChartsModule } from 'ng2-charts';
     HomePageComponent,
     NewEventsComponent,
     AnalyticsComponent,
+    EventInfoComponent,
   ],
   imports: [
     MatCardModule,
@@ -91,6 +94,7 @@ import { ChartsModule } from 'ng2-charts';
     RecurrenceEditorModule,
     MatCarouselModule.forRoot(),
     ChartsModule,
+    MatDialogModule
   ],
   providers: [
     DayService,
