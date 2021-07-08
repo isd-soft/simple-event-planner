@@ -6,8 +6,8 @@ import com.internship.sep.web.UserDTO;
 import com.internship.sep.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +18,7 @@ public class UserServiceImpl implements UserService {
     private final Mapper<User, UserDTO> mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserDTO> getUsers() {
         return repository.findAll().stream()
                 .map(mapper::map)
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDTO getUserByEmail(String email) {
         return repository.findByEmail(email)
                 .map(mapper::map)
@@ -32,11 +34,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDTO getUserById(Long id) {
+        System.out.println("SERVICE: get user by id: " + id);
         return mapper.map(repository.getById(id));
     }
 
     @Override
+    @Transactional
     public void addUser(UserDTO userDTO) {
         repository.save(mapper.unmap(userDTO));
     }
@@ -55,6 +60,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long userId) {
         User user = repository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException("User with id: " + userId + " does not exists"));

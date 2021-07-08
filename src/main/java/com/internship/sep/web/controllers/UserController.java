@@ -5,6 +5,7 @@ import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,15 +24,21 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-    @PutMapping
-    public void changeUser(@RequestParam UserDTO userDTO) {
-        // TODO: Verifica daca utilizatorul poate modifica datele
-        userService.updateUser(userDTO);
-    }
+    @PutMapping(path = "{userId}")
+    public void changeUser(@PathVariable("userId") Long userId,
+                           @RequestBody UserDTO userDTO,
+                           Principal principal) throws IllegalAccessException {
 
-    @DeleteMapping(path = "{userId}")
-    public void deleteUser(@PathVariable Long userId) {
-        // TODO: Calea poate fi accesata doar de admini
-        userService.deleteUser(userId);
+        if (userDTO.getId() == null) {
+            userDTO.setId(userId);
+        }
+
+        System.out.println(principal.getName());
+        UserDTO checkUserDTO = userService.getUserByEmail(principal.getName());
+        if (!userId.equals(checkUserDTO.getId())) {
+            throw new IllegalAccessException("Illegal access");
+        }
+
+        userService.updateUser(userDTO);
     }
 }
