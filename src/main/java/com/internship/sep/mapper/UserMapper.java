@@ -1,11 +1,21 @@
 package com.internship.sep.mapper;
 
+import com.internship.sep.models.Event;
 import com.internship.sep.models.User;
+import com.internship.sep.repositories.EventRepository;
+import com.internship.sep.services.EventService;
+import com.internship.sep.services.UserService;
+import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
 @Component
 class UserMapper implements Mapper<User, UserDTO> {
+    private final EventRepository eventRepository;
 
     @Override
     public UserDTO map(User entity) {
@@ -18,6 +28,13 @@ class UserMapper implements Mapper<User, UserDTO> {
         dto.setAge(entity.getAge());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setPassword(entity.getPassword());
+
+        dto.setEventsHostedId(
+                entity.getHostedEvents()
+                    .stream()
+                    .map(Event::getId)
+                    .collect(Collectors.toList())
+        );
 
         return dto;
     }
@@ -32,6 +49,13 @@ class UserMapper implements Mapper<User, UserDTO> {
         user.setAge(userDTO.getAge());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setPassword(userDTO.getPassword());
+
+        user.setHostedEvents(
+                userDTO.getEventsHostedId()
+                    .stream()
+                    .map(eventRepository::getById)
+                    .collect(Collectors.toList())
+        );
 
         return user;
     }

@@ -3,6 +3,7 @@ package com.internship.sep.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -36,7 +37,10 @@ public class User {
     private String password;
 
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private Role role = Role.USER;
+
+    @OneToMany
+    private List<Event> hostedEvents = new ArrayList<>();
 
     @Override
     public String toString() {
