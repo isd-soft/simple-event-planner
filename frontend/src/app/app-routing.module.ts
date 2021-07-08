@@ -7,6 +7,7 @@ import { MyeventComponent } from './components/myevent/myevent.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { EventInfoComponent } from './components/event-info/event-info.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomePageComponent,
+  },
+  {
+    path: 'event-info',
+    component: EventInfoComponent,
   },
 ];
 

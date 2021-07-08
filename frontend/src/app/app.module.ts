@@ -46,6 +46,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateEventComponent } from './components/create-event/create-event.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { EventInfoComponent } from './components/event-info/event-info.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
     CreateEventComponent,
     CalendarComponent,
     HomePageComponent,
+    EventInfoComponent,
   ],
   imports: [
     MatCardModule,
@@ -85,6 +88,7 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
     ScheduleModule,
     RecurrenceEditorModule,
     MatCarouselModule.forRoot(),
+    MatDialogModule
   ],
   providers: [
     DayService,
