@@ -17,7 +17,8 @@ export class HomePageComponent implements OnInit, AfterViewInit {
 
   slides = [
     {
-      image: 'http://www.canal2.md/media/2018/03/party.jpg',
+      image:
+        'https://isd-soft.com/wp-content/uploads/2020/04/Learn-the-fundamental-secrets-of-Java-programming-1-1024x684.jpg',
     },
     {
       image:
@@ -25,15 +26,14 @@ export class HomePageComponent implements OnInit, AfterViewInit {
     },
     {
       image:
-        'https://smartplaces.eu/wordpress/wp-content/uploads/2017/11/FG_7275.jpg',
+        'https://isd-soft.com/wp-content/uploads/2020/04/The-WHO-and-WHY-of-the-JAVA-Internship-programs-2-768x478.png',
     },
     {
       image:
-        'https://www.reutersagency.com/wp-content/uploads/2021/02/RTX8M0UW.jpg',
+        'https://isd-soft.com/wp-content/uploads/2019/09/P.2.1-1768x995.jpg',
     },
     {
-      image:
-        'https://static.independent.co.uk/2021/06/12/10/Pictures_of_the_Week-Global-Photo_Gallery_47292.jpg?width=1200&auto=webp&quality=75',
+      image: 'https://isd-soft.com/wp-content/uploads/2019/09/P.3.3.jpg',
     },
   ];
 

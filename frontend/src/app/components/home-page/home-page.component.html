@@ -24,18 +24,20 @@
 
 <div class="card-container">
   <mat-card class="card">
-    <button mat-mini-fab class="card-buttons" color="primary">
-      <mat-icon>touch_app</mat-icon></button
-    >Event 1</mat-card
+    <a [routerLink]="'/event-info'"
+      ><button mat-mini-fab class="card-buttons" color="primary">
+        <mat-icon>menu</mat-icon>
+      </button></a
+    >Party Hard</mat-card
   >
   <mat-card class="card"
     ><button mat-mini-fab class="card-buttons" color="primary">
-      <mat-icon>touch_app</mat-icon></button
+      <mat-icon>menu</mat-icon></button
     >Event 2</mat-card
   >
   <mat-card class="card"
     ><button mat-mini-fab class="card-buttons" color="primary">
-      <mat-icon>touch_app</mat-icon></button
+      <mat-icon>menu</mat-icon></button
     >Event 3</mat-card
   >
   <a [routerLink]="'/events'"
