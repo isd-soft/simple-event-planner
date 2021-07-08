@@ -46,6 +46,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateEventComponent } from './components/create-event/create-event.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
+import { NewEventsComponent } from './components/new-events/new-events.component';
+import { AnalyticsComponent } from './components/analytics/analytics.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,8 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
     CreateEventComponent,
     CalendarComponent,
     HomePageComponent,
+    NewEventsComponent,
+    AnalyticsComponent,
   ],
   imports: [
     MatCardModule,
@@ -85,6 +90,7 @@ import { MatCarouselModule } from '@ngmodule/material-carousel';
     ScheduleModule,
     RecurrenceEditorModule,
     MatCarouselModule.forRoot(),
+    ChartsModule,
   ],
   providers: [
     DayService,

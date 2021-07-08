@@ -24,6 +24,10 @@
     "@schematics/angular": "^9.1.0",
     "@syncfusion/ej2-angular-schedule": "^19.2.46",
     "@syncfusion/ej2-material-theme": "^19.1.69",
+    "@types/chart.js": "^2.9.34",
+    "chart.js": "^2.9.3",
+    "chartjs-plugin-annotation": "^1.0.2",
+    "ng2-charts": "^2.2.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"

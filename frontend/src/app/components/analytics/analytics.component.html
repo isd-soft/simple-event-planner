@@ -1,0 +1,36 @@
+<div>
+  <div class="graph-container">
+    <canvas
+      class="left-graph"
+      baseChart
+      [datasets]="lineChartData"
+      [labels]="lineChartLabels"
+      [options]="lineChartOptions"
+      [colors]="lineChartColors"
+      [legend]="lineChartLegend"
+      [chartType]="lineChartType"
+      [plugins]="lineChartPlugins"
+    ></canvas>
+    <canvas
+      class="right-graph"
+      baseChart
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [plugins]="barChartPlugins"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"
+    >
+    </canvas>
+  </div>
+  <div class="third-graph">
+    <canvas
+      style="width: 900px"
+      baseChart
+      [data]="doughnutChartData"
+      [labels]="doughnutChartLabels"
+      [chartType]="doughnutChartType"
+    >
+    </canvas>
+  </div>
+</div>

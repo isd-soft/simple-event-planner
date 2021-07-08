@@ -17,13 +17,15 @@ export class HomePageComponent implements OnInit, AfterViewInit {
 
   slides = [
     {
-      image:
-        'https://writersrumpus.files.wordpress.com/2017/04/moon-with-people.jpg',
+      image: 'http://www.canal2.md/media/2018/03/party.jpg',
     },
-    { image: 'https://images4.alphacoders.com/598/59866.jpg' },
     {
       image:
-        'https://www.planetware.com/wpimages/2020/01/india-in-pictures-beautiful-places-to-photograph-taj-mahal.jpg',
+        'https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg',
+    },
+    {
+      image:
+        'https://smartplaces.eu/wordpress/wp-content/uploads/2017/11/FG_7275.jpg',
     },
     {
       image:

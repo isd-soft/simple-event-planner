@@ -1,0 +1,16 @@
+.graph-container {
+  margin-left: 10px;
+  margin-top: 30px;
+  width: 50%;
+  display: flex;
+}
+.left-graph {
+  flex: 1;
+}
+.right-graph {
+  flex: 1;
+}
+.third-graph {
+  margin: auto;
+  width: 60%;
+}
