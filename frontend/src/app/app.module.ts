@@ -24,12 +24,26 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MyeventComponent } from './components/myevent/myevent.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import {
+  ScheduleModule,
+  RecurrenceEditorModule,
+  DayService,
+  WeekService,
+  WorkWeekService,
+  MonthService,
+  MonthAgendaService,
+  AgendaService,
+  TimelineMonthService,
+  TimelineViewsService,
+} from '@syncfusion/ej2-angular-schedule';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { CreateEventComponent } from './components/create-event/create-event.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +54,8 @@ import { CreateEventComponent } from './components/create-event/create-event.com
     EventComponent,
     MyeventComponent,
     CreateEventComponent,
+    CalendarComponent,
+    HomePageComponent,
   ],
   imports: [
     MatCardModule,
@@ -63,9 +79,21 @@ import { CreateEventComponent } from './components/create-event/create-event.com
     MatDatepickerModule,
     MatNativeDateModule,
     MatChipsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ScheduleModule,
+    RecurrenceEditorModule,
   ],
-  providers: [],
+  providers: [
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    AgendaService,
+    MonthAgendaService,
+    TimelineViewsService,
+    TimelineMonthService,
+  ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

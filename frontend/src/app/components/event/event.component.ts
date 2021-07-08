@@ -91,7 +91,7 @@ const ELEMENT_DATA: Element[] = [
     name: 'Lkent5',
     location: 'H',
     category: 'H',
-    description: 'Hsjkh',
+    description: 'Hojclwkdbcnck',
     startDateTime: 'sbnjwbk',
     endDateTime: '',
     button: '',
