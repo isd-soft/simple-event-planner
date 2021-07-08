@@ -9,12 +9,14 @@
 }
 
 .button1 {
+  margin: auto;
   margin-top: 30px;
-  margin-left: 20px;
-  padding: none;
+  margin-right: 20px;
 }
 .button2 {
+  margin: auto;
   margin-top: 30px;
-  margin-left: 20px;
-  padding: none;
+}
+.card-buttons {
+  margin-right: 30px;
 }

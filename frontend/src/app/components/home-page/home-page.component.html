@@ -23,11 +23,25 @@
 </mat-carousel>
 
 <div class="card-container">
-  <mat-card class="card">Event 1</mat-card>
-  <mat-card class="card">Event 2</mat-card>
-  <mat-card class="card">Event 3</mat-card>
-  <mat-card class="card">Event 4</mat-card>
+  <mat-card class="card">
+    <button mat-mini-fab class="card-buttons" color="primary">
+      <mat-icon>touch_app</mat-icon></button
+    >Event 1</mat-card
+  >
+  <mat-card class="card"
+    ><button mat-mini-fab class="card-buttons" color="primary">
+      <mat-icon>touch_app</mat-icon></button
+    >Event 2</mat-card
+  >
+  <mat-card class="card"
+    ><button mat-mini-fab class="card-buttons" color="primary">
+      <mat-icon>touch_app</mat-icon></button
+    >Event 3</mat-card
+  >
+  <a [routerLink]="'/events'"
+    ><button class="button1" mat-raised-button>View All</button></a
+  >
+  <a [routerLink]="'/calendar'"
+    ><button class="button2" mat-raised-button>Calendar</button></a
+  >
 </div>
-
-<button class="button1" mat-raised-button>View All</button>
-<button class="button2" mat-raised-button>View as Calendar</button>
