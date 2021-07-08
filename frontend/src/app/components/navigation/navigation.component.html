@@ -3,9 +3,11 @@
     <button mat-icon-button>
       <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
     </button>
-    <h1>SEP</h1>
-    <span class=""></span>
-    <mat-icon>today</mat-icon>
+    <a [routerLink]="'/'">
+      <button mat-button class="SEP-button">
+        SEP <mat-icon>today</mat-icon>
+      </button></a
+    >
 
     <span class="menu-spacer"></span>
     <div>

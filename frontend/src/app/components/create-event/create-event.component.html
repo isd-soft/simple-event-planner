@@ -1,4 +1,5 @@
 <form [formGroup]="event" class="example-container">
+  <div class="vertical-space"></div>
   <h1>Create Event</h1>
 
   <div class="example-form">
@@ -60,23 +61,89 @@
       ></textarea>
     </mat-form-field>
   </div>
+  <h3>Cover Image</h3>
+  <div class="image-selector">
+    <mat-card class="example-card">
+      <img
+        mat-card-image
+        src="http://www.canal2.md/media/2018/03/party.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      <mat-card-actions>
+        <button
+          mat-button
+          (click)="changeImage('http://www.canal2.md/media/2018/03/party.jpg')"
+        >
+          Select
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="example-card">
+      <img
+        mat-card-image
+        src="https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      <mat-card-actions>
+        <button
+          mat-button
+          (click)="
+            changeImage(
+              'https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg'
+            )
+          "
+        >
+          Select
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="example-card">
+      <img
+        mat-card-image
+        src="https://smartplaces.eu/wordpress/wp-content/uploads/2017/11/FG_7275.jpg"
+        alt="Photo of a Shiba Inu"
+      />
+      <mat-card-actions>
+        <button
+          mat-button
+          (click)="
+            changeImage(
+              'https://smartplaces.eu/wordpress/wp-content/uploads/2017/11/FG_7275.jpg'
+            )
+          "
+        >
+          Select
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <input
+    #csvInput
+    hidden="true"
+    type="file"
+    onclick="this.value=null"
+    (change)="csvInputChange($event)"
+    accept=".jpg"
+  />
+  <button mat-button (click)="csvInput.click()">Upload Custom Image</button>
 
+  <!-- Attendies selection -->
   <mat-form-field appearance="fill" class="example-full-width">
-    <mat-label>Favorite Fruits</mat-label>
-    <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-label>Attendees</mat-label>
+    <mat-chip-list #chipList aria-label="attendee selection">
       <mat-chip
-        *ngFor="let fruit of fruits"
+        *ngFor="let attendee of attendees"
         [selectable]="selectable"
         [removable]="removable"
-        (removed)="remove(fruit)"
+        (removed)="remove(attendee)"
       >
-        {{ fruit }}
+        {{ attendee }}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
       <input
         placeholder="New attendee..."
-        #fruitInput
-        [formControl]="fruitCtrl"
+        #attendeeInput
+        [formControl]="attendeeCtrl"
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
@@ -87,8 +154,11 @@
       #auto="matAutocomplete"
       (optionSelected)="selected($event)"
     >
-      <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-        {{ fruit }}
+      <mat-option
+        *ngFor="let attendee of filteredAttendees | async"
+        [value]="attendee"
+      >
+        {{ attendee }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>

@@ -23,6 +23,7 @@ export class CreateEventComponent implements OnInit {
     location: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
+    imageSrc: new FormControl('https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg'),
     startDate: new FormControl(new Date(), [
       Validators.required
     ]),
@@ -32,58 +33,73 @@ export class CreateEventComponent implements OnInit {
   });
 
   submit() {
-    console.log(this.event.value)
+    console.log(this.event.value);
+    console.log(this.attendees);
   }
+
+  // ==== Image ==== //
+
+  // Default image
+  changeImage(s : string) {
+    this.event.patchValue({imageSrc: s})
+  }
+
+  // Custom image
+  csvInputChange(fileInputEvent: any) {
+    console.log(fileInputEvent.target.files[0]);
+  }
+
+  // ==== Selector for attendees ==== //
 
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['stanislav@isd.md'];
-  allFruits: string[] = ['marcel@mail.com', 'dinara@mail.com', 'andrei@mail.com', 'denis@mail.com', 'vlad@mail.com'];
+  attendeeCtrl = new FormControl();
+  filteredAttendees: Observable<string[]>;
+  attendees: string[] = ['stanislav@isd.md'];
+  allAttendees: string[] = ['marcel@mail.com', 'dinara@mail.com', 'andrei@mail.com', 'denis@mail.com', 'vlad@mail.com'];
 
-  @ViewChild('fruitInput')
-  fruitInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('attendeeInput')
+  attendeeInput!: ElementRef<HTMLInputElement>;
 
   constructor() {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    this.filteredAttendees = this.attendeeCtrl.valueChanges.pipe(
         startWith(null),
-        map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+        map((attendee: string | null) => attendee ? this._filter(attendee) : this.allAttendees.slice()));
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
+    // Add our attendee
     if (value) {
-      this.fruits.push(value);
+      this.attendees.push(value);
     }
 
     // Clear the input value
     event.chipInput!.clear();
 
-    this.fruitCtrl.setValue(null);
+    this.attendeeCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+  remove(attendee: string): void {
+    const index = this.attendees.indexOf(attendee);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.attendees.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.attendees.push(event.option.viewValue);
+    this.attendeeInput.nativeElement.value = '';
+    this.attendeeCtrl.setValue(null);
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.allAttendees.filter(attendee => attendee.toLowerCase().includes(filterValue));
   }
 
 }
