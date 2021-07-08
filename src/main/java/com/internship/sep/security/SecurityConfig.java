@@ -1,9 +1,11 @@
 package com.internship.sep.security;
 
+import com.internship.sep.models.Role;
 import com.internship.sep.security.jwt.JwtRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,6 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
+
+                .antMatchers(HttpMethod.POST, "/categories").hasRole(Role.ADMIN.name())
+                .antMatchers(HttpMethod.DELETE, "/categories/*").hasRole(Role.ADMIN.name())
+                .antMatchers(HttpMethod.PUT, "/categories/*").hasRole(Role.ADMIN.name())
+
                 .anyRequest().authenticated()
 
                 .and()
