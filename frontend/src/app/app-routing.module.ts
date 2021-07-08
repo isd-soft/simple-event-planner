@@ -34,7 +34,7 @@ const routes: Routes = [
     component: CalendarComponent,
   },
   {
-    path: 'home-page',
+    path: '',
     component: HomePageComponent,
   },
 ];
