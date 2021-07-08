@@ -35,7 +35,6 @@ public class Event {
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "event" )
-    @JsonIgnore
     private List<Attendee> attendees = new ArrayList<>();
 
     @Override

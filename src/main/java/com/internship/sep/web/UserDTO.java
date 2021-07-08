@@ -1,6 +1,7 @@
 package com.internship.sep.web;
 
 import com.internship.sep.models.Event;
+import com.internship.sep.models.Role;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class UserDTO {
     private Integer age;
     private String phoneNumber;
     private String password;
+    private Role role;
 
     private List<EventDTO> hostedEvents = new ArrayList<>();
 }
