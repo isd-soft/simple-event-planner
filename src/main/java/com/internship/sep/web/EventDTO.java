@@ -19,7 +19,7 @@ public class EventDTO {
     private String category;
     private Boolean isApproved;
 
-    private List <Attendee> attendees = new ArrayList<>();
+    private List <AttendeeDTO> attendees = new ArrayList<>();
 
     }
 

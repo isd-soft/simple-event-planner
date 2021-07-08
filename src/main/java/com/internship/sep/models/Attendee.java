@@ -6,15 +6,17 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "attendees")
 public class Attendee {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    @Getter @Setter private Long id;
-    @Getter @Setter private String email;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String email;
     @ManyToOne
-    @Getter @Setter private Event event;
+    private Event event;
 
     @Override
     public boolean equals(Object o) {

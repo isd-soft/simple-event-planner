@@ -2,14 +2,13 @@ package com.internship.sep.mapper;
 
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
-import com.internship.sep.models.User;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.Synchronized;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
@@ -17,6 +16,8 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
 
+    @Synchronized
+    @Nullable
     @Override
     public EventDTO map(Event entity) {
 
@@ -34,19 +35,22 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.setName(entity.getName());
 
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
-            attendeeMapper.mapList(entity.getAttendees());
+            dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
         }
 
         return dto;
     }
 
+    @Synchronized
+    @Nullable
     @Override
     public Event unmap(EventDTO dto) {
         if (dto == null) {
             return null;
         }
 
-        Event event = new Event();
+        final Event event = new Event();
+
         event.setId(dto.getId());
         event.setCategory(dto.getCategory());
         event.setDescription(dto.getDescription());
@@ -56,7 +60,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         event.setName(dto.getName());
 
         if (dto.getAttendees() != null && dto.getAttendees().size() > 0) {
-            attendeeMapper.mapList(dto.getAttendees());
+            event.setAttendees(attendeeMapper.unmapList(dto.getAttendees()));
 
         }
 
