@@ -6,7 +6,6 @@ import com.internship.sep.models.Attendee;
 
 public class GAttendeeMapper implements GoogleAPIMapper<EventAttendee, Attendee> {
 
-
     @Override
     public EventAttendee map(Attendee entity) {
         return new EventAttendee()
