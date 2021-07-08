@@ -28,9 +28,10 @@ class UserMapper implements Mapper<User, UserDTO> {
         dto.setAge(entity.getAge());
         dto.setPhoneNumber(entity.getPhoneNumber());
         dto.setPassword(entity.getPassword());
+        dto.setRole(entity.getRole());
 
-        if (entity.getHostedEvents() != null && entity.getHostedEvents().size() > 0) {
-            dto.setHostedEvents(eventMapper.mapList(entity.getHostedEvents()));
+        if (entity.getEvents() != null && entity.getEvents().size() > 0) {
+            dto.setHostedEvents(eventMapper.mapList(entity.getEvents()));
         }
 
         return dto;
@@ -51,9 +52,10 @@ class UserMapper implements Mapper<User, UserDTO> {
         user.setAge(userDTO.getAge());
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setPassword(userDTO.getPassword());
+        user.setRole(userDTO.getRole());
 
         if (userDTO.getHostedEvents() != null && userDTO.getHostedEvents().size() > 0) {
-            user.setHostedEvents(eventMapper.unmapList(userDTO.getHostedEvents()));
+            user.setEvents(eventMapper.unmapList(userDTO.getHostedEvents()));
         }
 
         return user;

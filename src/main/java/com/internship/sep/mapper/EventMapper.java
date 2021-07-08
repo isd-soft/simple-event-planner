@@ -7,12 +7,10 @@ import com.internship.sep.web.EventDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
-
 @Component
 public class EventMapper implements Mapper<Event, EventDTO> {
 

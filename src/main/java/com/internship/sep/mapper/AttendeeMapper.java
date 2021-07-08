@@ -4,7 +4,6 @@ import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
-import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.lang.Nullable;

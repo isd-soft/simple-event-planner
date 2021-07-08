@@ -18,7 +18,7 @@ public class EventDTO {
     private String description;
     private String category;
     private Boolean isApproved;
-
+    private UserDTO host ;
     private List <AttendeeDTO> attendees = new ArrayList<>();
 
     }

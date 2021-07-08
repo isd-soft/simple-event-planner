@@ -40,7 +40,7 @@ public class User {
     private Role role = Role.USER;
 
     @OneToMany
-    private List<Event> hostedEvents = new ArrayList<>();
+    private List<Event> Events = new ArrayList<>();
 
     @Override
     public String toString() {
