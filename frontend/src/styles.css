@@ -18,3 +18,6 @@ body {
 @import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 @import "../node_modules/@syncfusion/ej2-angular-grids/styles/material.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,1 +1,33 @@
-<p>home-page works!</p>
+<mat-carousel
+  timings="250ms ease-in"
+  [autoplay]="true"
+  color="#00000080"
+  maxWidth="auto"
+  proportion="25"
+  interval="5000"
+  slides="5"
+  [loop]="true"
+  [hideArrows]="false"
+  [hideIndicators]="false"
+  [useKeyboard]="true"
+  [useMouseWheel]="false"
+  orientation="ltr"
+>
+  <mat-carousel-slide
+    #matCarouselSlide
+    *ngFor="let slide of slides; let i = index"
+    [image]="slide.image"
+    overlayColor="#00000080"
+    [hideOverlay]="false"
+  ></mat-carousel-slide>
+</mat-carousel>
+
+<div class="card-container">
+  <mat-card class="card">Event 1</mat-card>
+  <mat-card class="card">Event 2</mat-card>
+  <mat-card class="card">Event 3</mat-card>
+  <mat-card class="card">Event 4</mat-card>
+</div>
+
+<button class="button1" mat-raised-button>View All</button>
+<button class="button2" mat-raised-button>View as Calendar</button>

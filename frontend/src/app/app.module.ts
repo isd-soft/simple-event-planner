@@ -25,6 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MyeventComponent } from './components/myevent/myevent.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+
 import {
   ScheduleModule,
   RecurrenceEditorModule,
@@ -37,13 +38,14 @@ import {
   TimelineMonthService,
   TimelineViewsService,
 } from '@syncfusion/ej2-angular-schedule';
-import {MatSelectModule} from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateEventComponent } from './components/create-event/create-event.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { MatCarouselModule } from '@ngmodule/material-carousel';
 
 @NgModule({
   declarations: [
@@ -82,6 +84,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     MatAutocompleteModule,
     ScheduleModule,
     RecurrenceEditorModule,
+    MatCarouselModule.forRoot(),
   ],
   providers: [
     DayService,

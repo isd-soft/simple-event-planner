@@ -1,0 +1,20 @@
+.card {
+  margin-top: 20px;
+  width: 100%;
+}
+.card-container {
+  margin: auto;
+  width: 50%;
+  padding-top: 30px;
+}
+
+.button1 {
+  margin-top: 30px;
+  margin-left: 20px;
+  padding: none;
+}
+.button2 {
+  margin-top: 30px;
+  margin-left: 20px;
+  padding: none;
+}
