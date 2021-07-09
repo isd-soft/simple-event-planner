@@ -12,6 +12,7 @@ import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class Bootstrap implements CommandLineRunner {
-
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final EventService eventService;
     private final AttendeeRepository attendeeRepository;
@@ -38,7 +39,7 @@ public class Bootstrap implements CommandLineRunner {
     private void loadUsers() {
         UserDTO testUser1 = new UserDTO();
         testUser1.setEmail("user1@email.com");
-        testUser1.setPassword("password");
+        testUser1.setPassword(passwordEncoder.encode("password"));
         testUser1.setFirstName("user1");
         testUser1.setLastName("user1");
         testUser1.setAge(100);
@@ -52,7 +53,7 @@ public class Bootstrap implements CommandLineRunner {
 
         UserDTO testUser2 = new UserDTO();
         testUser2.setEmail("user2@email.com");
-        testUser2.setPassword("password");
+        testUser2.setPassword(passwordEncoder.encode("password"));
         testUser2.setFirstName("user2");
         testUser2.setLastName("user2");
         testUser2.setAge(101);
@@ -65,7 +66,7 @@ public class Bootstrap implements CommandLineRunner {
 
         UserDTO testAdmin = new UserDTO();
         testAdmin.setEmail("admin@email.com");
-        testAdmin.setPassword("password");
+        testAdmin.setPassword(passwordEncoder.encode("password"));
         testAdmin.setFirstName("admin");
         testAdmin.setLastName("admin");
         testAdmin.setAge(102);
