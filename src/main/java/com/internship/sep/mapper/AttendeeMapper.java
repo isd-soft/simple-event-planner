@@ -32,9 +32,9 @@ class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
         dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
 
-//        if (entity.getEvent() != null ) {
-//            dto.setEvent(eventMapper.map(entity.getEvent()));
-//        }
+        if (entity.getEvent() != null) {
+            dto.setEvent(eventMapper.map(entity.getEvent()));
+        }
 
         return dto;
     }
@@ -52,9 +52,9 @@ class AttendeeMapper implements Mapper<Attendee, AttendeeDTO> {
         entity.setId(dto.getId());
         entity.setEmail(dto.getEmail());
 
-//        if (dto.getEvent() != null ) {
-//            entity.setEvent(eventMapper.unmap(dto.getEvent()));
-//        }
+        if (dto.getEvent() != null) {
+            entity.setEvent(eventMapper.unmap(dto.getEvent()));
+        }
         return entity;
     }
 }
