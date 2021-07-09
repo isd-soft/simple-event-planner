@@ -26,18 +26,11 @@ export class SignupComponent implements OnInit {
   hide = true;
 
   readonly ROOT_URL = 'http://localhost:8080';
-  token: any;
 
   submit() {
     if (this.user.valid) {
       if (this.passwordCheck.value === this.user.value.password) {
-        this.token = this.http
-          .post(this.ROOT_URL + 'login/register', this.user.value)
-          .subscribe((token) => {
-            this.token = token;
-          });
-
-        console.log(this.token);
+        this.http.post(this.ROOT_URL + "/register", this.user.value).subscribe(token => { console.log(token); } );
       } else alert("Passwords don't match!");
     } else {
       alert('Please provide valid credentials!');

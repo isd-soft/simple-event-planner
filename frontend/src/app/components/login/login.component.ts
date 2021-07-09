@@ -26,11 +26,9 @@ export class LoginComponent implements OnInit {
 
   readonly ROOT_URL = "http://localhost:8080";
 
-  something: any;
-
   submit() {
     if(this.user.valid) {
-      this.http.post(this.ROOT_URL + "/login", this.user.value).subscribe(token => { console.log(token); } );;
+      this.http.post(this.ROOT_URL + "/login", this.user.value).subscribe(token => { console.log(token); } );
    } else {
      alert("Please provide valid credentials!")
    }
