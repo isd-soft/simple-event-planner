@@ -1,0 +1,13 @@
+<style>
+  div {
+    text-align: center;
+  }
+</style>
+<div>
+  <h1>Attendees</h1>
+  <ul>
+    <div class="list">
+      <li *ngFor="let item of data.array; let i = index">{{ item }}</li>
+    </div>
+  </ul>
+</div>
