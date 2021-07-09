@@ -15,12 +15,11 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "event_categories")
-public class EventCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class EventCategory extends AbstractEntity {
+
+    @Column(name = "name")
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "eventCategory")
     private List<Event> events = new ArrayList<>();
 }

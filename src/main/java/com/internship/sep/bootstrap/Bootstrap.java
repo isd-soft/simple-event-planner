@@ -31,7 +31,7 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-       loadUsers();
+        loadUsers();
 
     }
 
@@ -113,7 +113,7 @@ public class Bootstrap implements CommandLineRunner {
         event1.setStartDateTime(LocalDateTime.now());
         event1.setEndDateTime(LocalDateTime.now());
         event1.setDescription("event1");
-        event1.setCategory("corporate party");
+       // event1.setCategory("corporate party");
 
         event1.setAttendees(attendeeList1);
         event1.setHost(testUser3);

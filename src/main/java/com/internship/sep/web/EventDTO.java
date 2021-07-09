@@ -2,6 +2,7 @@ package com.internship.sep.web;
 
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.EventCategory;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,7 @@ public class EventDTO {
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
     private String description;
-    private String category;
+    private EventCategoryDTO EventCategory;
     private Boolean isApproved;
     private UserDTO host ;
     private List <AttendeeDTO> attendees = new ArrayList<>();

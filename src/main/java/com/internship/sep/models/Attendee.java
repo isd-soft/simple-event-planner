@@ -6,38 +6,24 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 @Entity
 @Table(name = "attendees")
-public class Attendee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
-    @ManyToOne
-    private Event event;
+public class Attendee extends AbstractEntity {
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Attendee attendees = (Attendee) o;
-        return id != null && id.equals(attendees.id);
-    }
+    @Column(name = "email")
+    private String email;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private Event event;
 
     @Override
     public int hashCode() {
         return getClass().hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Attendees{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", event=" + event +
-                '}';
-    }
 
 }

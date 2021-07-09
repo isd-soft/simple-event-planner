@@ -2,7 +2,9 @@ package com.internship.sep.mapper;
 
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.EventCategory;
 import com.internship.sep.web.AttendeeDTO;
+import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
+    private final Mapper<EventCategory,EventCategoryDTO> eventCategoryMapper;
 
     @Synchronized
     @Nullable
@@ -27,7 +30,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
         final EventDTO dto = new EventDTO();
         dto.setId(entity.getId());
-        dto.setCategory(entity.getCategory());
         dto.setDescription(entity.getDescription());
         dto.setStartDateTime(entity.getStartDateTime());
         dto.setEndDateTime(entity.getEndDateTime());
@@ -36,6 +38,9 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
+        }
+        if (entity.getEventCategory() != null) {
+            dto.setEventCategory(eventCategoryMapper.map(entity.getEventCategory()));
         }
 
         return dto;
@@ -52,7 +57,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         final Event event = new Event();
 
         event.setId(dto.getId());
-        event.setCategory(dto.getCategory());
         event.setDescription(dto.getDescription());
         event.setStartDateTime(dto.getStartDateTime());
         event.setEndDateTime(dto.getEndDateTime());
@@ -61,7 +65,10 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
         if (dto.getAttendees() != null && dto.getAttendees().size() > 0) {
             event.setAttendees(attendeeMapper.unmapList(dto.getAttendees()));
+        }
 
+        if (dto.getEventCategory() != null) {
+            event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));
         }
 
         return event;

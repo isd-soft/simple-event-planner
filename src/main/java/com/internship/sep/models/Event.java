@@ -3,6 +3,7 @@ package com.internship.sep.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,56 +14,41 @@ import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "location")
     private String location;
+
+    @Column(name = "start_date_time")
     private LocalDateTime startDateTime;
+
+    @Column(name = "end_date_time")
     private LocalDateTime endDateTime;
+
+    @Column(name = "description")
     private String description;
-    private String category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_category_id")
+    private EventCategory eventCategory;
+
+    @Column(name = "is_approved")
     private Boolean isApproved;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User host;
 
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event" )
+   @OneToMany(cascade = CascadeType.ALL, mappedBy = "event" )
     private List<Attendee> attendees = new ArrayList<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Event event = (Event) o;
-        return id != null && id.equals(event.id);
-    }
 
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", location='" + location + '\'' +
-                ", startDateTime=" + startDateTime +
-                ", endDateTime=" + endDateTime +
-                ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
-                ", host=" + host +
-                ", isApproved=" + isApproved +
-                ", attendees=" + attendees +
-                '}';
-    }
 }
