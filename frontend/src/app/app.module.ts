@@ -25,6 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MyeventComponent } from './components/myevent/myevent.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { HttpClient } from '@angular/common/http';
 
 import {
   ScheduleModule,
@@ -71,10 +72,11 @@ import { DialogComponent } from './components/dialog/dialog.component';
   ],
   entryComponents: [DialogComponent],
   imports: [
-    MatCardModule,
     BrowserModule,
+    HttpClient,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatCardModule,
     MatButtonModule,
     MatToolbarModule,
     MatIconModule,

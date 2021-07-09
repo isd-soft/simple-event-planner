@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -20,8 +22,19 @@ export class LoginComponent implements OnInit {
 
   hide = true;
 
+  //==== HTTP request ====//
+
+  readonly ROOT_URL = "http://localhost:8080";
+
+  something: any;
+
   submit() {
-    console.log(this.user.value)
+    if(this.user.valid) {
+      this.http.post(this.ROOT_URL + "/login", this.user.value).subscribe(token => { console.log(token); } );;
+   } else {
+     alert("Please provide valid credentials!")
+   }
+   
   }
 
 }
