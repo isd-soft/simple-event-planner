@@ -25,6 +25,8 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
+    @Getter
+    @Setter
     private static class UserEmailPassword {
         String email;
         String password;
@@ -32,11 +34,10 @@ public class AuthController {
 
     @AllArgsConstructor
     @Getter
-    private static class ResponseJwtToken implements Serializable {
-        private String token;
+    private static class ResponseJwtToken {
+        private final String token;
     }
 
-    @ToString
     @Getter
     @Setter
     private static class UserAllFields {
@@ -62,7 +63,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserEmailPassword request) throws Exception {
-        System.out.println("Request = " + request);
         authenticate(request.email, request.password);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.email);
