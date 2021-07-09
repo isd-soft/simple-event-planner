@@ -1,11 +1,9 @@
 package com.internship.sep.web.controllers;
 
-import com.internship.sep.security.jwt.JwtRequest;
-import com.internship.sep.security.jwt.JwtResponse;
 import com.internship.sep.security.jwt.JwtTokenUtil;
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.UserDTO;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
+
 @RequiredArgsConstructor
 @RestController
 public class AuthController {
@@ -25,26 +25,65 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody JwtRequest request) throws Exception {
-        System.out.println("Request = " + request);
-        authenticate(request.getEmail(), request.getPassword());
+    private static class UserEmailPassword {
+        String email;
+        String password;
+    }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getEmail());
+    @AllArgsConstructor
+    @Getter
+    private static class ResponseJwtToken implements Serializable {
+        private String token;
+    }
+
+    @ToString
+    @Getter
+    @Setter
+    private static class UserAllFields {
+        private String email;
+        private String password;
+        private String phoneNumber;
+        private Integer age;
+        private String firstName;
+        private String lastName;
+
+        UserDTO toUserDTO() {
+            UserDTO dto = new UserDTO();
+            dto.setEmail(email);
+            dto.setAge(age);
+            dto.setPassword(password);
+            dto.setPhoneNumber(phoneNumber);
+            dto.setLastName(lastName);
+            dto.setFirstName(firstName);
+
+            return dto;
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserEmailPassword request) throws Exception {
+        System.out.println("Request = " + request);
+        authenticate(request.email, request.password);
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(request.email);
 
         String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new ResponseJwtToken(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) throws Exception {
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+    public ResponseEntity<?> register(@RequestBody UserAllFields user) throws Exception {
+        System.out.println(user);
+        user.password = passwordEncoder.encode(user.password);
+
+        UserDTO userDTO = user.toUserDTO();
+
         userService.addUser(userDTO);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());
         String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+        return ResponseEntity.ok(new ResponseJwtToken(token));
     }
 
 
