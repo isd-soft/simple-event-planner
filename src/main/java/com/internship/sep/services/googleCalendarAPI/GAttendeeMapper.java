@@ -5,7 +5,7 @@ import com.google.api.services.calendar.model.EventAttendee;
 import com.internship.sep.models.Attendee;
 
 public class GAttendeeMapper implements GoogleAPIMapper<EventAttendee, Attendee> {
-
+    // TODO: 08/07/2021 ADD ATTENDEE STATUS AND ATTACHMENTS
     @Override
     public EventAttendee map(Attendee entity) {
         return new EventAttendee()
