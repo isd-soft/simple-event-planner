@@ -11,7 +11,10 @@ import { MultiDataSet } from 'ng2-charts';
 })
 export class AnalyticsComponent {
   lineChartData: ChartDataSets[] = [
-    { data: [85, 72, 78, 75, 77, 75], label: 'Crude oil prices' },
+    {
+      data: [15, 12, 18, 15, 7, 15],
+      label: 'Total amount of organized events/month',
+    },
   ];
 
   lineChartLabels: Label[] = [
@@ -42,21 +45,21 @@ export class AnalyticsComponent {
     responsive: true,
   };
   barChartLabels: Label[] = [
-    'Apple',
-    'Banana',
-    'Kiwifruit',
-    'Blueberry',
-    'Orange',
-    'Grapes',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
   ];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
 
   barChartData: ChartDataSets[] = [
-    { data: [45, 37, 60, 70, 46, 33], label: 'Best Fruits' },
+    { data: [45, 37, 60, 70, 46, 33], label: 'Nr of attendees/month' },
   ];
-  doughnutChartLabels: Label[] = ['BMW', 'Ford', 'Tesla'];
-  doughnutChartData: MultiDataSet = [[55, 25, 20]];
+  doughnutChartLabels: Label[] = ['Rejected', 'Accepted', 'Total/month'];
+  doughnutChartData: MultiDataSet = [[20, 35, 55]];
   doughnutChartType: ChartType = 'doughnut';
 }
