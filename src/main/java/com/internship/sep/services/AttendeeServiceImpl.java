@@ -4,7 +4,6 @@ import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Attendee;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.web.AttendeeDTO;
-import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

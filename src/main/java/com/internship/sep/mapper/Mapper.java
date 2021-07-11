@@ -13,7 +13,9 @@ public interface Mapper<E, D> {
                 .collect(Collectors.toList());
     }
 
-    E unmap(D dto);
+    default E unmap(D dto) {
+        return null;
+    }
 
     default List<E> unmapList(List<D> dtoList) {
         return dtoList.stream()

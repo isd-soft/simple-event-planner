@@ -1,11 +1,13 @@
 package com.internship.sep.services;
 
 import com.internship.sep.web.UserDTO;
+import com.internship.sep.web.UserShortDTO;
+import org.apache.http.auth.InvalidCredentialsException;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserDTO> getUsers();
+    List<UserShortDTO> getUsers();
 
     UserDTO getUserByEmail(String email);
 
@@ -16,4 +18,6 @@ public interface UserService {
     void updateUser(UserDTO userDTO);
 
     void deleteUser(Long userId);
+
+    void authenticate(String email, String password) throws InvalidCredentialsException;
 }

@@ -1,8 +1,5 @@
 package com.internship.sep.web;
 
-import com.internship.sep.models.Attendee;
-import com.internship.sep.models.Event;
-import com.internship.sep.models.EventCategory;
 import lombok.Data;
 
 import java.time.LocalDateTime;

@@ -43,7 +43,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser1.setFirstName("user1");
         testUser1.setLastName("user1");
         testUser1.setAge(100);
-        testUser1.setRole(Role.USER);
+//        testUser1.setRole(Role.USER);
         testUser1.setPhoneNumber("+111222333444");
 
         userService.addUser(testUser1);

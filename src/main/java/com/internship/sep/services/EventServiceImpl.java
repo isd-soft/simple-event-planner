@@ -1,18 +1,14 @@
 package com.internship.sep.services;
 
-import com.internship.sep.mapper.EventMapper;
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.events.EventException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

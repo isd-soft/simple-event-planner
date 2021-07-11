@@ -21,7 +21,6 @@ class UserMapper implements Mapper<User, UserDTO> {
         }
 
         UserDTO dto = new UserDTO();
-        dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
@@ -37,28 +36,5 @@ class UserMapper implements Mapper<User, UserDTO> {
         return dto;
     }
 
-    @Override
-    public User unmap(UserDTO userDTO) {
-
-        if (userDTO == null) {
-            return null;
-        }
-
-        User user = new User();
-        user.setId(userDTO.getId());
-        user.setEmail(userDTO.getEmail());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setAge(userDTO.getAge());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-        user.setPassword(userDTO.getPassword());
-        user.setRole(userDTO.getRole());
-
-        if (userDTO.getHostedEvents() != null && userDTO.getHostedEvents().size() > 0) {
-            user.setEvents(eventMapper.unmapList(userDTO.getHostedEvents()));
-        }
-
-        return user;
-    }
 
 }

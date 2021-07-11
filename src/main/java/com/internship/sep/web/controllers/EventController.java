@@ -3,7 +3,6 @@ package com.internship.sep.web.controllers;
 import com.internship.sep.services.EventService;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
 package com.internship.sep.web.controllers;
 
-import com.internship.sep.services.EventCategoryService;
+import com.internship.sep.services.EventCategoryServiceImpl;
 import com.internship.sep.web.EventCategoryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 public class EventCategoryController {
-    private final EventCategoryService eventCategoryService;
+    private final EventCategoryServiceImpl eventCategoryService;
 
     @GetMapping
     public List<String> getCategories() {
