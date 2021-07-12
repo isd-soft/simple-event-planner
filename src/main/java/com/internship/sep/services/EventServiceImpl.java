@@ -28,11 +28,13 @@ class EventServiceImpl implements EventService {
                 .collect(Collectors.toList());
 
     }
+
     @Transactional
     @Override
     public EventDTO getEventByName(String name) {
         return eventMapper.map(eventRepository.findByName(name).orElseThrow(ResourceNotFoundException::new));
     }
+
     @Transactional
     @Override
     public EventDTO getEventById(Long id) {
@@ -43,6 +45,7 @@ class EventServiceImpl implements EventService {
 
 
     }
+
     @Transactional
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
@@ -57,6 +60,7 @@ class EventServiceImpl implements EventService {
 
         return returnDto;
     }
+
     @Transactional
     @Override
     public EventDTO saveEventByDTO(Long id, EventDTO eventDTO) {
@@ -65,19 +69,20 @@ class EventServiceImpl implements EventService {
 
         return saveAndReturnDTO(event);
     }
+
     @Transactional
     @Override
-    public EventDTO patchEvent(Long id,EventDTO eventDTO) {
-        return eventRepository.findById(id).map(event -> {
-            if (eventDTO.getName() != null) {
-                event.setName(eventDTO.getName());
-            }
-            EventDTO returnDto = eventMapper.map(eventRepository.save(event));
-
-            return returnDto;
-        })
+    public EventDTO patchEvent(Long id, EventDTO eventDTO) {
+        Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+        event.setEventCategory(event.getEventCategory());
+
+        EventDTO returnDto = eventMapper.map(eventRepository.save(event));
+
+        return returnDto;
+
     }
+
     @Transactional
     @Override
     public void deleteEventById(Long id) {

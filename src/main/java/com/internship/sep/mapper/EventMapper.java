@@ -19,8 +19,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final Mapper<EventCategory,EventCategoryDTO> eventCategoryMapper;
 
-    @Synchronized
-    @Nullable
     @Override
     public EventDTO map(Event entity) {
 
@@ -46,8 +44,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         return dto;
     }
 
-    @Synchronized
-    @Nullable
     @Override
     public Event unmap(EventDTO dto) {
         if (dto == null) {
