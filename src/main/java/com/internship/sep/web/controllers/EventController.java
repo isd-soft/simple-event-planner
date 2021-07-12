@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,14 +31,14 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Void> createEvent(@Valid @RequestBody EventDTO eventDTO) {
         eventService.createNewEvent(eventDTO);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") @NotNull Long eventId,
+                                            @Valid @RequestBody EventDTO eventDTO) {
         eventService.saveEventByDTO(eventId, eventDTO);
         return ResponseEntity.noContent().build();
     }
@@ -44,7 +47,6 @@ public class EventController {
     public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId) {
         eventService.deleteEventById(eventId);
         return ResponseEntity.noContent().build();
-
     }
 
 }

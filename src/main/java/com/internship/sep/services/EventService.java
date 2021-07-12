@@ -3,6 +3,7 @@ package com.internship.sep.services;
 
 import com.internship.sep.web.EventDTO;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface EventService {
