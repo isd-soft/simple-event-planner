@@ -63,6 +63,7 @@ local.properties
 # Google API
 ######################
 ./tokens/
+/tokens/StoredCredential
 
 ######################
 # Visual Studio Code
