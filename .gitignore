@@ -140,3 +140,4 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+/tokens/StoredCredential
