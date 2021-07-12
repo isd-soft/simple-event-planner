@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from "../../services/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -9,30 +9,41 @@ import { Observable } from 'rxjs';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  err: string | null = null;
+  hide = true;
 
-  constructor(private http: HttpClient) { }
+  constructor(private authService: AuthService,
+              private router: Router) {
+    if (authService.isAuthenticated()) {
+      this.redirect();
+    }
+  }
 
   ngOnInit(): void {
   }
-  
+
   user = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('',[Validators.required]),
   });
 
-  hide = true;
 
-  //==== HTTP request ====//
-
-  readonly ROOT_URL = "http://localhost:8080";
+  redirect(): void {
+    this.router.navigate(["/"]);
+  }
 
   submit() {
-    if(this.user.valid) {
-      this.http.post(this.ROOT_URL + "/login", this.user.value).subscribe(token => { console.log(token); } );
-   } else {
-     alert("Please provide valid credentials!")
-   }
-   
+    if (this.user.valid) {
+      this.authService.login(this.user.getRawValue())
+        .then(() => {
+          this.redirect();
+        })
+        .catch(err => {
+          // console.log(err);
+          // console.log(err.error);
+          this.err = err.error;
+        })
+    }
   }
 
 }

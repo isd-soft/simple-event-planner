@@ -26,7 +26,11 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(login.getEmail());
         String token = jwtTokenUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok().header("Authentication", token).build();
+        return ResponseEntity.ok()
+                .header("Authorization", token)
+                .header("Access-Control-Expose-Headers", "Authorization")
+                .header("Access-Control-Allow-Headers", "Authorization")
+                .build();
     }
 
     @PostMapping("/register")

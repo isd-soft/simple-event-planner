@@ -53,6 +53,7 @@ import { ChartsModule } from 'ng2-charts';
 import { EventInfoComponent } from './components/event-info/event-info.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { AuthErrorComponent } from './auth-error/auth-error.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     AnalyticsComponent,
     EventInfoComponent,
     DialogComponent,
+    AuthErrorComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [

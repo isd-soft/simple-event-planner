@@ -28,5 +28,20 @@
       <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
     </button>
   </mat-form-field>
+
+  <div *ngIf="err" class="login-error">{{ err }}</div>
+<!--  <div class="alert alert-danger" *ngIf="err">-->
+<!--    <div class="alert-items">-->
+<!--      <div class="alert-item static">-->
+<!--        <div class="alert-icon-wrapper">-->
+<!--          <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>-->
+<!--        </div>-->
+<!--        <span class="alert-text">-->
+<!--          {{err}}-->
+<!--        </span>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
   <button mat-flat-button color="primary" (click)="submit()">Login</button>
 </form>
