@@ -59,6 +59,10 @@ local.properties
 *.ipr
 *.ids
 *.orig
+######################
+# Google API
+######################
+./tokens/
 
 ######################
 # Visual Studio Code
