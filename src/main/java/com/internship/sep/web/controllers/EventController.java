@@ -36,7 +36,7 @@ public class EventController {
     @PutMapping(path = "/{eventId}")
     public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
                                             @RequestBody EventDTO eventDTO) {
-        eventService.saveEventByDTO(eventId, eventDTO);
+        eventService.patchEvent(eventId, eventDTO);
         return ResponseEntity.noContent().build();
     }
 
