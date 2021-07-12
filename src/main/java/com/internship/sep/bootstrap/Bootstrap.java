@@ -1,10 +1,13 @@
 package com.internship.sep.bootstrap;
 
+import com.internship.sep.models.Event;
 import com.internship.sep.models.Role;
 import com.internship.sep.repositories.AttendeeRepository;
+import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.security.jwt.JwtTokenUtil;
 import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
+import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
@@ -15,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ public class Bootstrap implements CommandLineRunner {
     private final UserService userService;
     private final EventService eventService;
     private final AttendeeRepository attendeeRepository;
+    private final EventRepository eventRepository;
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
@@ -33,7 +38,7 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         loadUsers();
-
+        loadEvents();
     }
 
     private void loadUsers() {
@@ -96,30 +101,26 @@ public class Bootstrap implements CommandLineRunner {
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser3.getEmail())));
 
         EventDTO event1 = new EventDTO();
-        AttendeeDTO attendee1 = new AttendeeDTO();
-        AttendeeDTO attendee2 = new AttendeeDTO();
-        List<AttendeeDTO> attendeeList1 = new ArrayList<>();
-        attendeeList1.add(attendee1);
-        attendeeList1.add(attendee2);
 
-        attendee1.setEmail("user1@email.com");
-        attendee1.setEvent(event1);
-
-        attendee2.setEmail("user2@email.com");
-        attendee2.setEvent(event1);
-
-        event1.setName("Event1");
-        event1.setLocation("Chisinau");
+        event1.setName("ISD Party");
+        event1.setLocation("Moldova");
         event1.setIsApproved(true);
-        event1.setStartDateTime(LocalDateTime.now());
-        event1.setEndDateTime(LocalDateTime.now());
-        event1.setDescription("event1");
-       // event1.setCategory("corporate party");
 
-        event1.setAttendees(attendeeList1);
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime tomorrow = today.plusDays(2);
+
+        event1.setStartDateTime(tomorrow);
+        event1.setEndDateTime(tomorrow);
+        event1.setDescription("Something...");
+
         event1.setHost(testUser3);
 
-    }
+        eventService.createNewEvent(event1);
 
+        Event newEvent = eventRepository.findByName("ISD Party").orElseThrow(ResourceNotFoundException::new);
+
+        eventService.deleteEventById(newEvent.getId());
+
+    }
 
 }

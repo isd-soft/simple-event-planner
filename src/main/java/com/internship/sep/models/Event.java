@@ -36,6 +36,9 @@ public class Event extends AbstractEntity {
     @JoinColumn(name = "event_category_id")
     private EventCategory eventCategory;
 
+    @Column(name = "google_event_id")
+    private String googleEventId;
+
     @Column(name = "is_approved")
     private Boolean isApproved;
 
