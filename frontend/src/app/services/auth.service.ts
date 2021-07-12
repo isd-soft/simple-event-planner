@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { LoginModel } from "../models/login.model";
 import {catchError, map} from "rxjs/operators";
@@ -15,25 +15,39 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   private token: string | null = null;
+  private eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  private clearToken(): void {
+    this.token = null;
+    sessionStorage.removeItem(this.TOKEN_KEY);
+    this.emit();
+  }
+
+  private setToken(token: string): void {
+    this.token = token;
+    sessionStorage.setItem(this.TOKEN_KEY, token);
+    this.emit();
+  }
+
 
   public isAuthenticated() {
     return this.getToken() !== null;
   }
+  private emit() {
+    this.eventEmitter.emit(this.isAuthenticated());
+  }
+
+  public subscribe(callback: Function) {
+    this.eventEmitter.subscribe(callback);
+  }
+
 
   public getToken(): string | null {
     // TODO: set back
     return this.token;// || sessionStorage.getItem(this.TOKEN_KEY);
   }
 
-  private clearToken(): void {
-    this.token = null;
-    sessionStorage.removeItem(this.TOKEN_KEY);
-  }
 
-  private setToken(token: string): void {
-    this.token = token;
-    sessionStorage.setItem(this.TOKEN_KEY, token);
-  }
 
   public login(loginModel : LoginModel) {
     return new Promise<void>((resolve, reject) => {

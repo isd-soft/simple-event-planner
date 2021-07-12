@@ -1,20 +1,28 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-icon-button>
+    <button mat-icon-button *ngIf="authenticated">
       <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
     </button>
     <a [routerLink]="'/'">
       <button mat-button class="SEP-button">
         SEP <mat-icon>today</mat-icon>
-      </button></a
-    >
+      </button>
+    </a>
 
     <span class="menu-spacer"></span>
-    <div>
+    <div *ngIf="!authenticated">
       <span class="menu-spacer"></span>
       <a mat-flat-button [routerLink]="'/login'"> Login </a>
       <span class="space"></span>
       <a mat-flat-button [routerLink]="'/sign-up'"> Sign Up </a>
+    </div>
+
+    <div class="authenticated-wrapper" *ngIf="authenticated">
+      <div class="nav-user">
+        <mat-icon>perm_identity</mat-icon>
+      </div>
+
+      <a mat-flat-button [routerLink]="'/'" (click)="logout()">Logout</a>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -53,8 +61,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div style="height: 100vh">
       <router-outlet></router-outlet>
-    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
