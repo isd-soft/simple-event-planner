@@ -12,5 +12,25 @@
 
 .SEP-button {
   color: #fff;
-  padding: none;
+  padding: 0;
+}
+
+.authenticated-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.nav-user {
+  margin-right: 10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+
+  background: white;
+  color: black;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
