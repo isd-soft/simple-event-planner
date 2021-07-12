@@ -1,6 +1,9 @@
 package com.internship.sep.bootstrap;
 
+import com.internship.sep.mapper.Mapper;
+import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Role;
+import com.internship.sep.models.Status;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.security.jwt.JwtTokenUtil;
 import com.internship.sep.services.AttendeeService;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
@@ -25,14 +29,18 @@ public class Bootstrap implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final EventService eventService;
-    private final AttendeeRepository attendeeRepository;
+    private final AttendeeService attendeeService;
+
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
 
+
+
     @Override
     public void run(String... args) throws Exception {
         loadUsers();
+        loadEvents();
 
     }
 
@@ -82,8 +90,8 @@ public class Bootstrap implements CommandLineRunner {
 
     private void loadEvents() {
 
-        UserDTO testUser3 = new UserDTO();
-        testUser3.setEmail("user3@email.com");
+       UserDTO testUser3 = new UserDTO();
+      testUser3.setEmail("user3@email.com");
         testUser3.setPassword("password");
         testUser3.setFirstName("user3");
         testUser3.setLastName("user3");
@@ -103,10 +111,10 @@ public class Bootstrap implements CommandLineRunner {
         attendeeList1.add(attendee2);
 
         attendee1.setEmail("user1@email.com");
-        attendee1.setEvent(event1);
-
+        attendee1.setStatus(Status.PENDING);
         attendee2.setEmail("user2@email.com");
-        attendee2.setEvent(event1);
+
+//       attendeeService.addAttendees(attendeeList1);
 
         event1.setName("Event1");
         event1.setLocation("Chisinau");
@@ -114,12 +122,16 @@ public class Bootstrap implements CommandLineRunner {
         event1.setStartDateTime(LocalDateTime.now());
         event1.setEndDateTime(LocalDateTime.now());
         event1.setDescription("event1");
-       // event1.setCategory("corporate party");
-
         event1.setAttendees(attendeeList1);
-        event1.setHost(testUser3);
+
+
+
+
+       //event1.setCategory("corporate party");
+       // event1.setHost(testUser3);
+
+        eventService.createNewEvent(event1);
 
     }
-
 
 }
