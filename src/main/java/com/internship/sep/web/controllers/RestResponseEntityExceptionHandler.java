@@ -21,15 +21,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         //return new ResponseEntity<>("Resource Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({InvalidCredentialsException.class})
-    public ResponseEntity<?> handleInvalidCredentials(InvalidCredentialsException ex) {
-        return ResponseEntity.badRequest().body("Invalid credentials");
-    }
-
-    @ExceptionHandler({DataIntegrityViolationException.class})
-    public ResponseEntity<?> handleDataIntegrityViolationException() {
-        return ResponseEntity.badRequest().body("Email already registered");
-    }
+//    @ExceptionHandler({InvalidCredentialsException.class})
+//    public ResponseEntity<?> handleInvalidCredentials(InvalidCredentialsException ex) {
+//        return ResponseEntity.badRequest().body("Invalid credentials");
+//    }
+//
+//    @ExceptionHandler({DataIntegrityViolationException.class})
+//    public ResponseEntity<?> handleDataIntegrityViolationException() {
+//        return ResponseEntity.badRequest().body("Email already registered");
+//    }
 }
 
 

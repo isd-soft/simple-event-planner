@@ -1,8 +1,11 @@
 package com.internship.sep.web.controllers;
 
+import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
+import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +19,7 @@ public class EventController {
     public static final String BASE_URL = "/events";
 
     private final EventService eventService;
+    private final AttendeeService attendeeService;
 
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {
@@ -30,7 +34,7 @@ public class EventController {
     @PostMapping
     public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
         eventService.createNewEvent(eventDTO);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(path = "/{eventId}")
