@@ -39,10 +39,11 @@ export class LoginComponent implements OnInit {
           this.redirect();
         })
         .catch(err => {
-          // console.log(err);
-          // console.log(err.error);
           this.err = err.error;
         })
+    }
+    else {
+      this.err = "Please provide valid credentials!";
     }
   }
 

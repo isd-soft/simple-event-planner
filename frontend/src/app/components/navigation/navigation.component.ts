@@ -15,7 +15,6 @@ export class NavigationComponent implements OnInit {
 
     authService.subscribe((x: boolean) => {
       this.authenticated = x;
-      console.log(this.authService.getToken());
     });
   }
 

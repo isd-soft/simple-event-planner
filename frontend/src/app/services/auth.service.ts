@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { LoginModel } from "../models/login.model";
 import {catchError, map} from "rxjs/operators";
 import { of } from "rxjs";
+import {UserModel} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,7 @@ import { of } from "rxjs";
 export class AuthService {
   private readonly BASE_URL: string = "http://localhost:8080";
   private readonly SIGN_IN_URL: string = "/login";
+  private readonly SING_UP_URL: string = "/register";
   private readonly TOKEN_KEY: string = "jwtToken";
 
   constructor(private httpClient: HttpClient) { }
@@ -29,27 +31,24 @@ export class AuthService {
     this.emit();
   }
 
-
-  public isAuthenticated() {
-    return this.getToken() !== null;
-  }
   private emit() {
     this.eventEmitter.emit(this.isAuthenticated());
   }
 
-  public subscribe(callback: Function) {
+  subscribe(callback: Function) {
     this.eventEmitter.subscribe(callback);
   }
 
+  isAuthenticated() {
+    return this.getToken() !== null;
+  }
 
-  public getToken(): string | null {
+  getToken(): string | null {
     // TODO: set back
     return this.token;// || sessionStorage.getItem(this.TOKEN_KEY);
   }
 
-
-
-  public login(loginModel : LoginModel) {
+  login(loginModel : LoginModel) {
     return new Promise<void>((resolve, reject) => {
       this.httpClient.post<any>(this.BASE_URL + this.SIGN_IN_URL, loginModel, {
         observe: 'response'
@@ -73,4 +72,22 @@ export class AuthService {
   logout(): void {
     this.clearToken();
   }
+
+  register(user: UserModel): Promise<any> {
+      return new Promise<any>((resolve, reject) => {
+      this.httpClient.post<any>(this.BASE_URL + this.SING_UP_URL, user, {
+        observe: 'response'
+      })
+        .pipe(
+          map((x: any) => x.statusText),
+
+          catchError(err => {
+            reject(err);
+            return of(null);
+          })
+        )
+        .subscribe(x => resolve(x));
+    })
+  }
+
 }

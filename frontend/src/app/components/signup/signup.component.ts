@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { UserModel } from '../../models/user.model';
+import { AuthService } from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -8,7 +10,10 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor(private authService: AuthService,
+              private router: Router) {}
+
+  err: string | null = null;
 
   ngOnInit(): void {}
 
@@ -25,15 +30,18 @@ export class SignupComponent implements OnInit {
 
   hide = true;
 
-  readonly ROOT_URL = 'http://localhost:8080';
 
   submit() {
-    if (this.user.valid) {
-      if (this.passwordCheck.value === this.user.value.password) {
-        this.http.post(this.ROOT_URL + "/register", this.user.value).subscribe(token => { console.log(token); } );
-      } else alert("Passwords don't match!");
+    if (this.user.valid && this.passwordCheck.value === this.user.value.password) {
+      this.authService.register(this.user.getRawValue())
+        .then(x => {
+          this.router.navigate(["/"]);
+        })
+        .catch(err => {
+          this.err = err.error;
+        })
     } else {
-      alert('Please provide valid credentials!');
+      this.err = 'Please provide valid credentials!';
     }
   }
 }
