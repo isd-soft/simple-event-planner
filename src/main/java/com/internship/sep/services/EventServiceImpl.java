@@ -55,12 +55,8 @@ class EventServiceImpl implements EventService {
     @Transactional
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
-        return saveAndReturnDTO(eventMapper.unmap(eventDTO));
+        Event event = eventMapper.unmap(eventDTO);
 
-    }
-
-    private EventDTO saveAndReturnDTO(Event event) {
-        log.warn("Event saved to DB");
         Event savedEvent = eventRepository.save(event);
 
         try {
@@ -70,6 +66,16 @@ class EventServiceImpl implements EventService {
         } catch (RuntimeException exception) {
             System.out.println(exception);
         }
+
+        EventDTO returnDto = eventMapper.map(savedEvent);
+
+        return returnDto;
+
+    }
+
+    private EventDTO saveAndReturnDTO(Event event) {
+        log.warn("Event saved to DB");
+        Event savedEvent = eventRepository.save(event);
 
         EventDTO returnDto = eventMapper.map(savedEvent);
 
@@ -98,13 +104,18 @@ class EventServiceImpl implements EventService {
 
     }
 
-    @SneakyThrows
     @Transactional
     @Override
     public void deleteEventById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-        gEventService.deleteEvent(event.getGoogleEventId());
+        try {
+            gEventService.deleteEvent(event.getGoogleEventId());
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
     }
