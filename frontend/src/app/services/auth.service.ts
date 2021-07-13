@@ -4,17 +4,18 @@ import { LoginModel } from "../models/login.model";
 import {catchError, map} from "rxjs/operators";
 import { of } from "rxjs";
 import {UserModel} from "../models/user.model";
+import {SIGN_IN_URL, SING_UP_URL} from "../urls.config";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly BASE_URL: string = "http://localhost:8080";
-  private readonly SIGN_IN_URL: string = "/login";
-  private readonly SING_UP_URL: string = "/register";
+
   private readonly TOKEN_KEY: string = "jwtToken";
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    this.token = sessionStorage.getItem(this.TOKEN_KEY);
+  }
 
   private token: string | null = null;
   private eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -44,13 +45,12 @@ export class AuthService {
   }
 
   getToken(): string | null {
-    // TODO: set back
-    return this.token;// || sessionStorage.getItem(this.TOKEN_KEY);
+    return this.token;
   }
 
   login(loginModel : LoginModel) {
     return new Promise<void>((resolve, reject) => {
-      this.httpClient.post<any>(this.BASE_URL + this.SIGN_IN_URL, loginModel, {
+      this.httpClient.post<any>(SIGN_IN_URL, loginModel, {
         observe: 'response'
       })
         .pipe(
@@ -75,7 +75,7 @@ export class AuthService {
 
   register(user: UserModel): Promise<any> {
       return new Promise<any>((resolve, reject) => {
-      this.httpClient.post<any>(this.BASE_URL + this.SING_UP_URL, user, {
+      this.httpClient.post<any>(SING_UP_URL, user, {
         observe: 'response'
       })
         .pipe(

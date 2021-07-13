@@ -56,15 +56,16 @@ public class Event extends AbstractEntity {
     @NotBlank
     private User host;
 
-   @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )
-   private List<Attendee> attendees = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )
+    private List<Attendee> attendees = new ArrayList<>();
 
-   public void addAttendee(Attendee attendee) {
-       attendees.add(attendee);
-       attendee.setEvent(this);
-   }
+    public void addAttendee(Attendee attendee) {
+        attendees.add(attendee);
+        attendee.setEvent(this);
+    }
 
     public List<Attendee> getAttendees() {
         return Collections.unmodifiableList(attendees);
     }
 }
+

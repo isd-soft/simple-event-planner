@@ -1,5 +1,4 @@
 package com.internship.sep.mapper;
-
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.EventCategory;

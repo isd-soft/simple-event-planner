@@ -18,6 +18,7 @@ import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.internship.sep.SepApplication;
 import com.internship.sep.models.Attendee;
+import com.internship.sep.models.User;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -81,9 +82,10 @@ public class GEventServiceImpl implements GEventService {
 
     public void createEvent(com.internship.sep.models.Event sepEvent) throws GeneralSecurityException, IOException {
         Event event = eventMapper.map(sepEvent);
+
         event = service.events().insert(calendarId, event).execute();
         sepEvent.setGoogleEventId(event.getId());
-        log.info("Google Event Created " + event.getHtmlLink());
+        log.info(event.toPrettyString());
     }
 
     public void deleteEvent(String eventId) throws GeneralSecurityException, IOException {

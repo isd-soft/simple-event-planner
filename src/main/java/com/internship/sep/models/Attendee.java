@@ -28,6 +28,4 @@ public class Attendee extends AbstractEntity {
     public int hashCode() {
         return getClass().hashCode();
     }
-
-
 }

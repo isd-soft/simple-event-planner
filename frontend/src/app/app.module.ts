@@ -25,7 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MyeventComponent } from './components/myevent/myevent.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {
   ScheduleModule,
@@ -53,6 +53,7 @@ import { ChartsModule } from 'ng2-charts';
 import { EventInfoComponent } from './components/event-info/event-info.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
+import {TokenInterceptor} from "./interceptors/token.interceptor";
 
 @NgModule({
   declarations: [
@@ -110,6 +111,11 @@ import { DialogComponent } from './components/dialog/dialog.component';
     MonthAgendaService,
     TimelineViewsService,
     TimelineMonthService,
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi   : true,
+    }
   ],
 
   bootstrap: [AppComponent],

@@ -1,5 +1,4 @@
 package com.internship.sep.services;
-
 import com.internship.sep.web.AttendeeDTO;
 
 import java.util.List;
@@ -13,3 +12,5 @@ public interface AttendeeService {
     AttendeeDTO getAttendeeByEmail(String email);
 
 }
+
+

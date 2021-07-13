@@ -16,7 +16,7 @@ input.example-right-align {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 80vh;
+  min-height: 80vh;
 }
 
 .login-error {

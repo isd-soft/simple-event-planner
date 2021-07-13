@@ -1,5 +1,12 @@
 package com.internship.sep.web;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.internship.sep.web.AttendeeDTO;
+import com.internship.sep.web.EventCategoryDTO;
+import com.internship.sep.web.UserDTO;
+import com.internship.sep.web.deserializer.LocalDateTimeDeserializer;
+import com.internship.sep.web.serializer.LocalDateTimeSerializer;
 import lombok.Data;
 
 import javax.validation.constraints.Future;
@@ -22,11 +29,13 @@ public class EventDTO {
 
     @NotNull(message = "location must be present")
     private String location;
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @NotNull(message = "start time must be present")
     @FutureOrPresent(message = "start time must be either present or future")
     private LocalDateTime startDateTime;
-
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @NotNull(message = "end time must be present")
     @Future(message = "end time must be in future")
     private LocalDateTime endDateTime;
@@ -41,6 +50,6 @@ public class EventDTO {
 
     @NotNull(message = "host reference must be present")
     private UserDTO host;
-    private List<AttendeeDTO> attendees = new ArrayList<>();
-}
+    private List <AttendeeDTO> attendees = new ArrayList<>();
 
+}
