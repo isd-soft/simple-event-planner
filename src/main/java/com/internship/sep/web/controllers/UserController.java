@@ -2,10 +2,11 @@ package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.UserDTO;
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RequiredArgsConstructor
@@ -29,7 +30,11 @@ public class UserController {
     }
 
     @PutMapping
-    public void changeUser(@RequestBody UserDTO user, Principal principal) {
+    public void changeUser(@RequestBody @Valid UserDTO user, Principal principal) {
+//        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+//        Validator validator = validatorFactory.getValidator();
+//        Set<ConstraintViolation<UserDTO>> violations = validator.validate(user);
+
         UserDTO initialUserDTO = userService.getUserByEmail(principal.getName());
 
         initialUserDTO.setPassword(user.getPassword());
@@ -41,4 +46,13 @@ public class UserController {
 
         userService.updateUser(initialUserDTO);
     }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<String> handleMethodArgumentNotValid(
+//
+//    ) {
+//        return ResponseEntity
+//                .status(HttpStatus.NOT_FOUND)
+//                .body(exception.getMessage());
+//    }
 }

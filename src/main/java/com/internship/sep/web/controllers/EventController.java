@@ -2,7 +2,6 @@ package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
-import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +24,7 @@ public class EventController {
     private final AttendeeService attendeeService;
 
     @GetMapping
-    public ResponseEntity<List<EventDTO>> getAllEvents() {
+    public ResponseEntity<List<@Valid EventDTO>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 

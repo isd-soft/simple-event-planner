@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(UserDTO userDTO) {
         User user = repository.findByEmail(userDTO.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User does not exists"));
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
 
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());

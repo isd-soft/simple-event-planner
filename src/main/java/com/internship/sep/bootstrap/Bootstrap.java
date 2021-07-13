@@ -46,7 +46,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser1.setLastName("user1");
         testUser1.setAge(100);
 //        testUser1.setRole(Role.USER);
-        testUser1.setPhoneNumber("+111222333444");
+        testUser1.setPhoneNumber("+11122233");
 
         userService.addUser(testUser1);
         System.out.println("This is token for USER!: " +
@@ -60,7 +60,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser2.setLastName("user2");
         testUser2.setAge(101);
         testUser2.setRole(Role.USER);
-        testUser2.setPhoneNumber("+222333444");
+        testUser2.setPhoneNumber("+22233344");
 
         userService.addUser(testUser2);
         System.out.println("This is token for USER2: " +
@@ -73,13 +73,11 @@ public class Bootstrap implements CommandLineRunner {
         testAdmin.setLastName("admin");
         testAdmin.setAge(102);
         testAdmin.setRole(Role.ADMIN);
-        testAdmin.setPhoneNumber("+333444");
+        testAdmin.setPhoneNumber("+33344486");
 
         userService.addUser(testAdmin);
         System.out.println("This is token for ADMIN: " +
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser2.getEmail())));
-
-
     }
 
     private void loadEvents() {
