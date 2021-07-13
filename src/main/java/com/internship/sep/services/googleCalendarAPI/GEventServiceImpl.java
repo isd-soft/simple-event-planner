@@ -96,11 +96,12 @@ public class GEventServiceImpl implements GEventService {
 
     @Override
     public void updateEvent(com.internship.sep.models.Event sepEvent) throws GeneralSecurityException, IOException {
+        log.info("Start event updating");
         Event event = eventMapper.map(sepEvent);
 
-        event = service.events().update(calendarId, sepEvent.getGoogleEventId(), event).execute();
-        sepEvent.setGoogleEventId(event.getId());
-        log.info("Google Event Updated " + event.getHtmlLink());
+        Event updatedEvent = service.events().update(calendarId, sepEvent.getGoogleEventId(), event).execute();
+        sepEvent.setGoogleEventId(updatedEvent.getId());
+        log.info(updatedEvent.toPrettyString());
     }
 
     @Override
