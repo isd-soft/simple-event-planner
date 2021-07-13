@@ -59,6 +59,11 @@ local.properties
 *.ipr
 *.ids
 *.orig
+######################
+# Google API
+######################
+./tokens/
+/tokens/StoredCredential
 
 ######################
 # Visual Studio Code

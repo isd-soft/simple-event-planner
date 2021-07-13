@@ -23,5 +23,4 @@ public class UserDTO {
 
     private List<EventDTO> hostedEvents = new ArrayList<>();
 
-
 }

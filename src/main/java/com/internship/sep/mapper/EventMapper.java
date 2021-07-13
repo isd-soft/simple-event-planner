@@ -33,6 +33,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.setEndDateTime(entity.getEndDateTime());
         dto.setIsApproved(entity.getIsApproved());
         dto.setName(entity.getName());
+        dto.setLocation(entity.getLocation());
 
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
@@ -58,10 +59,11 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         event.setEndDateTime(dto.getEndDateTime());
         event.setIsApproved(dto.getIsApproved());
         event.setName(dto.getName());
+        event.setLocation(dto.getLocation());
 
-        if (dto.getAttendees() != null && dto.getAttendees().size() > 0) {
-            event.setAttendees(attendeeMapper.unmapList(dto.getAttendees()));
-        }
+        dto.getAttendees().stream()
+                .map(attendeeMapper::unmap)
+                .forEach(event::addAttendee);
 
         if (dto.getEventCategory() != null) {
             event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));

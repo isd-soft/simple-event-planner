@@ -59,43 +59,32 @@ class EventServiceImpl implements EventService {
 
     }
 
+    @SneakyThrows
     private EventDTO saveAndReturnDTO(Event event) {
-        log.warn("Event saved to DB");
         Event savedEvent = eventRepository.save(event);
 
-        try {
-            gEventService.createEvent(event);
-        } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
-        } catch (RuntimeException exception) {
-            System.out.println(exception);
-        }
+        gEventService.createEvent(event);
 
-        EventDTO returnDto = eventMapper.map(savedEvent);
-
-        return returnDto;
+        return eventMapper.map(savedEvent);
     }
 
-    @Transactional
-    @Override
-    public EventDTO saveEventByDTO(Long id, EventDTO eventDTO) {
-        Event event = eventMapper.unmap(eventDTO);
-        event.setId(id);
-
-        return saveAndReturnDTO(event);
-    }
-
+    @SneakyThrows
     @Transactional
     @Override
     public EventDTO patchEvent(Long id, EventDTO eventDTO) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-        event.setEventCategory(event.getEventCategory());
 
-        EventDTO returnDto = eventMapper.map(eventRepository.save(event));
+        String gId = event.getGoogleEventId();
+        eventRepository.deleteById(id);
 
-        return returnDto;
+        event = eventMapper.unmap(eventDTO);
+        event.setId(id);
+        event.setGoogleEventId(gId);
 
+        gEventService.updateEvent(event);
+        Event savedEvent = eventRepository.save(event);
+        return eventMapper.map(savedEvent);
     }
 
     @SneakyThrows
