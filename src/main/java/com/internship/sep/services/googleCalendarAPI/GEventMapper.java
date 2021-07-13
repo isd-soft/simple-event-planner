@@ -6,13 +6,19 @@ import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Attendee;
+import com.internship.sep.models.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 
+@Slf4j
 @Component
 public class GEventMapper implements Mapper<com.internship.sep.models.Event, Event> {
 
@@ -25,16 +31,16 @@ public class GEventMapper implements Mapper<com.internship.sep.models.Event, Eve
         gEvent.setDescription(sepEvent.getDescription());
         gEvent.setLocation(sepEvent.getLocation());
 
-        DateTime startTime = new DateTime(sepEvent.getStartDateTime().toString());
-
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        ZonedDateTime startDateTime = ZonedDateTime.of(sepEvent.getStartDateTime(), ZoneId.of("Europe/Chisinau"));
+        DateTime startTime = new DateTime(formatter.format(startDateTime));
         EventDateTime start = new EventDateTime()
-                .setDateTime(startTime)
-                .setTimeZone(ZoneId.systemDefault().toString());
+                .setDateTime(startTime);
 
-        DateTime endTime = new DateTime(sepEvent.getEndDateTime().toString());
+        ZonedDateTime endDateTime = ZonedDateTime.of(sepEvent.getEndDateTime(), ZoneId.of("Europe/Chisinau"));
+        DateTime endTime = new DateTime(formatter.format(endDateTime));
         EventDateTime end = new EventDateTime()
-                .setDateTime(endTime)
-                .setTimeZone(ZoneId.systemDefault().toString());
+                .setDateTime(endTime);
 
         Attendee[] attendees = new Attendee[sepEvent.getAttendees().size()];
         sepEvent.getAttendees().toArray(attendees);

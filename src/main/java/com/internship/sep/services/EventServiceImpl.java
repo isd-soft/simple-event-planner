@@ -55,20 +55,28 @@ class EventServiceImpl implements EventService {
     @Transactional
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
+        System.out.println(eventDTO.toString());
         return saveAndReturnDTO(eventMapper.unmap(eventDTO));
 
     }
 
-    @SneakyThrows
     private EventDTO saveAndReturnDTO(Event event) {
+        System.out.println(event.toString());
         Event savedEvent = eventRepository.save(event);
 
-        gEventService.createEvent(event);
+        try {
+            gEventService.createEvent(event);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
 
         return eventMapper.map(savedEvent);
     }
 
-    @SneakyThrows
     @Transactional
     @Override
     public EventDTO patchEvent(Long id, EventDTO eventDTO) {
@@ -82,18 +90,36 @@ class EventServiceImpl implements EventService {
         event.setId(id);
         event.setGoogleEventId(gId);
 
-        gEventService.updateEvent(event);
+        try {
+            gEventService.updateEvent(event);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
         Event savedEvent = eventRepository.save(event);
         return eventMapper.map(savedEvent);
     }
 
-    @SneakyThrows
     @Transactional
     @Override
     public void deleteEventById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-        gEventService.deleteEvent(event.getGoogleEventId());
+
+        try {
+            gEventService.deleteEvent(event.getGoogleEventId());
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
     }
