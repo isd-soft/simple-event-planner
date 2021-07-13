@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 @Entity
@@ -27,5 +26,13 @@ public class Attendee extends AbstractEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Attendee{" +
+                "email='" + email + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

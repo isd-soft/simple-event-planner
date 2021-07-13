@@ -46,7 +46,7 @@ public class GEventMapper implements Mapper<com.internship.sep.models.Event, Eve
         sepEvent.getAttendees().toArray(attendees);
         EventAttendee[] gAttendees = new EventAttendee[attendees.length];
         for (int i = 0; i < gAttendees.length; i++) {
-            gAttendees[i] = attendeeMapper.map(attendees[i]);
+            gAttendees[i] = new EventAttendee().setEmail(attendees[i].getEmail());
         }
 
         gEvent.setStart(start);
