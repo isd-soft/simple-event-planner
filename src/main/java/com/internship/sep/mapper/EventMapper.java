@@ -31,6 +31,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.setIsApproved(entity.getIsApproved());
         dto.setName(entity.getName());
         dto.setLocation(entity.getLocation());
+        dto.setGoogleEventId(entity.getGoogleEventId());
 
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
@@ -57,6 +58,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         event.setIsApproved(dto.getIsApproved());
         event.setName(dto.getName());
         event.setLocation(dto.getLocation());
+        event.setGoogleEventId(dto.getGoogleEventId());
 
         dto.getAttendees().stream()
                 .map(attendeeMapper::unmap)

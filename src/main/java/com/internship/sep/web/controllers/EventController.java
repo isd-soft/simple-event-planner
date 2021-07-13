@@ -42,7 +42,7 @@ public class EventController {
     public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
                                             @RequestBody EventDTO eventDTO) {
 
-        eventService.saveEventByDTO(eventId, eventDTO);
+        eventService.updateEvent(eventId, eventDTO);
         return ResponseEntity.noContent().build();
     }
 

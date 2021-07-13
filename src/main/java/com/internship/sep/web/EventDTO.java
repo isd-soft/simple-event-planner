@@ -25,6 +25,7 @@ public class EventDTO {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime endDateTime;
     private String description;
+    private String googleEventId;
     private EventCategoryDTO EventCategory;
     private Boolean isApproved;
     private UserDTO host;

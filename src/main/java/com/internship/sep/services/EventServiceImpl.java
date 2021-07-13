@@ -2,6 +2,7 @@ package com.internship.sep.services;
 
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
+import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.EventDTO;
@@ -25,6 +26,7 @@ class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final Mapper<Event, EventDTO> eventMapper;
     private final GEventService gEventService;
+    private final AttendeeRepository attendeeRepository;
 
     @Transactional
     @Override
@@ -63,8 +65,8 @@ class EventServiceImpl implements EventService {
             gEventService.createEvent(event);
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
-        } catch (RuntimeException exception) {
-            System.out.println(exception);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
         }
 
         EventDTO returnDto = eventMapper.map(savedEvent);
@@ -93,14 +95,31 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public EventDTO patchEvent(Long id, EventDTO eventDTO) {
-        Event event = eventRepository.findById(id)
+    public EventDTO updateEvent(Long id, EventDTO eventDTO) {
+        Event oldEvent = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-        event.setEventCategory(event.getEventCategory());
+        String gId = oldEvent.getGoogleEventId();
+        oldEvent.getAttendees().forEach(attendee -> {
+            attendeeRepository.delete(attendee);
+        });
 
-        EventDTO returnDto = eventMapper.map(eventRepository.save(event));
+        Event updatedEvent = eventMapper.unmap(eventDTO);
+        updatedEvent.setId(id);
+        updatedEvent.setGoogleEventId(gId);
 
-        return returnDto;
+        eventRepository.save(updatedEvent);
+
+        try {
+            gEventService.updateEvent(updatedEvent);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+
+        return eventMapper.map(updatedEvent);
 
     }
 
@@ -116,6 +135,11 @@ class EventServiceImpl implements EventService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        event.getAttendees().forEach(attendee -> {
+            attendeeRepository.delete(attendee);
+        });
+
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
     }
