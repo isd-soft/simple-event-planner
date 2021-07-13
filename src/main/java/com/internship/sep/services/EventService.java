@@ -15,7 +15,11 @@ public interface EventService {
 
     EventDTO createNewEvent(EventDTO eventDTO);
 
+    EventDTO saveEventByDTO(Long id, EventDTO eventDTO);
+
     EventDTO patchEvent(Long id ,EventDTO eventDTO);
 
     void deleteEventById(Long id);
 }
+
+

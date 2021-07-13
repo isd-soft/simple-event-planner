@@ -1,18 +1,12 @@
 package com.internship.sep.mapper;
-
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.EventCategory;
-import com.internship.sep.models.User;
-import com.internship.sep.repositories.UserRepository;
-import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Synchronized;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -21,7 +15,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final Mapper<EventCategory,EventCategoryDTO> eventCategoryMapper;
-    private final UserRepository userRepository;
 
     @Override
     public EventDTO map(Event entity) {
@@ -64,9 +57,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         event.setIsApproved(dto.getIsApproved());
         event.setName(dto.getName());
         event.setLocation(dto.getLocation());
-
-        User host = userRepository.findByEmail(dto.getHost().getEmail()).orElseThrow(ResourceNotFoundException::new);
-        event.setHost(host);
 
         dto.getAttendees().stream()
                 .map(attendeeMapper::unmap)

@@ -55,26 +55,34 @@ class EventServiceImpl implements EventService {
     @Transactional
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
-        System.out.println(eventDTO.toString());
         return saveAndReturnDTO(eventMapper.unmap(eventDTO));
 
     }
 
     private EventDTO saveAndReturnDTO(Event event) {
-        System.out.println(event.toString());
+        log.warn("Event saved to DB");
         Event savedEvent = eventRepository.save(event);
 
         try {
             gEventService.createEvent(event);
-        } catch (GeneralSecurityException e) {
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
+        } catch (RuntimeException exception) {
+            System.out.println(exception);
         }
 
-        return eventMapper.map(savedEvent);
+        EventDTO returnDto = eventMapper.map(savedEvent);
+
+        return returnDto;
+    }
+
+    @Transactional
+    @Override
+    public EventDTO saveEventByDTO(Long id, EventDTO eventDTO) {
+        Event event = eventMapper.unmap(eventDTO);
+        event.setId(id);
+
+        return saveAndReturnDTO(event);
     }
 
     @Transactional
@@ -82,44 +90,21 @@ class EventServiceImpl implements EventService {
     public EventDTO patchEvent(Long id, EventDTO eventDTO) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+        event.setEventCategory(event.getEventCategory());
 
-        String gId = event.getGoogleEventId();
-        eventRepository.deleteById(id);
+        EventDTO returnDto = eventMapper.map(eventRepository.save(event));
 
-        event = eventMapper.unmap(eventDTO);
-        event.setId(id);
-        event.setGoogleEventId(gId);
+        return returnDto;
 
-        try {
-            gEventService.updateEvent(event);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-
-        Event savedEvent = eventRepository.save(event);
-        return eventMapper.map(savedEvent);
     }
 
+    @SneakyThrows
     @Transactional
     @Override
     public void deleteEventById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-
-        try {
-            gEventService.deleteEvent(event.getGoogleEventId());
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
-
+        gEventService.deleteEvent(event.getGoogleEventId());
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
     }

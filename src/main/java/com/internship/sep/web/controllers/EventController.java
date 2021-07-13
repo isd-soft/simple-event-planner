@@ -31,6 +31,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getEventById(eventId));
     }
 
+
     @PostMapping
     public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
         eventService.createNewEvent(eventDTO);
@@ -40,7 +41,8 @@ public class EventController {
     @PutMapping(path = "/{eventId}")
     public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
                                             @RequestBody EventDTO eventDTO) {
-        eventService.patchEvent(eventId, eventDTO);
+
+        eventService.saveEventByDTO(eventId, eventDTO);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,5 +1,4 @@
 package com.internship.sep.web;
-
 import com.internship.sep.models.Status;
 import lombok.Data;
 
