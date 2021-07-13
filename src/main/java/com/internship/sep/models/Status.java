@@ -1,2 +1,7 @@
-package com.internship.sep.models;public enum Status {
+package com.internship.sep.models;
+
+public enum Status {
+    ACCEPTED,
+    PENDING,
+    DECLINED
 }

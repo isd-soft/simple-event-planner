@@ -16,6 +16,10 @@ public class Attendee extends AbstractEntity {
     @Column(name = "email")
     private String email;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
+    private Status status = Status.PENDING;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;

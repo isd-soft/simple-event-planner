@@ -9,7 +9,6 @@ public class GAttendeeMapper implements GoogleAPIMapper<EventAttendee, Attendee>
     @Override
     public EventAttendee map(Attendee entity) {
         return new EventAttendee()
-                .setId(entity.getId().toString())
                 .setEmail(entity.getEmail());
     }
 
@@ -17,7 +16,6 @@ public class GAttendeeMapper implements GoogleAPIMapper<EventAttendee, Attendee>
     public Attendee unmap(EventAttendee googleEntity) {
         Attendee attendee = new Attendee();
         attendee.setEmail(googleEntity.getEmail());
-        attendee.setId(Long.valueOf(googleEntity.getId()));
         return attendee;
     }
 }

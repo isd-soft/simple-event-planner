@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface AttendeeService {
 
+    void addAttendees(List<AttendeeDTO> attendeeDTOS);
+
     List<AttendeeDTO> getAllAttendees();
 
     AttendeeDTO getAttendeeByEmail(String email);

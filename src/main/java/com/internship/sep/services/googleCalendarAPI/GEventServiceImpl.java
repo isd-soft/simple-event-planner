@@ -83,47 +83,26 @@ public class GEventServiceImpl implements GEventService {
         Event event = eventMapper.map(sepEvent);
         event = service.events().insert(calendarId, event).execute();
         sepEvent.setGoogleEventId(event.getId());
-        log.info(event.getHtmlLink());
+        log.info("Google Event Created " + event.getHtmlLink());
     }
 
     public void deleteEvent(String eventId) throws GeneralSecurityException, IOException {
 
         service.events().delete(calendarId, eventId).execute();
+        log.info("Google Event Deleted");
     }
 
     @Override
     public void updateEvent(com.internship.sep.models.Event sepEvent) throws GeneralSecurityException, IOException {
         Event event = eventMapper.map(sepEvent);
 
-        service.events().update(calendarId, event.getId(), event);
+        event = service.events().update(calendarId, sepEvent.getGoogleEventId(), event).execute();
+        sepEvent.setGoogleEventId(event.getId());
+        log.info("Google Event Updated " + event.getHtmlLink());
     }
 
     @Override
     public List<Attendee> getAttendees(com.internship.sep.models.Event event) throws GeneralSecurityException, IOException {
         return null;
-    }
-
-    public void test() throws IOException, GeneralSecurityException {
-
-        DateTime now = new DateTime(System.currentTimeMillis());
-        Events events = service.events().list("p14hfiu2sc0f7cvgcp1up3g468@group.calendar.google.com")
-                .setMaxResults(10)
-                .setTimeMin(now)
-                .setOrderBy("startTime")
-                .setSingleEvents(true)
-                .execute();
-        List<Event> items = events.getItems();
-        if (items.isEmpty()) {
-            System.out.println("No upcoming events found.");
-        } else {
-            System.out.println("Upcoming events");
-            for (Event event : items) {
-                DateTime start = event.getStart().getDateTime();
-                if (start == null) {
-                    start = event.getStart().getDate();
-                }
-                System.out.printf("%s (%s)\n", event.getSummary(), start);
-            }
-        }
     }
 }
