@@ -1,7 +1,9 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { EventService } from 'src/app/services/event.service';
+import { Event } from '../../models/Event';
 
 /**
  * @title Table with pagination
@@ -12,6 +14,12 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./event.component.css'],
 })
 export class EventComponent implements AfterViewInit {
+  event: Event[] = [] ;
+
+
+ constructor(private eventService: EventService){
+ }
+
   displayedColumns: string[] = [
     'name',
     'location',
@@ -21,15 +29,19 @@ export class EventComponent implements AfterViewInit {
     'endDateTime',
     'button',
   ];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+
+  dataSource = new MatTableDataSource<Event>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   searchKey: string;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+   ngAfterViewInit() {
+    this.eventService.getEvents().subscribe((event) => {
+      this.dataSource.data = event;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
   }
   onSearchClear() {
     this.searchKey = ' ';

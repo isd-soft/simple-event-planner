@@ -24,6 +24,7 @@ public class EventController {
     private final EventService eventService;
 
 
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());

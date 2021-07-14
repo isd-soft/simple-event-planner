@@ -1,9 +1,11 @@
 package com.internship.sep.bootstrap;
+import com.internship.sep.models.Event;
 import com.internship.sep.models.Role;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.security.jwt.JwtTokenUtil;
 import com.internship.sep.services.EventService;
+import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
@@ -104,11 +106,10 @@ public class Bootstrap implements CommandLineRunner {
 
         event1.setHost(testUser3);
 
-//        eventService.createNewEvent(event1);
-//
-//        Event newEvent = eventRepository.findByName("ISD Party").orElseThrow(ResourceNotFoundException::new);
-//
-//        eventService.deleteEventById(newEvent.getId());
+        eventService.createNewEvent(event1,testUser3.getEmail());
+
+  //      Event newEvent = eventRepository.findByName("ISD Party").orElseThrow(ResourceNotFoundException::new);
+   //     eventService.deleteEventById(newEvent.getId());
 
     }
 

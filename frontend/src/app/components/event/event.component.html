@@ -20,35 +20,35 @@
       <!-- Position Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.name }}</td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="location">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
-        <td mat-cell *matCellDef="let element">{{ element.location }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.location }}</td>
       </ng-container>
 
       <!-- Weight Column -->
       <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-        <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.eventCategory === null ? "" : event.eventCategory.name }}</td>
       </ng-container>
 
       <!-- Symbol Column -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
-        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.description }}</td>
       </ng-container>
 
       <ng-container matColumnDef="startDateTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>startDateTime</th>
-        <td mat-cell *matCellDef="let element">{{ element.startDateTime }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.startDateTime }}</td>
       </ng-container>
 
       <ng-container matColumnDef="endDateTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>endDateTime</th>
-        <td mat-cell *matCellDef="let element">{{ element.endDateTime }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.endDateTime }}</td>
       </ng-container>
 
       <ng-container matColumnDef="button">
