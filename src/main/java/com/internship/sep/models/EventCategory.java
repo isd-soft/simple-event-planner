@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "event_categories")
 public class EventCategory extends AbstractEntity {
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @OneToMany(mappedBy = "eventCategory")

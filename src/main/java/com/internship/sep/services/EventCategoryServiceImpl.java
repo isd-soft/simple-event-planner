@@ -19,17 +19,20 @@ public class EventCategoryServiceImpl implements EventCategoryService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> getCategories() {
+    public List<EventCategoryDTO> getCategories() {
         return repository.findAll()
                 .stream()
-                .map(EventCategory::getName)
+                .map(mapper::map)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
     public void addCategory(EventCategoryDTO dto) {
-        repository.save(mapper.unmap(dto));
+        EventCategory eventCategory = new EventCategory();
+        eventCategory.setName(dto.getName());
+
+        repository.save(eventCategory);
     }
 
     @Override

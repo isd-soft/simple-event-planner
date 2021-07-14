@@ -1,11 +1,12 @@
 package com.internship.sep.services;
 
+import com.internship.sep.models.EventCategory;
 import com.internship.sep.web.EventCategoryDTO;
 
 import java.util.List;
 
 public interface EventCategoryService {
-    List<String> getCategories();
+    List<EventCategoryDTO> getCategories();
 
     void addCategory(EventCategoryDTO dto);
 

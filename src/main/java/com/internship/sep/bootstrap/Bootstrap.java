@@ -91,22 +91,22 @@ public class Bootstrap implements CommandLineRunner {
         System.out.println("This is token for USER3: " +
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser3.getEmail())));
 
-        EventDTO event1 = new EventDTO();
-
-        event1.setName("ISD Party");
-        event1.setLocation("Moldova");
-        event1.setIsApproved(true);
-
-        LocalDateTime today = LocalDateTime.now();
-        LocalDateTime tomorrow = today.plusDays(2);
-
-        event1.setStartDateTime(tomorrow);
-        event1.setEndDateTime(tomorrow);
-        event1.setDescription("Something...");
-
-        event1.setHost(testUser3);
-
-        eventService.createNewEvent(event1,testUser3.getEmail());
+//        EventDTO event1 = new EventDTO();
+//
+//        event1.setName("ISD Party");
+//        event1.setLocation("Moldova");
+//        event1.setIsApproved(true);
+//
+//        LocalDateTime today = LocalDateTime.now();
+//        LocalDateTime tomorrow = today.plusDays(2);
+//
+//        event1.setStartDateTime(tomorrow);
+//        event1.setEndDateTime(tomorrow);
+//        event1.setDescription("Something...");
+//
+//        event1.setHost(testUser3);
+//
+//        eventService.createNewEvent(event1,testUser3.getEmail());
 
   //      Event newEvent = eventRepository.findByName("ISD Party").orElseThrow(ResourceNotFoundException::new);
    //     eventService.deleteEventById(newEvent.getId());
