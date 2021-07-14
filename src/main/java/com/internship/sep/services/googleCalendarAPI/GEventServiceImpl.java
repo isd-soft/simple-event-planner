@@ -15,12 +15,16 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarRequestInitializer;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.Events;
 import com.internship.sep.SepApplication;
 import com.internship.sep.models.Attendee;
+import com.internship.sep.models.Status;
 import com.internship.sep.models.User;
+import com.internship.sep.repositories.AttendeeRepository;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -45,9 +49,11 @@ public class GEventServiceImpl implements GEventService {
     private final String calendarId;
     private final GEventMapper eventMapper;
     private final Calendar service;
+    private final AttendeeRepository attendeeRepository;
 
     public GEventServiceImpl(@Value("${sep.google.calendar.id}")String calendarId,
-                             GEventMapper eventMapper) throws GeneralSecurityException, IOException {
+                             GEventMapper eventMapper, AttendeeRepository attendeeRepository) throws GeneralSecurityException, IOException {
+        this.attendeeRepository = attendeeRepository;
         this.calendarId = calendarId;
         this.eventMapper = eventMapper;
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -105,7 +111,30 @@ public class GEventServiceImpl implements GEventService {
     }
 
     @Override
-    public List<Attendee> getAttendees(com.internship.sep.models.Event event) throws GeneralSecurityException, IOException {
-        return null;
+    public void updateAttendeesStatus(com.internship.sep.models.Event event) throws GeneralSecurityException, IOException {
+        Event gEvent = service.events().get(calendarId, event.getGoogleEventId()).execute();
+
+        List<EventAttendee> gAttendees = gEvent.getAttendees();
+
+        for(int i = 0; i < event.getAttendees().size(); i ++) {
+            for(int j = 0; j < gAttendees.size(); j++) {
+                if(gAttendees.get(j).getEmail().equals(event.getAttendees().get(i).getEmail())) {
+                    event.getAttendees().get(i).setStatus(getAttendeeStatus(gAttendees.get(j)));
+                    attendeeRepository.save(event.getAttendees().get(i));
+                }
+            }
+        }
+    }
+
+    private Status getAttendeeStatus(EventAttendee googleEntity) {
+        String responseStatus = googleEntity.getResponseStatus();
+
+        if(responseStatus.equalsIgnoreCase("accepted")) {
+            return Status.ACCEPTED;
+        } else if (responseStatus.equalsIgnoreCase("declined")) {
+            return Status.DECLINED;
+        } else {
+            return Status.PENDING;
+        }
     }
 }

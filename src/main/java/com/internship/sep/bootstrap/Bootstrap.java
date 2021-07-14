@@ -111,7 +111,7 @@ public class Bootstrap implements CommandLineRunner {
         event1.setDescription("Something...");
 
         event1.setHost(testUser3);
-//
+
 //        eventService.createNewEvent(event1);
 //
 //        Event newEvent = eventRepository.findByName("ISD Party").orElseThrow(ResourceNotFoundException::new);

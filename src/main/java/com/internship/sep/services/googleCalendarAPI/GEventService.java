@@ -12,5 +12,5 @@ public interface GEventService {
     void createEvent(Event event) throws GeneralSecurityException, IOException;
     void updateEvent(Event event) throws GeneralSecurityException, IOException;
     void deleteEvent(String eventId) throws GeneralSecurityException, IOException;
-    List<Attendee> getAttendees(Event event) throws GeneralSecurityException, IOException;
+    void updateAttendeesStatus(Event event) throws GeneralSecurityException, IOException;
 }

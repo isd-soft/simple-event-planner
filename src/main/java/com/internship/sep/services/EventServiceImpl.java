@@ -49,6 +49,19 @@ class EventServiceImpl implements EventService {
     @Override
     public EventDTO getEventById(Long id) {
 
+        Event event = eventRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+
+        log.info("Started Event Attendees Update...");
+        if(event.getIsApproved()) {
+            try {
+                gEventService.updateAttendeesStatus(event);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return eventRepository.findById(id)
                 .map(eventMapper::map)
                 .orElseThrow(ResourceNotFoundException::new);
@@ -58,7 +71,7 @@ class EventServiceImpl implements EventService {
     @Override
     public EventDTO createNewEvent(EventDTO eventDTO) {
         Event event = eventMapper.unmap(eventDTO);
-
+        event.setIsApproved(false);
         Event savedEvent = eventRepository.save(event);
 
         try {
