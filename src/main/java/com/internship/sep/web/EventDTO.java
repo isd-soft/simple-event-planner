@@ -26,9 +26,8 @@ public class EventDTO {
     private LocalDateTime endDateTime;
     private String description;
     private String googleEventId;
-    private EventCategoryDTO EventCategory;
+    private EventCategoryDTO eventCategory;
     private Boolean isApproved;
     private UserDTO host;
     private List <AttendeeDTO> attendees = new ArrayList<>();
-
 }

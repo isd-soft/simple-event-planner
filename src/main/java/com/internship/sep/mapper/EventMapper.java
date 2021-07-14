@@ -1,4 +1,5 @@
 package com.internship.sep.mapper;
+
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.EventCategory;
@@ -8,8 +9,6 @@ import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.validation.Valid;
-
 @RequiredArgsConstructor
 @Component
 public class EventMapper implements Mapper<Event, EventDTO> {
@@ -18,7 +17,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
 
     @Override
-    public EventDTO map(@Valid Event entity) {
+    public EventDTO map(Event entity) {
 
         if (entity == null) {
             return null;
@@ -45,7 +44,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
     }
 
     @Override
-    public Event unmap(@Valid EventDTO dto) {
+    public Event unmap(EventDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -71,6 +70,4 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
         return event;
     }
-
-
 }

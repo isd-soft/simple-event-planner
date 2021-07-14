@@ -40,7 +40,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser1.setLastName("user1");
         testUser1.setAge(100);
 //        testUser1.setRole(Role.USER);
-        testUser1.setPhoneNumber("+11122233");
+        testUser1.setPhoneNumber("068111111");
 
         userService.addUser(testUser1);
         System.out.println("This is token for USER!: " +
@@ -54,7 +54,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser2.setLastName("user2");
         testUser2.setAge(101);
         testUser2.setRole(Role.USER);
-        testUser2.setPhoneNumber("+22233344");
+        testUser2.setPhoneNumber("078142536");
 
         userService.addUser(testUser2);
         System.out.println("This is token for USER2: " +
@@ -67,7 +67,7 @@ public class Bootstrap implements CommandLineRunner {
         testAdmin.setLastName("admin");
         testAdmin.setAge(102);
         testAdmin.setRole(Role.ADMIN);
-        testAdmin.setPhoneNumber("+33344486");
+        testAdmin.setPhoneNumber("069654321");
 
         userService.addUser(testAdmin);
         System.out.println("This is token for ADMIN: " +
@@ -83,7 +83,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser3.setLastName("user3");
         testUser3.setAge(100);
         testUser3.setRole(Role.USER);
-        testUser3.setPhoneNumber("333444");
+        testUser3.setPhoneNumber("079123456");
 
         userService.addUser(testUser3);
         System.out.println("This is token for USER3: " +

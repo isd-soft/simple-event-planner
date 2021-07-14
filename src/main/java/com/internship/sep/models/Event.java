@@ -3,7 +3,6 @@ package com.internship.sep.models;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,42 +17,35 @@ import java.util.List;
 @Builder
 @Table(name = "events")
 public class Event extends AbstractEntity {
+    // TODO: 14/07/2021 add validation for events when it's finished
 
     @Column(name = "name")
-    @NotBlank
     private String name;
 
     @Column(name = "location")
-    @NotBlank
     private String location;
 
     @Column(name = "start_date_time", nullable = false)
-    @NotBlank
     private LocalDateTime startDateTime;
 
-    @Column(name = "end_date_time")
-    @NotBlank
+    @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
     @Column(name = "description")
-    @NotBlank
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_category_id")
-    @NotBlank
     private EventCategory eventCategory;
 
     @Column(name = "google_event_id")
     private String googleEventId;
 
     @Column(name = "is_approved")
-    @NotBlank
     private Boolean isApproved;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @NotBlank
     private User host;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )

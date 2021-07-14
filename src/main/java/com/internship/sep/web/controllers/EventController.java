@@ -24,7 +24,7 @@ public class EventController {
 
 
     @GetMapping
-    public ResponseEntity<List<@Valid EventDTO>> getAllEvents() {
+    public ResponseEntity<List<EventDTO>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
@@ -35,7 +35,7 @@ public class EventController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createEvent(@Valid @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
         eventService.createNewEvent(eventDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

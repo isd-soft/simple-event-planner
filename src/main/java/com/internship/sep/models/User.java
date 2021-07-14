@@ -23,8 +23,8 @@ public class User extends AbstractEntity {
             nullable = false,
             unique = true
     )
-    @Email
 
+    @Email(message = "not a valid email")
     private String email;
 
     @Column(name = "first_name", nullable = false)
@@ -41,15 +41,16 @@ public class User extends AbstractEntity {
 
     @Column(name = "phone_number", nullable = false)
     @NotBlank
-    @Size(max = 9, message = "this is not a valid number")
+    @Size(min = 9, max = 9, message = "this is not a valid number(should contain 9 numbers)")
     private String phoneNumber;
 
     @Column(name = "password", nullable = false)
+    @NotBlank(message = "password should not be null")
     private String password;
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
-    @NotNull
+    @NotNull(message = "role should not be null")
     private Role role = Role.USER;
 
     @OneToMany(mappedBy = "host")
