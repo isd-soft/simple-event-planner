@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.security.Principal;
 
 @RequiredArgsConstructor
@@ -18,7 +17,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getUsers() {
         return ResponseEntity.ok(
-                userService.getUsers()
+              userService.getUsers()
         );
     }
 
@@ -30,29 +29,21 @@ public class UserController {
     }
 
     @PutMapping
-    public void changeUser(@RequestBody @Valid UserDTO user, Principal principal) {
-//        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-//        Validator validator = validatorFactory.getValidator();
-//        Set<ConstraintViolation<UserDTO>> violations = validator.validate(user);
-
-        UserDTO initialUserDTO = userService.getUserByEmail(principal.getName());
-
-        initialUserDTO.setPassword(user.getPassword());
-        initialUserDTO.setLastName(user.getLastName());
-        initialUserDTO.setFirstName(user.getFirstName());
-        initialUserDTO.setAge(user.getAge());
-        initialUserDTO.setPhoneNumber(user.getPhoneNumber());
-        initialUserDTO.setEmail(user.getEmail());
-
-        userService.updateUser(initialUserDTO);
+    public void updateUser(@RequestBody UserDTO updatedUser, Principal principal) {
+        userService.updateUser(updatedUser);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<String> handleMethodArgumentNotValid(
-//
-//    ) {
-//        return ResponseEntity
-//                .status(HttpStatus.NOT_FOUND)
-//                .body(exception.getMessage());
+    @DeleteMapping(path = "/{email}")
+     public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String email) {
+        userService.deleteUserByEmail(email);
+        return ResponseEntity.noContent().build();
+    }
+
+//    @DeleteMapping(path = "/{userId}")
+//    public ResponseEntity<Void> deleteUserById(@PathVariable("userID") Long userId) {
+//        userService.deleteUser(userId);
+//        return ResponseEntity.noContent().build();
 //    }
+
+
 }

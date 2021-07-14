@@ -24,6 +24,7 @@ public class User extends AbstractEntity {
             unique = true
     )
     @Email
+
     private String email;
 
     @Column(name = "first_name", nullable = false)

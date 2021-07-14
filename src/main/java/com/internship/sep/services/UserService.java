@@ -1,5 +1,6 @@
 package com.internship.sep.services;
 
+import com.internship.sep.models.User;
 import com.internship.sep.web.UserDTO;
 import com.internship.sep.web.UserShortDTO;
 import org.apache.http.auth.InvalidCredentialsException;
@@ -20,4 +21,9 @@ public interface UserService {
     void deleteUser(Long userId);
 
     void authenticate(String email, String password) throws InvalidCredentialsException;
+
+    void deleteUserByEmail(String email);
+
+
+
 }

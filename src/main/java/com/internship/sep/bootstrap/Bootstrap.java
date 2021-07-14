@@ -1,14 +1,10 @@
 package com.internship.sep.bootstrap;
-import com.internship.sep.models.Event;
 import com.internship.sep.models.Role;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.security.jwt.JwtTokenUtil;
-import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
-import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.services.UserService;
-import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class Bootstrap implements CommandLineRunner {

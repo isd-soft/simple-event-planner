@@ -1,5 +1,4 @@
 package com.internship.sep.web.controllers;
-
 import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
 import com.internship.sep.web.EventDTO;
@@ -7,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -21,7 +21,7 @@ public class EventController {
     public static final String BASE_URL = "/events";
 
     private final EventService eventService;
-    private final AttendeeService attendeeService;
+
 
     @GetMapping
     public ResponseEntity<List<@Valid EventDTO>> getAllEvents() {
@@ -53,5 +53,17 @@ public class EventController {
         eventService.deleteEventById(eventId);
         return ResponseEntity.noContent().build();
     }
+
+//    @PostMapping("/uploadImage")
+//    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) throws Exception {
+//        String returnValue = "start";
+//        try{eventService.saveImage(imageFile);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            returnValue = "error";
+//        }
+//
+//        return returnValue;
+//    }
 
 }

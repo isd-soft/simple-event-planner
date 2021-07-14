@@ -27,7 +27,7 @@ public class Event extends AbstractEntity {
     @NotBlank
     private String location;
 
-    @Column(name = "start_date_time")
+    @Column(name = "start_date_time", nullable = false)
     @NotBlank
     private LocalDateTime startDateTime;
 

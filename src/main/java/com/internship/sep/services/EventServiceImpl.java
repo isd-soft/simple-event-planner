@@ -1,5 +1,4 @@
 package com.internship.sep.services;
-
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
 import com.internship.sep.repositories.AttendeeRepository;
@@ -7,13 +6,15 @@ import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -143,4 +144,12 @@ class EventServiceImpl implements EventService {
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
     }
+
+//    public void saveImage(MultipartFile imageFile) throws Exception{
+//        String folder = "/photos/";
+//        byte[] bytes = imageFile.getBytes();
+//        Path path = Paths.get(folder + imageFile.getOriginalFilename());
+//        Files.write(path, bytes);
+//    }
+
 }

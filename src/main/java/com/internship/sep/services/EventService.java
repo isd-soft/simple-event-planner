@@ -2,6 +2,7 @@ package com.internship.sep.services;
 
 
 import com.internship.sep.web.EventDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,6 +22,8 @@ public interface EventService {
     EventDTO updateEvent(Long id ,EventDTO eventDTO);
 
     void deleteEventById(Long id);
+
+//    void saveImage(MultipartFile imageFile) throws Exception;
 }
 
 
