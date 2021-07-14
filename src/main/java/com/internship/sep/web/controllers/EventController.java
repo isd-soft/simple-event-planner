@@ -1,13 +1,15 @@
 package com.internship.sep.web.controllers;
-
 import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
-import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -19,10 +21,10 @@ public class EventController {
     public static final String BASE_URL = "/events";
 
     private final EventService eventService;
-    private final AttendeeService attendeeService;
+
 
     @GetMapping
-    public ResponseEntity<List<EventDTO>> getAllEvents() {
+    public ResponseEntity<List<@Valid EventDTO>> getAllEvents() {
         return ResponseEntity.ok(eventService.getAllEvents());
     }
 
@@ -33,7 +35,7 @@ public class EventController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
+    public ResponseEntity<Void> createEvent(@Valid @RequestBody EventDTO eventDTO) {
         eventService.createNewEvent(eventDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -51,5 +53,17 @@ public class EventController {
         eventService.deleteEventById(eventId);
         return ResponseEntity.noContent().build();
     }
+
+//    @PostMapping("/uploadImage")
+//    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) throws Exception {
+//        String returnValue = "start";
+//        try{eventService.saveImage(imageFile);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            returnValue = "error";
+//        }
+//
+//        return returnValue;
+//    }
 
 }

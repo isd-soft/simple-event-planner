@@ -1,14 +1,10 @@
 package com.internship.sep.bootstrap;
-import com.internship.sep.models.Event;
 import com.internship.sep.models.Role;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.security.jwt.JwtTokenUtil;
-import com.internship.sep.services.AttendeeService;
 import com.internship.sep.services.EventService;
-import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.services.UserService;
-import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+
 @RequiredArgsConstructor
 @Component
 public class Bootstrap implements CommandLineRunner {
@@ -46,7 +40,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser1.setLastName("user1");
         testUser1.setAge(100);
 //        testUser1.setRole(Role.USER);
-        testUser1.setPhoneNumber("+111222333444");
+        testUser1.setPhoneNumber("+11122233");
 
         userService.addUser(testUser1);
         System.out.println("This is token for USER!: " +
@@ -60,7 +54,7 @@ public class Bootstrap implements CommandLineRunner {
         testUser2.setLastName("user2");
         testUser2.setAge(101);
         testUser2.setRole(Role.USER);
-        testUser2.setPhoneNumber("+222333444");
+        testUser2.setPhoneNumber("+22233344");
 
         userService.addUser(testUser2);
         System.out.println("This is token for USER2: " +
@@ -73,13 +67,11 @@ public class Bootstrap implements CommandLineRunner {
         testAdmin.setLastName("admin");
         testAdmin.setAge(102);
         testAdmin.setRole(Role.ADMIN);
-        testAdmin.setPhoneNumber("+333444");
+        testAdmin.setPhoneNumber("+33344486");
 
         userService.addUser(testAdmin);
         System.out.println("This is token for ADMIN: " +
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser2.getEmail())));
-
-
     }
 
     private void loadEvents() {

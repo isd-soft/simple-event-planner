@@ -1,12 +1,15 @@
 package com.internship.sep.services;
 
 import com.internship.sep.mapper.Mapper;
+import com.internship.sep.models.Event;
 import com.internship.sep.models.User;
+import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.web.UserShortDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.auth.InvalidCredentialsException;
+import org.aspectj.bridge.MessageUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
@@ -64,9 +67,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(UserDTO userDTO) {
+    public void updateUser(UserDTO userDTO){
         User user = repository.findByEmail(userDTO.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User does not exists"));
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist"));
 
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -79,6 +82,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+
     @Override
     @Transactional
     public void deleteUser(Long userId) {
@@ -86,6 +90,16 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id: " + userId + " does not exists"));
 
         repository.delete(user);
+
+    }
+    @Override
+    @Transactional
+    public void deleteUserByEmail(String email) {
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id: " + email + " does not exists"));
+
+        repository.delete(user);
+
     }
 
     public void authenticate(String username, String password) throws InvalidCredentialsException {
