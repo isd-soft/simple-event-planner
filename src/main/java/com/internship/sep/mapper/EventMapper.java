@@ -10,8 +10,10 @@ import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class EventMapper implements Mapper<Event, EventDTO> {
@@ -27,15 +29,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
             return null;
         }
 
-        User host = entity.getHost();
-        UserDTO hostDto = new UserDTO();
-        hostDto.setEmail(host.getEmail());
-        hostDto.setFirstName(host.getFirstName());
-        hostDto.setLastName(host.getLastName());
-        hostDto.setId(host.getId());
-        hostDto.setAge(host.getAge());
-        hostDto.setPhoneNumber(host.getPhoneNumber());
-
         final EventDTO dto = new EventDTO();
         dto.setId(entity.getId());
         dto.setDescription(entity.getDescription());
@@ -45,7 +38,18 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.setName(entity.getName());
         dto.setLocation(entity.getLocation());
         dto.setGoogleEventId(entity.getGoogleEventId());
-        dto.setHost(hostDto);
+
+        if(entity.getHost() != null) {
+            User host = entity.getHost();
+            UserDTO hostDto = new UserDTO();
+            hostDto.setEmail(host.getEmail());
+            hostDto.setFirstName(host.getFirstName());
+            hostDto.setLastName(host.getLastName());
+            hostDto.setId(host.getId());
+            hostDto.setAge(host.getAge());
+            hostDto.setPhoneNumber(host.getPhoneNumber());
+            dto.setHost(hostDto);
+        }
 
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
@@ -65,7 +69,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
         final Event event = new Event();
 
-        event.setId(dto.getId());
         event.setDescription(dto.getDescription());
         event.setStartDateTime(dto.getStartDateTime());
         event.setEndDateTime(dto.getEndDateTime());

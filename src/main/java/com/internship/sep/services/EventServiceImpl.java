@@ -1,11 +1,12 @@
 package com.internship.sep.services;
 import com.internship.sep.mapper.Mapper;
-import com.internship.sep.models.Event;
-import com.internship.sep.models.User;
+import com.internship.sep.models.*;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
+import com.internship.sep.web.AttendeeDTO;
+import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,8 @@ class EventServiceImpl implements EventService {
     private final GEventService gEventService;
     private final AttendeeRepository attendeeRepository;
     private final UserRepository userRepository;
+    private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
+    private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
 
     @Transactional
     @Override
@@ -117,19 +120,26 @@ class EventServiceImpl implements EventService {
     public EventDTO updateEvent(Long id, EventDTO eventDTO) {
         Event oldEvent = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-        String gId = oldEvent.getGoogleEventId();
-        oldEvent.getAttendees().forEach(attendee -> {
-            attendeeRepository.delete(attendee);
-        });
 
-        Event updatedEvent = eventMapper.unmap(eventDTO);
-        updatedEvent.setId(id);
-        updatedEvent.setGoogleEventId(gId);
+        oldEvent.setName(eventDTO.getName());
+        oldEvent.setStartDateTime(eventDTO.getStartDateTime());
+        oldEvent.setEndDateTime(eventDTO.getEndDateTime());
+        oldEvent.setLocation(eventDTO.getLocation());
+        oldEvent.setDescription(eventDTO.getDescription());
+        // oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
 
-        eventRepository.save(updatedEvent);
+//        oldEvent.getAttendees().forEach(attendee -> {
+//            attendeeRepository.delete(attendee);
+//        });
+
+        eventDTO.getAttendees().stream()
+                .map(attendeeMapper::unmap)
+                .forEach(oldEvent::addAttendee);
+
+        eventRepository.save(oldEvent);
 
         try {
-            gEventService.updateEvent(updatedEvent);
+            gEventService.updateEvent(oldEvent);
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -138,7 +148,9 @@ class EventServiceImpl implements EventService {
             e.printStackTrace();
         }
 
-        return eventMapper.map(updatedEvent);
+        log.info("Event saved on Google Calendar");
+
+        return eventMapper.map(oldEvent);
 
     }
 

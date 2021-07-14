@@ -14,4 +14,13 @@ public class EventCategoryMapper implements Mapper<EventCategory, EventCategoryD
 
         return dto;
     }
+
+    @Override
+    public  EventCategory unmap(EventCategoryDTO eventCategoryDTO) {
+        EventCategory eventCategory = new EventCategory();
+        eventCategory.setId(eventCategoryDTO.getId());
+        eventCategory.setName(eventCategoryDTO.getName());
+
+        return eventCategory;
+    }
 }
