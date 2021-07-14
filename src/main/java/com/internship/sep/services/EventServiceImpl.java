@@ -1,8 +1,10 @@
 package com.internship.sep.services;
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.User;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
+import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ class EventServiceImpl implements EventService {
     private final Mapper<Event, EventDTO> eventMapper;
     private final GEventService gEventService;
     private final AttendeeRepository attendeeRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     @Override
@@ -70,9 +73,11 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public EventDTO createNewEvent(EventDTO eventDTO) {
+    public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) {
         Event event = eventMapper.unmap(eventDTO);
+        User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
         event.setIsApproved(false);
+        event.setHost(host);
         Event savedEvent = eventRepository.save(event);
 
         try {

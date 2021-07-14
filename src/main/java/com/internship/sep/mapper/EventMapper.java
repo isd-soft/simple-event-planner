@@ -3,9 +3,12 @@ package com.internship.sep.mapper;
 import com.internship.sep.models.Attendee;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.EventCategory;
+import com.internship.sep.models.User;
+import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
+import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +18,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
+//    private final Mapper<User, UserDTO> userMapper;
 
     @Override
     public EventDTO map(Event entity) {
@@ -22,6 +26,15 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         if (entity == null) {
             return null;
         }
+
+        User host = entity.getHost();
+        UserDTO hostDto = new UserDTO();
+        hostDto.setEmail(host.getEmail());
+        hostDto.setFirstName(host.getFirstName());
+        hostDto.setLastName(host.getLastName());
+        hostDto.setId(host.getId());
+        hostDto.setAge(host.getAge());
+        hostDto.setPhoneNumber(host.getPhoneNumber());
 
         final EventDTO dto = new EventDTO();
         dto.setId(entity.getId());
@@ -32,6 +45,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.setName(entity.getName());
         dto.setLocation(entity.getLocation());
         dto.setGoogleEventId(entity.getGoogleEventId());
+        dto.setHost(hostDto);
 
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));

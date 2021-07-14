@@ -21,6 +21,7 @@ class UserMapper implements Mapper<User, UserDTO> {
         }
 
         UserDTO dto = new UserDTO();
+        dto.setId(entity.getId());
         dto.setEmail(entity.getEmail());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());

@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,10 +34,9 @@ public class EventController {
         return ResponseEntity.ok(eventService.getEventById(eventId));
     }
 
-
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO) {
-        eventService.createNewEvent(eventDTO);
+    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO, Principal principal) {
+        eventService.createNewEvent(eventDTO, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

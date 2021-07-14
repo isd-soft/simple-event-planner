@@ -15,7 +15,7 @@ public interface EventService {
 
     EventDTO getEventById(Long id);
 
-    EventDTO createNewEvent(EventDTO eventDTO);
+    EventDTO createNewEvent(EventDTO eventDTO, String hostEmail);
 
     EventDTO saveEventByDTO(Long id, EventDTO eventDTO);
 
