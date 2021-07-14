@@ -19,8 +19,10 @@ export class TokenInterceptor implements HttpInterceptor {
         setHeaders: {
           'Authorization': `Bearer ${this.authService.getToken()}`,
         }
-      })
+      });
     }
+
+    console.log(request);
     return next.handle(request);
   }
 }

@@ -21,7 +21,7 @@
   <div class="custom-elevation">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
-      <ng-container matColumnDef="name">
+      <ng-container matColumnDef="name" class="table-column_name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
@@ -45,21 +45,35 @@
       </ng-container>
 
       <ng-container matColumnDef="startDateTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>startDateTime</th>
-        <td mat-cell *matCellDef="let element">{{ element.startDateTime }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start at</th>
+        <td mat-cell *matCellDef="let element">{{ convertDate(element.startDateTime) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="endDateTime">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>endDateTime</th>
-        <td mat-cell *matCellDef="let element">{{ element.endDateTime }}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>End at</th>
+        <td mat-cell *matCellDef="let element">{{ convertDate(element.endDateTime) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="isApproved">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Is approved</th>
+        <td mat-cell *matCellDef="let element">
+
+          <div style="text-align: center">
+            <mat-icon *ngIf="element.isApproved" style="color: green">check_circle</mat-icon>
+            <mat-icon *ngIf="!element.isApproved" style="color: red">cancel</mat-icon>
+          </div>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="button">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <mat-cell *matCellDef="let row">
-          <button mat-icon-button color="primary">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
+        <th mat-header-cell *matHeaderCellDef>Details</th>
+        <mat-cell *matCellDef="let element">
+
+          <a [routerLink]="['/events/', element.id]" >
+            <button mat-icon-button color="primary">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+          </a>
         </mat-cell>
       </ng-container>
 

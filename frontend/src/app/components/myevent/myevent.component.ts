@@ -2,6 +2,8 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { EventsService } from "../../services/events.service";
+import { EventModel } from "../../models/event.model";
 
 /**
  * @title Table with pagination
@@ -19,9 +21,16 @@ export class MyeventComponent implements AfterViewInit {
     'description',
     'startDateTime',
     'endDateTime',
-    'button',
+    'isApproved',
+    'button'
   ];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<EventModel>([]);
+
+  constructor(private eventsService: EventsService) {
+    eventsService.getMyEvents().toPromise()
+      .then(eventModels => this.dataSource = new MatTableDataSource(eventModels))
+      .catch(e => console.log(e))
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -38,71 +47,9 @@ export class MyeventComponent implements AfterViewInit {
   applyFilter() {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
-}
 
-export interface Element {
-  name: string;
-  location: string;
-  category: string;
-  description: string;
-  startDateTime: string;
-  endDateTime: string;
-  button: string;
+  convertDate(x: number[]) {
+    // @ts-ignore
+    return new Date(...x).toUTCString();
+  }
 }
-
-const ELEMENT_DATA: Element[] = [
-  {
-    name: 'Event1',
-    location: 'H',
-    category: 'H',
-    description: 'Hdfb',
-    startDateTime: 'ajbsjk',
-    endDateTime: 'bdssndkenfbd',
-    button: 'sdnkdkd',
-  },
-  {
-    name: 'sjdbj2',
-    location: 'H',
-    category: 'H',
-    description: 'Hdfvj',
-    startDateTime: 'ahgsj',
-    endDateTime: 'sfkfkek',
-    button: 'dnknvk',
-  },
-  {
-    name: 'vvjshdent3',
-    location: 'H',
-    category: 'H',
-    description: 'Hbdv',
-    startDateTime: 'sbdejkb',
-    endDateTime: 'dnfefn',
-    button: 'slkfeogh',
-  },
-  {
-    name: 'djdbnt4',
-    location: 'H',
-    category: 'H',
-    description: 'Hdfjg',
-    startDateTime: 'wdbjwb',
-    endDateTime: '',
-    button: '',
-  },
-  {
-    name: 'Lkent5',
-    location: 'H',
-    category: 'H',
-    description: 'Hsjkh',
-    startDateTime: 'sbnjwbk',
-    endDateTime: '',
-    button: '',
-  },
-  {
-    name: 'Tnent6',
-    location: 'H',
-    category: 'H',
-    description: 'Hhfkh',
-    startDateTime: 'nnshdvh',
-    endDateTime: '',
-    button: '',
-  },
-];
