@@ -48,23 +48,23 @@ public class EventController {
 
     @PutMapping(path = "/{eventId}")
     public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            @RequestBody EventDTO eventDTO) {
+                                            @RequestBody EventDTO eventDTO, Principal principal) {
 
-        eventService.updateEvent(eventId, eventDTO);
+        eventService.updateEvent(eventId, eventDTO, principal.getName());
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/approve-event/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            Principal principal) {
+    public ResponseEntity<Void> approveEvent(@PathVariable("eventId") Long eventId) {
 
         eventService.approveEventById(eventId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(path = "/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId) {
-        eventService.deleteEventById(eventId);
+    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId, Principal principal) {
+
+        eventService.deleteEventById(eventId, principal.getName());
         return ResponseEntity.noContent().build();
     }
 

@@ -116,9 +116,15 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public EventDTO updateEvent(Long id, EventDTO eventDTO) {
+    public EventDTO updateEvent(Long id, EventDTO eventDTO, String hostEmail) {
         Event oldEvent = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+
+        User principal = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
+
+        if(!(principal.getEmail().equals(oldEvent.getHost().getEmail())) && !(principal.getRole().equals(Role.ADMIN))) {
+            return eventMapper.map(oldEvent);
+        }
 
         oldEvent.setName(eventDTO.getName());
         oldEvent.setStartDateTime(eventDTO.getStartDateTime());
@@ -178,9 +184,14 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public void deleteEventById(Long id) {
+    public void deleteEventById(Long id, String hostEmail) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+        User principal = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
+
+        if(!(principal.getEmail().equals(event.getHost().getEmail())) && !(principal.getRole().equals(Role.ADMIN))) {
+            return;
+        }
 
         if(event.getIsApproved()) {
             try {
