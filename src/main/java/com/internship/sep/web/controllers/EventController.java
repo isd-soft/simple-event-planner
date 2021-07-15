@@ -1,13 +1,12 @@
 package com.internship.sep.web.controllers;
+
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
 import com.internship.sep.services.ResourceNotFoundException;
-import com.internship.sep.services.UserService;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @RequiredArgsConstructor
 @RestController

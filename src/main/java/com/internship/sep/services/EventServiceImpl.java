@@ -1,26 +1,24 @@
 package com.internship.sep.services;
+
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
-import com.internship.sep.repositories.*;
-
+import com.internship.sep.repositories.AttendeeRepository;
+import com.internship.sep.repositories.EventCategoryRepository;
+import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -88,8 +86,6 @@ class EventServiceImpl implements EventService {
         event.setEventCategory(eventCategory);
         Event savedEvent = eventRepository.save(event);
 
-//
-
         EventDTO returnDto = eventMapper.map(savedEvent);
 
         return returnDto;
@@ -133,9 +129,7 @@ class EventServiceImpl implements EventService {
         oldEvent.setDescription(eventDTO.getDescription());
         oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
 
-        oldEvent.getAttendees().forEach(attendee -> {
-            attendeeRepository.delete(attendee);
-        });
+        oldEvent.getAttendees().forEach(attendeeRepository::delete);
 
         oldEvent.setAttendees(new ArrayList<Attendee>());
 
@@ -203,9 +197,7 @@ class EventServiceImpl implements EventService {
             }
         }
 
-        event.getAttendees().forEach(attendee -> {
-            attendeeRepository.delete(attendee);
-        });
+        event.getAttendees().forEach(attendeeRepository::delete);
 
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
@@ -234,5 +226,4 @@ class EventServiceImpl implements EventService {
                 .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
-
 }

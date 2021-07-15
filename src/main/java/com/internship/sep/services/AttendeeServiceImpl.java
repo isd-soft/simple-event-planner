@@ -34,7 +34,6 @@ public class AttendeeServiceImpl implements AttendeeService {
     @Transactional
     @Override
     public void addAttendees(List<AttendeeDTO> attendeeDTOS) {
-
         attendeeRepository.saveAll(attendeeMapper.unmapList(attendeeDTOS));
     }
 
