@@ -1,6 +1,5 @@
 package com.internship.sep.web.controllers;
 
-import com.internship.sep.services.EventCategoryService;
 import com.internship.sep.services.EventCategoryServiceImpl;
 import com.internship.sep.web.EventCategoryDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 public class EventCategoryController {
+    // TODO: 14/07/2021 Create a correct response for trying to add an existing category(if needed)
     private final EventCategoryServiceImpl eventCategoryService;
 
     @GetMapping
@@ -32,7 +32,7 @@ public class EventCategoryController {
 
     @PutMapping(path = "/{categoryId}")
     public void updateCategory(@PathVariable("categoryId") Long categoryId,
-                               @RequestParam EventCategoryDTO dto) {
+                               @RequestBody EventCategoryDTO dto) {
 
         dto.setId(categoryId);
         eventCategoryService.updateCategory(dto);
