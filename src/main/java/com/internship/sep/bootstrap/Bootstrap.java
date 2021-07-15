@@ -1,12 +1,15 @@
 package com.internship.sep.bootstrap;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.EventCategory;
 import com.internship.sep.models.Role;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.security.jwt.JwtTokenUtil;
+import com.internship.sep.services.EventCategoryService;
 import com.internship.sep.services.EventService;
 import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.services.UserService;
+import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @RequiredArgsConstructor
 @Component
@@ -24,6 +28,7 @@ public class Bootstrap implements CommandLineRunner {
     private final EventService eventService;
     private final AttendeeRepository attendeeRepository;
     private final EventRepository eventRepository;
+    private final EventCategoryService eventCategoryService;
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
@@ -91,26 +96,15 @@ public class Bootstrap implements CommandLineRunner {
         System.out.println("This is token for USER3: " +
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser3.getEmail())));
 
-//        EventDTO event1 = new EventDTO();
-//
-//        event1.setName("ISD Party");
-//        event1.setLocation("Moldova");
-//        event1.setIsApproved(true);
-//
-//        LocalDateTime today = LocalDateTime.now();
-//        LocalDateTime tomorrow = today.plusDays(2);
-//
-//        event1.setStartDateTime(tomorrow);
-//        event1.setEndDateTime(tomorrow);
-//        event1.setDescription("Something...");
-//
-//        event1.setHost(testUser3);
-//
-//        eventService.createNewEvent(event1,testUser3.getEmail());
-
-  //      Event newEvent = eventRepository.findByName("ISD Party").orElseThrow(ResourceNotFoundException::new);
-   //     eventService.deleteEventById(newEvent.getId());
-
+        EventCategoryDTO eventCategoryDTO = new EventCategoryDTO();
+        EventCategoryDTO eventCategoryDTO1 = new EventCategoryDTO();
+        EventCategoryDTO eventCategoryDTO2 = new EventCategoryDTO();
+        eventCategoryDTO.setName("Conference");
+        eventCategoryDTO1.setName("Meeting");
+        eventCategoryDTO2.setName("Something");
+        eventCategoryService.addCategory(eventCategoryDTO);
+        eventCategoryService.addCategory(eventCategoryDTO1);
+        eventCategoryService.addCategory(eventCategoryDTO2);
     }
 
 }

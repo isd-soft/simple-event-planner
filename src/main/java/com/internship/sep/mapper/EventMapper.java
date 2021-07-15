@@ -39,6 +39,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.setLocation(entity.getLocation());
         dto.setGoogleEventId(entity.getGoogleEventId());
 
+
         if(entity.getHost() != null) {
             User host = entity.getHost();
             UserDTO hostDto = new UserDTO();
@@ -56,7 +57,12 @@ public class EventMapper implements Mapper<Event, EventDTO> {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
         }
         if (entity.getEventCategory() != null) {
-            dto.setEventCategory(eventCategoryMapper.map(entity.getEventCategory()));
+            EventCategory eventCategory = entity.getEventCategory();
+            EventCategoryDTO eventCategoryDTO = new EventCategoryDTO();
+            eventCategoryDTO.setName(eventCategory.getName());
+            eventCategoryDTO.setId(eventCategory.getId());
+            dto.setEventCategory(eventCategoryDTO);
+            //dto.setEventCategory(eventCategoryMapper.map(entity.getEventCategory()));
         }
 
         return dto;
@@ -69,7 +75,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         }
 
         UserDTO host = dto.getHost();
-
+        EventCategoryDTO eventCategoryDTO = dto.getEventCategory();
 
         final Event event = new Event();
 
@@ -80,6 +86,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         event.setName(dto.getName());
         event.setLocation(dto.getLocation());
 
+
         event.setGoogleEventId(dto.getGoogleEventId());
 
 
@@ -87,9 +94,9 @@ public class EventMapper implements Mapper<Event, EventDTO> {
                 .map(attendeeMapper::unmap)
                 .forEach(event::addAttendee);
 
-        if (dto.getEventCategory() != null) {
-            event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));
-        }
+//        if (dto.getEventCategory() != null) {
+//            event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));
+//        }
 
         return event;
     }

@@ -29,8 +29,6 @@ public class EventController {
     private final UserRepository userRepository;
     private final Mapper<Event, EventDTO> eventMapper;
 
-
-
     @CrossOrigin
     @GetMapping
     public ResponseEntity<List<EventDTO>> getAllEvents() {

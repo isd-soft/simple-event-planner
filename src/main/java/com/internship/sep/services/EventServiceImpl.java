@@ -1,10 +1,8 @@
 package com.internship.sep.services;
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
-import com.internship.sep.repositories.AttendeeRepository;
-import com.internship.sep.repositories.EventRepository;
+import com.internship.sep.repositories.*;
 
-import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.AttendeeDTO;
@@ -37,6 +35,8 @@ class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
+    private final EventCategoryRepository eventCategoryRepository;
+
 
     @Transactional
     @Override
@@ -82,17 +82,13 @@ class EventServiceImpl implements EventService {
     public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) {
         Event event = eventMapper.unmap(eventDTO);
         User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
+        EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
         event.setIsApproved(false);
         event.setHost(host);
+        event.setEventCategory(eventCategory);
         Event savedEvent = eventRepository.save(event);
 
-//        try {
-//            gEventService.createEvent(event);
-//        } catch (GeneralSecurityException | IOException e) {
-//            e.printStackTrace();
-//        } catch (RuntimeException e) {
-//            e.printStackTrace();
-//        }
+//
 
         EventDTO returnDto = eventMapper.map(savedEvent);
 
@@ -129,7 +125,7 @@ class EventServiceImpl implements EventService {
         oldEvent.setEndDateTime(eventDTO.getEndDateTime());
         oldEvent.setLocation(eventDTO.getLocation());
         oldEvent.setDescription(eventDTO.getDescription());
-        // oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
+        oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
 
         oldEvent.getAttendees().forEach(attendee -> {
             attendeeRepository.delete(attendee);
