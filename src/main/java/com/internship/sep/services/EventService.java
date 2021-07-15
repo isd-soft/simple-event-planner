@@ -20,6 +20,7 @@ public interface EventService {
     EventDTO updateEvent(Long id ,EventDTO eventDTO);
 
     void deleteEventById(Long id);
+    void approveEventById(Long id);
 
     List<EventDTO> getUnapprovedEvents();
 

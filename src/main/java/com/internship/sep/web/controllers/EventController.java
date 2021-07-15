@@ -56,6 +56,14 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping(path = "/approve-event/{eventId}")
+    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
+                                            Principal principal) {
+
+        eventService.approveEventById(eventId);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping(path = "/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId) {
         eventService.deleteEventById(eventId);

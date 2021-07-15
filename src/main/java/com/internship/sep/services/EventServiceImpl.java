@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -85,13 +86,13 @@ class EventServiceImpl implements EventService {
         event.setHost(host);
         Event savedEvent = eventRepository.save(event);
 
-        try {
-            gEventService.createEvent(event);
-        } catch (GeneralSecurityException | IOException e) {
-            e.printStackTrace();
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            gEventService.createEvent(event);
+//        } catch (GeneralSecurityException | IOException e) {
+//            e.printStackTrace();
+//        } catch (RuntimeException e) {
+//            e.printStackTrace();
+//        }
 
         EventDTO returnDto = eventMapper.map(savedEvent);
 
@@ -130,29 +131,52 @@ class EventServiceImpl implements EventService {
         oldEvent.setDescription(eventDTO.getDescription());
         // oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
 
-//        oldEvent.getAttendees().forEach(attendee -> {
-//            attendeeRepository.delete(attendee);
-//        });
+        oldEvent.getAttendees().forEach(attendee -> {
+            attendeeRepository.delete(attendee);
+        });
+
+        oldEvent.setAttendees(new ArrayList<Attendee>());
 
         eventDTO.getAttendees().stream()
                 .map(attendeeMapper::unmap)
                 .forEach(oldEvent::addAttendee);
 
-        eventRepository.save(oldEvent);
+        // eventRepository.save(oldEvent);
 
+
+        if(oldEvent.getIsApproved()) {
+            try {
+                gEventService.updateEvent(oldEvent);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return eventMapper.map(oldEvent);
+
+    }
+
+    @Transactional
+    @Override
+    public void approveEventById(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(ResourceNotFoundException::new);
+
+        event.setIsApproved(true);
+        eventRepository.save(event);
+
+        log.info("Try to save to google...");
         try {
-            gEventService.updateEvent(oldEvent);
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            gEventService.createEvent(event);
+        } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
         } catch (RuntimeException e) {
             e.printStackTrace();
         }
-
-        log.info("Event saved on Google Calendar");
-
-        return eventMapper.map(oldEvent);
 
     }
 
@@ -161,12 +185,15 @@ class EventServiceImpl implements EventService {
     public void deleteEventById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
-        try {
-            gEventService.deleteEvent(event.getGoogleEventId());
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        if(event.getIsApproved()) {
+            try {
+                gEventService.deleteEvent(event.getGoogleEventId());
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         event.getAttendees().forEach(attendee -> {
