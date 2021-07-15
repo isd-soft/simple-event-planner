@@ -1,12 +1,10 @@
 package com.internship.sep.services;
-
-
+import com.internship.sep.models.User;
 import com.internship.sep.web.EventDTO;
-import org.springframework.web.multipart.MultipartFile;
+import com.internship.sep.web.UserDTO;
 
-import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
-
 public interface EventService {
 
     List<EventDTO> getAllEvents();
@@ -23,7 +21,12 @@ public interface EventService {
 
     void deleteEventById(Long id);
 
-//    void saveImage(MultipartFile imageFile) throws Exception;
+    List<EventDTO> getUnapprovedEvents();
+
+    List<EventDTO> getApprovedEvents();
+
+    List<EventDTO> getMyEvents(User host);
+
 }
 
 

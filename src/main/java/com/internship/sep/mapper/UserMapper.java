@@ -30,6 +30,7 @@ class UserMapper implements Mapper<User, UserDTO> {
         dto.setPassword(entity.getPassword());
         dto.setRole(entity.getRole());
 
+
         if (entity.getEvents() != null && entity.getEvents().size() > 0) {
             dto.setHostedEvents(eventMapper.mapList(entity.getEvents()));
         }

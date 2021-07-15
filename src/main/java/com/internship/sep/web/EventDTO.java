@@ -1,10 +1,6 @@
 package com.internship.sep.web;
-
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.internship.sep.web.AttendeeDTO;
-import com.internship.sep.web.EventCategoryDTO;
-import com.internship.sep.web.UserDTO;
 import com.internship.sep.web.deserializer.LocalDateTimeDeserializer;
 import com.internship.sep.web.serializer.LocalDateTimeSerializer;
 import lombok.Data;

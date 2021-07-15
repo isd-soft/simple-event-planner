@@ -3,23 +3,25 @@ import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
 import com.internship.sep.repositories.AttendeeRepository;
 import com.internship.sep.repositories.EventRepository;
+
+import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
+import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -175,11 +177,28 @@ class EventServiceImpl implements EventService {
         log.warn("Event deleted from DB");
     }
 
-//    public void saveImage(MultipartFile imageFile) throws Exception{
-//        String folder = "/photos/";
-//        byte[] bytes = imageFile.getBytes();
-//        Path path = Paths.get(folder + imageFile.getOriginalFilename());
-//        Files.write(path, bytes);
-//    }
+    @Transactional
+    @Override
+    public List<EventDTO> getUnapprovedEvents() {
+        return eventRepository.findUnapprovedEvents().stream()
+                .map(eventMapper::map)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public List<EventDTO> getApprovedEvents() {
+        return eventRepository.findApprovedEvents().stream()
+                .map(eventMapper::map)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public List<EventDTO> getMyEvents(User host) {
+        return eventRepository.findEventsByHost(host).stream()
+                .map(eventMapper::map)
+                .collect(Collectors.toList());
+    }
 
 }

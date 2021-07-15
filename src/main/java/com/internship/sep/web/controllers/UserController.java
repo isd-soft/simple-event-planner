@@ -38,12 +38,4 @@ public class UserController {
         userService.deleteUserByEmail(email);
         return ResponseEntity.noContent().build();
     }
-
-//    @DeleteMapping(path = "/{userId}")
-//    public ResponseEntity<Void> deleteUserById(@PathVariable("userID") Long userId) {
-//        userService.deleteUser(userId);
-//        return ResponseEntity.noContent().build();
-//    }
-
-
 }

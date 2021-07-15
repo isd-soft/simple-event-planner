@@ -1,18 +1,22 @@
 package com.internship.sep.web.controllers;
-import com.internship.sep.services.AttendeeService;
+import com.internship.sep.mapper.Mapper;
+import com.internship.sep.models.Event;
+import com.internship.sep.models.User;
+import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
+import com.internship.sep.services.ResourceNotFoundException;
+import com.internship.sep.services.UserService;
 import com.internship.sep.web.EventDTO;
+import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +26,9 @@ public class EventController {
     public static final String BASE_URL = "/events";
 
     private final EventService eventService;
+    private final UserRepository userRepository;
+    private final Mapper<Event, EventDTO> eventMapper;
+
 
 
     @CrossOrigin
@@ -55,16 +62,20 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping("/uploadImage")
-//    public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) throws Exception {
-//        String returnValue = "start";
-//        try{eventService.saveImage(imageFile);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            returnValue = "error";
-//        }
-//
-//        return returnValue;
-//    }
-
+    @GetMapping(path = "/unapproved")
+    public ResponseEntity<List<EventDTO>> getUnapprovedEvents() {
+        return ResponseEntity.ok(eventService.getUnapprovedEvents());
+    }
+    @GetMapping(path = "/approved")
+    public ResponseEntity<List<EventDTO>> getApprovedEvents() {
+        return ResponseEntity.ok(eventService.getApprovedEvents());
+    }
+    @GetMapping(path = "/my-events")
+    public ResponseEntity<List<EventDTO>> getMyEvents(Principal principal) {
+        String hostEmail = principal.getName();
+        User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
+        return ResponseEntity.ok(eventService.getMyEvents(host));
+    }
 }
+
+
