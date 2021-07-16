@@ -21,8 +21,8 @@ import java.util.List;
 @Table(name = "event_categories")
 public class EventCategory extends AbstractEntity {
 
-    @NotBlank(message = "category name must not be null")
     @Column(name = "name", unique = true)
+    @NotBlank(message = "category name must not be null")
     private String name;
 
     @OneToMany(mappedBy = "eventCategory")

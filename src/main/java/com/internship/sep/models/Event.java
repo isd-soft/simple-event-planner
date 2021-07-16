@@ -1,8 +1,12 @@
 package com.internship.sep.models;
+
 import lombok.*;
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +21,6 @@ import java.util.List;
 @Builder
 @Table(name = "events")
 public class Event extends AbstractEntity {
-    // TODO: 14/07/2021 add validation for events when it's finished
 
     @NotBlank(message = "event title should be present")
     @Column(name = "name")
@@ -28,10 +31,12 @@ public class Event extends AbstractEntity {
     private String location;
 
     @NotNull(message = "event start time must be present")
+    @FutureOrPresent(message = "event start time must be a future or a present date")
     @Column(name = "start_date_time", nullable = false)
     private LocalDateTime startDateTime;
 
     @NotNull(message = "event end time must be present")
+    @Future(message = "event end time must be a future date")
     @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 

@@ -84,12 +84,14 @@ class EventServiceImpl implements EventService {
     public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) throws IOException {
         Event event = eventMapper.unmap(eventDTO);
         User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
-        EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
+        try {
+            EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
+            event.setEventCategory(eventCategory);
+        } catch (NullPointerException ex) {
+            log.error("Null pointer exception, EventCategory object is null");
+        }
         event.setIsApproved(false);
         event.setHost(host);
-        event.setEventCategory(eventCategory);
-
-
 
         Event savedEvent = eventRepository.save(event);
 

@@ -23,11 +23,7 @@ public class EventCategoryController {
 
     @PostMapping
     public void addCategory(@RequestBody EventCategoryDTO dto) {
-        try {
             eventCategoryService.addCategory(dto);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
     }
 
     @PutMapping(path = "/{categoryId}")
