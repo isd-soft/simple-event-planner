@@ -1,9 +1,6 @@
 package com.internship.sep.models;
-
 import lombok.*;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,8 +14,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "events")
-public class Event extends AbstractEntity {
-    // TODO: 14/07/2021 add validation for events when it's finished
+public class    Event extends AbstractEntity {
 
     @Column(name = "name")
     private String name;
@@ -52,6 +48,10 @@ public class Event extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )
     private List<Attendee> attendees = new ArrayList<>();
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )
+    private List<FileDB> attachments = new ArrayList<>();
+
+
     public void addAttendee(Attendee attendee) {
         attendees.add(attendee);
         attendee.setEvent(this);
@@ -59,6 +59,14 @@ public class Event extends AbstractEntity {
 
     public List<Attendee> getAttendees() {
         return Collections.unmodifiableList(attendees);
+    }
+
+    public void addAttachments(FileDB attachment){
+        attachments.add(attachment);
+        attachment.setEvent(this);
+    }
+    public List<FileDB> getAttachments(){
+        return  Collections.unmodifiableList(attachments);
     }
 }
 

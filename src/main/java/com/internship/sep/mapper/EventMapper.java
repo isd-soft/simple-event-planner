@@ -1,14 +1,8 @@
 package com.internship.sep.mapper;
 
-import com.internship.sep.models.Attendee;
-import com.internship.sep.models.Event;
-import com.internship.sep.models.EventCategory;
-import com.internship.sep.models.User;
+import com.internship.sep.models.*;
 import com.internship.sep.repositories.UserRepository;
-import com.internship.sep.web.AttendeeDTO;
-import com.internship.sep.web.EventCategoryDTO;
-import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
+import com.internship.sep.web.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
+    private final Mapper<FileDB, FileDTO> attachmentMapper;
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
 //    private final Mapper<User, UserDTO> userMapper;
 
@@ -65,6 +60,9 @@ public class EventMapper implements Mapper<Event, EventDTO> {
             //dto.setEventCategory(eventCategoryMapper.map(entity.getEventCategory()));
         }
 
+        if (entity.getAttachments() != null && entity.getAttachments().size() > 0){
+            dto.setAttachments(attachmentMapper.mapList(entity.getAttachments()));
+        }
         return dto;
     }
 
@@ -93,6 +91,8 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.getAttendees().stream()
                 .map(attendeeMapper::unmap)
                 .forEach(event::addAttendee);
+
+        dto.getAttachments().stream().map(attachmentMapper::unmap).forEach(event::addAttachments);
 
 //        if (dto.getEventCategory() != null) {
 //            event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));

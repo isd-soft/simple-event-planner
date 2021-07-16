@@ -2,26 +2,21 @@ package com.internship.sep.services;
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
 import com.internship.sep.repositories.*;
-
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -36,6 +31,8 @@ class EventServiceImpl implements EventService {
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final EventCategoryRepository eventCategoryRepository;
+    private final FileDBRepository fileDBRepository;
+    private final FileStorageService fileStorageService;
 
 
     @Transactional
@@ -79,13 +76,16 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) {
+    public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) throws IOException {
         Event event = eventMapper.unmap(eventDTO);
         User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
         EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
         event.setIsApproved(false);
         event.setHost(host);
         event.setEventCategory(eventCategory);
+
+
+
         Event savedEvent = eventRepository.save(event);
 
 //

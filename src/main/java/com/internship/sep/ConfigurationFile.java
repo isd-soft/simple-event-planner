@@ -1,5 +1,7 @@
 package com.internship.sep;
 
+//import com.internship.sep.services.FileStorageService;
+//import com.internship.sep.services.FileStorageServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -16,5 +18,9 @@ public class ConfigurationFile {
                     registry.addMapping("/**");
                 }
             };
-        }
-}
+        }}
+
+
+
+
+
