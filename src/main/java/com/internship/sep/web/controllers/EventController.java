@@ -2,7 +2,6 @@ package com.internship.sep.web.controllers;
 
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
-import com.internship.sep.models.FileDB;
 import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,36 +44,36 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestParam("file") List<MultipartFile> files, @RequestBody EventDTO eventDTO, Principal principal) throws IOException {
+    public ResponseEntity<String> createEvent(@RequestParam("file") List<MultipartFile> files, @RequestBody EventDTO eventDTO, Principal principal) throws IOException {
         eventDTO.setAttachments(files.stream().map(file -> {
             var dto = new FileDTO();
             dto.setMultipartFile(file);
             return dto;
         }).collect(Collectors.toList()));
         eventService.createNewEvent(eventDTO, principal.getName());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Event created successfully");
     }
 
     @PutMapping(path = "/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
+    public ResponseEntity<String> updateEvent(@PathVariable("eventId") Long eventId,
                                             @RequestBody EventDTO eventDTO, Principal principal) {
 
         eventService.updateEvent(eventId, eventDTO, principal.getName());
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("Event updated successfully", HttpStatus.OK);
     }
 
     @PutMapping(path = "/approve-event/{eventId}")
-    public ResponseEntity<Void> approveEvent(@PathVariable("eventId") Long eventId) {
+    public ResponseEntity<String> approveEvent(@PathVariable("eventId") Long eventId) {
 
         eventService.approveEventById(eventId);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("Event approved successfully", HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId, Principal principal) {
+    public ResponseEntity<String> deleteEvent(@PathVariable("eventId") Long eventId, Principal principal) {
 
         eventService.deleteEventById(eventId, principal.getName());
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("Event deleted successfully", HttpStatus.OK);
     }
 
     @GetMapping(path = "/unapproved")
