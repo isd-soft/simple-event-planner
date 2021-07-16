@@ -30,7 +30,7 @@ public class AuthController {
                 .header("Authorization", token)
                 .header("Access-Control-Expose-Headers", "Authorization")
                 .header("Access-Control-Allow-Headers", "Authorization")
-                .build();
+                .body("Logged successfully");
     }
 
     @PostMapping("/register")
@@ -39,6 +39,6 @@ public class AuthController {
 
         userService.addUser(user);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 }

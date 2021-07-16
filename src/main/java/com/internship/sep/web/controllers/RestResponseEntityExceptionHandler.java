@@ -1,6 +1,7 @@
 package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.ResourceNotFoundException;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -37,10 +38,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler({InvalidCredentialsException.class})
-//    public ResponseEntity<?> handleInvalidCredentials(InvalidCredentialsException ex) {
-//        return ResponseEntity.badRequest().body("Invalid credentials");
-//    }
+    @ExceptionHandler({InvalidCredentialsException.class})
+    public ResponseEntity<?> handleInvalidCredentials() {
+        return new ResponseEntity<>("Invalid Credentials", HttpStatus.BAD_REQUEST);
+    }
+
 //
 //    @ExceptionHandler({DataIntegrityViolationException.class})
 //    public ResponseEntity<?> handleDataIntegrityViolationException() {
