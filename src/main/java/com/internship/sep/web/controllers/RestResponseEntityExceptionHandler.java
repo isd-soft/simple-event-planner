@@ -24,17 +24,17 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         //return new ResponseEntity<>("Resource Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {
-            Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
 
-            Set<String> messages = new HashSet<>(constraintViolations.size());
-            messages.addAll(constraintViolations.stream()
-                    .map(constraintViolation -> String.format("field: %s, value '%s', %s", constraintViolation.getPropertyPath(),
-                            constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
-                    .collect(Collectors.toList()));
+        Set<String> messages = new HashSet<>(constraintViolations.size());
+        messages.addAll(constraintViolations.stream()
+                .map(constraintViolation -> String.format("field: %s, value '%s', %s", constraintViolation.getPropertyPath(),
+                        constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
+                .collect(Collectors.toList()));
 
-            return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
     }
 
 //    @ExceptionHandler({InvalidCredentialsException.class})
