@@ -1,4 +1,5 @@
 package com.internship.sep.web.controllers;
+
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.FileDB;
@@ -6,9 +7,7 @@ import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
 import com.internship.sep.services.ResourceNotFoundException;
-import com.internship.sep.services.UserService;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -51,23 +48,23 @@ public class EventController {
 
     @PutMapping(path = "/{eventId}")
     public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            @RequestBody EventDTO eventDTO) {
+                                            @RequestBody EventDTO eventDTO, Principal principal) {
 
-        eventService.updateEvent(eventId, eventDTO);
+        eventService.updateEvent(eventId, eventDTO, principal.getName());
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/approve-event/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            Principal principal) {
+    public ResponseEntity<Void> approveEvent(@PathVariable("eventId") Long eventId) {
 
         eventService.approveEventById(eventId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping(path = "/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId) {
-        eventService.deleteEventById(eventId);
+    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId, Principal principal) {
+
+        eventService.deleteEventById(eventId, principal.getName());
         return ResponseEntity.noContent().build();
     }
 

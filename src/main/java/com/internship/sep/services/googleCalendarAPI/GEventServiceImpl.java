@@ -51,7 +51,7 @@ public class GEventServiceImpl implements GEventService {
     private final Calendar service;
     private final AttendeeRepository attendeeRepository;
 
-    public GEventServiceImpl(@Value("${sep.google.calendar.id}")String calendarId,
+    public GEventServiceImpl(@Value("${sep.google.calendar.id}") String calendarId,
                              GEventMapper eventMapper, AttendeeRepository attendeeRepository) throws GeneralSecurityException, IOException {
         this.attendeeRepository = attendeeRepository;
         this.calendarId = calendarId;
@@ -64,6 +64,7 @@ public class GEventServiceImpl implements GEventService {
 
     /**
      * Creates an authorized Credential object.
+     *
      * @param HTTP_TRANSPORT The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
@@ -116,9 +117,9 @@ public class GEventServiceImpl implements GEventService {
 
         List<EventAttendee> gAttendees = gEvent.getAttendees();
 
-        for(int i = 0; i < event.getAttendees().size(); i ++) {
-            for(int j = 0; j < gAttendees.size(); j++) {
-                if(gAttendees.get(j).getEmail().equals(event.getAttendees().get(i).getEmail())) {
+        for (int i = 0; i < event.getAttendees().size(); i++) {
+            for (int j = 0; j < gAttendees.size(); j++) {
+                if (gAttendees.get(j).getEmail().equals(event.getAttendees().get(i).getEmail())) {
                     event.getAttendees().get(i).setStatus(getAttendeeStatus(gAttendees.get(j)));
                     attendeeRepository.save(event.getAttendees().get(i));
                 }
@@ -129,7 +130,7 @@ public class GEventServiceImpl implements GEventService {
     private Status getAttendeeStatus(EventAttendee googleEntity) {
         String responseStatus = googleEntity.getResponseStatus();
 
-        if(responseStatus.equalsIgnoreCase("accepted")) {
+        if (responseStatus.equalsIgnoreCase("accepted")) {
             return Status.ACCEPTED;
         } else if (responseStatus.equalsIgnoreCase("declined")) {
             return Status.DECLINED;

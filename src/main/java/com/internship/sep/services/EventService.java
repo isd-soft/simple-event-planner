@@ -20,9 +20,10 @@ public interface EventService {
 
     EventDTO saveEventByDTO(Long id, EventDTO eventDTO);
 
-    EventDTO updateEvent(Long id ,EventDTO eventDTO);
+    EventDTO updateEvent(Long id ,EventDTO eventDTO, String hostEmail);
 
-    void deleteEventById(Long id);
+    void deleteEventById(Long id, String hostEmail);
+
     void approveEventById(Long id);
 
     List<EventDTO> getUnapprovedEvents();

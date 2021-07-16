@@ -90,8 +90,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id: " + userId + " does not exists"));
 
         repository.delete(user);
-
     }
+
     @Override
     @Transactional
     public void deleteUserByEmail(String email) {
