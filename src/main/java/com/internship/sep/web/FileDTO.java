@@ -1,11 +1,11 @@
 package com.internship.sep.web;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class FileDTO {
     private Long id;
-    private String name;
-    private String type;
-    private byte[] data;
+    private MultipartFile multipartFile;
+
 }

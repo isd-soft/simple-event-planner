@@ -18,12 +18,12 @@ public class FileController {
     private FileStorageService storageService;
 
 
-    @GetMapping("/files/{id}")
-    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
-        FileDB fileDB = storageService.getFile(id);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
-                .body(fileDB.getData());
-    }
+//    @GetMapping("/files/{id}")
+//    public ResponseEntity<byte[]> getFile(@PathVariable Long id) {
+//        FileDB fileDB = storageService.getFile(id);
+//
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDB.getName() + "\"")
+//                .body(fileDB.getData());
+//    }
 }

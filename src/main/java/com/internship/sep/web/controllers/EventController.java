@@ -6,8 +6,10 @@ import com.internship.sep.models.FileDB;
 import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
+import com.internship.sep.services.FileStorageService;
 import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.web.EventDTO;
+import com.internship.sep.web.FileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,6 +32,7 @@ public class EventController {
     private final EventService eventService;
     private final UserRepository userRepository;
     private final Mapper<Event, EventDTO> eventMapper;
+    private final FileStorageService fileStorageService;
 
     @CrossOrigin
     @GetMapping
@@ -41,7 +46,12 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO, Principal principal) throws IOException {
+    public ResponseEntity<Void> createEvent(@RequestParam("file") List<MultipartFile> files, @RequestBody EventDTO eventDTO, Principal principal) throws IOException {
+        eventDTO.setAttachments(files.stream().map(file -> {
+            var dto = new FileDTO();
+            dto.setMultipartFile(file);
+            return dto;
+        }).collect(Collectors.toList()));
         eventService.createNewEvent(eventDTO, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

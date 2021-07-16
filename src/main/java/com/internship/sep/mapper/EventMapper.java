@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.stream.Collectors;
+
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -61,7 +63,12 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         }
 
         if (entity.getAttachments() != null && entity.getAttachments().size() > 0){
-            dto.setAttachments(attachmentMapper.mapList(entity.getAttachments()));
+            dto.setAttachments(entity.getAttachments().stream().map(file -> {
+                var _file = new FileDTO();
+                _file.setMultipartFile(file.getFile());
+                _file.setId(file.getId());
+                return _file;
+            }).collect(Collectors.toList()));
         }
         return dto;
     }
@@ -92,7 +99,11 @@ public class EventMapper implements Mapper<Event, EventDTO> {
                 .map(attendeeMapper::unmap)
                 .forEach(event::addAttendee);
 
-        dto.getAttachments().stream().map(attachmentMapper::unmap).forEach(event::addAttachments);
+        dto.getAttachments().stream().map(_dto -> {
+            var file = new FileDB();
+            file.setFile(_dto.getMultipartFile());
+            return file;
+        });
 
 //        if (dto.getEventCategory() != null) {
 //            event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));

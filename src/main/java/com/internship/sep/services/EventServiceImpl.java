@@ -85,6 +85,7 @@ class EventServiceImpl implements EventService {
         Event event = eventMapper.unmap(eventDTO);
         User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
         EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
+
         event.setIsApproved(false);
         event.setHost(host);
         event.setEventCategory(eventCategory);

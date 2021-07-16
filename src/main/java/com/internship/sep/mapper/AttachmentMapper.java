@@ -19,9 +19,9 @@ public class AttachmentMapper implements Mapper<FileDB, FileDTO>{
         FileDTO dto = new FileDTO();
 
         dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setType(entity.getType());
-        dto.setData(entity.getData());
+//        dto.setName(entity.getName());
+//        dto.setType(entity.getType());
+//        dto.setData(entity.getData());
 
         return dto;
     }
@@ -37,9 +37,9 @@ public class AttachmentMapper implements Mapper<FileDB, FileDTO>{
 
         FileDB entity = new FileDB();
         entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setType(dto.getType());
-        entity.setData(dto.getData());
+//        entity.setName(dto.getName());
+//        entity.setType(dto.getType());
+//        entity.setData(dto.getData());
 
 
         return entity;

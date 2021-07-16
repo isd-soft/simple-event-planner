@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.internship.sep.web.deserializer.LocalDateTimeDeserializer;
 import com.internship.sep.web.serializer.LocalDateTimeSerializer;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
