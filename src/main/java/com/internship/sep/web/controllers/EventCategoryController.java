@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 public class EventCategoryController {
-    // TODO: 14/07/2021 Create a correct response for trying to add an existing category(if needed)
 
     private final EventCategoryServiceImpl eventCategoryService;
 
