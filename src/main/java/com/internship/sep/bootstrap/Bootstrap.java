@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,8 @@ public class Bootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadUsers();
-        loadEvents();
+        //loadUsers();
+       // loadEvents();
     }
 
     private void loadUsers() {
@@ -80,7 +81,7 @@ public class Bootstrap implements CommandLineRunner {
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser2.getEmail())));
     }
 
-    private void loadEvents() {
+    private void loadEvents() throws IOException {
 
         UserDTO testUser3 = new UserDTO();
         testUser3.setEmail("user3@email.com");
