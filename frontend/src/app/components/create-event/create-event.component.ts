@@ -1,11 +1,18 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {ElementRef, ViewChild} from '@angular/core';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { ElementRef, ViewChild } from '@angular/core';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { UsersService } from "../../services/users.service";
+import { EventCategoriesService } from "../../services/event-categories.service";
+import { EventsService } from "../../services/events.service";
+import { EventCategory } from "../../models/event-category.model";
+import { Router } from "@angular/router";
+import {HttpClient, HttpParams, HttpRequest} from "@angular/common/http";
+import {UserShortModel} from "../../models/user-short.model";
 
 @Component({
   selector: 'app-create-event',
@@ -23,30 +30,52 @@ export class CreateEventComponent implements OnInit {
     location: new FormControl('', [Validators.required]),
     category: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
-    imageSrc: new FormControl('https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg'),
-    startDate: new FormControl(new Date(), [
-      Validators.required
-    ]),
-    endDate: new FormControl(new Date(), [
-      Validators.required
-    ])
+    imageSrc: new FormControl(),
+    startDateTime: new FormControl(new Date(), [Validators.required]),
+    endDateTime: new FormControl(new Date(), [Validators.required])
   });
 
-  submit() {
-    console.log(this.event.value);
-    console.log(this.attendees);
+  selectedCustomImg: File | null = null;
+
+
+  async submit() {
+    let event: any = this.event.getRawValue();
+
+    let tmp = this.categories.find((category: any) =>
+      "" + category.id === event.category)
+
+    if (!tmp) {
+      return;
+    }
+    event.eventCategory = tmp;
+
+    event.attendees = this.attendees.map(email => {
+      return {
+        email: email,
+      };
+    });
+
+    event.attachments = [];
+    for (let i = 0; i < this.attachments.length; i++) {
+      const buffer: ArrayBuffer = await this.attachments[i].arrayBuffer();
+      event.attachments.push({content: new Uint8Array(buffer).toString()});
+    }
+
+    console.log(event);
+
+    this.eventsService.createEvent(event).toPromise()
+      .then(() => this.router.navigate(["/my-events"]))
+      .catch(error => console.log(error));
   }
 
-  // ==== Image ==== //
-
-  // Default image
   changeImage(s : string) {
-    this.event.patchValue({imageSrc: s})
+    this.event.patchValue({ imageSrc: s })
+    this.selectedCustomImg = null;
   }
 
-  // Custom image
   csvInputChange(fileInputEvent: any) {
-    console.log(fileInputEvent.target.files[0]);
+    this.event.patchValue({imageSrc: ''})
+    this.selectedCustomImg = fileInputEvent.target.files[0];
   }
 
   // ==== Selector for attendees ==== //
@@ -56,29 +85,38 @@ export class CreateEventComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   attendeeCtrl = new FormControl();
   filteredAttendees: Observable<string[]>;
-  attendees: string[] = ['stanislav@isd.md'];
-  allAttendees: string[] = ['marcel@mail.com', 'dinara@mail.com', 'andrei@mail.com', 'denis@mail.com', 'vlad@mail.com'];
+  attendees: string[] = [];
+  allAttendees: string[] = [];
+  categories: EventCategory[] = [];
 
   @ViewChild('attendeeInput')
   attendeeInput!: ElementRef<HTMLInputElement>;
 
-  constructor() {
+  constructor(private usersService: UsersService,
+              private eventCategoriesService: EventCategoriesService,
+              private eventsService: EventsService,
+              private router: Router) {
     this.filteredAttendees = this.attendeeCtrl.valueChanges.pipe(
-        startWith(null),
-        map((attendee: string | null) => attendee ? this._filter(attendee) : this.allAttendees.slice()));
+      startWith(null),
+      map((attendee: string | null) => attendee ? this._filter(attendee) : this.allAttendees.slice()));
+
+    eventCategoriesService.getAllCategories().toPromise()
+      .then(categories => this.categories = categories)
+      .then(x => console.log(x));
+
+    usersService.getAllUsers().toPromise()
+      .then((users: UserShortModel[]) => this.allAttendees = users.map(user => user.email))
+      .catch((err: any) => console.log(err))
   }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our attendee
-    if (value) {
+    if (this.validateEmail(value)) {
       this.attendees.push(value);
     }
 
-    // Clear the input value
     event.chipInput!.clear();
-
     this.attendeeCtrl.setValue(null);
   }
 
@@ -91,7 +129,10 @@ export class CreateEventComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.attendees.push(event.option.viewValue);
+    if (this.validateEmail(event.option.viewValue)) {
+      this.attendees.push(event.option.viewValue);
+    }
+
     this.attendeeInput.nativeElement.value = '';
     this.attendeeCtrl.setValue(null);
   }
@@ -100,6 +141,23 @@ export class CreateEventComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.allAttendees.filter(attendee => attendee.toLowerCase().includes(filterValue));
+  }
+
+
+  attachments: File[] = [];
+
+  addAttachment(attachmentEvent: any) {
+    this.attachments.push(attachmentEvent.target.files[0]);
+  }
+
+  removeAttachment(attachment: any) {
+    this.attachments = this.attachments.filter(x => attachment !== x);
+  }
+
+
+  validateEmail(email: string) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
 
 }

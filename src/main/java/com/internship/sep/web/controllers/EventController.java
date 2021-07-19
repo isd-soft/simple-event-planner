@@ -2,6 +2,7 @@ package com.internship.sep.web.controllers;
 
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.FileDB;
 import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
@@ -29,6 +30,7 @@ public class EventController {
 
     private final EventService eventService;
     private final UserRepository userRepository;
+    private final Mapper<FileDB, FileDTO> fileMapper;
     private final Mapper<Event, EventDTO> eventMapper;
     private final FileStorageService fileStorageService;
 
@@ -44,12 +46,7 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createEvent(@RequestParam("file") List<MultipartFile> files, @RequestBody EventDTO eventDTO, Principal principal) throws IOException {
-        eventDTO.setAttachments(files.stream().map(file -> {
-            var dto = new FileDTO();
-            dto.setMultipartFile(file);
-            return dto;
-        }).collect(Collectors.toList()));
+    public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO, Principal principal) throws IOException {
         eventService.createNewEvent(eventDTO, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body("Event created successfully");
     }

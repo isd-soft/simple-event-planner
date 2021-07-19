@@ -12,50 +12,18 @@ import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { EventInfoComponent } from './components/event-info/event-info.component';
 
 const routes: Routes = [
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: 'sign-up',
-    component: SignupComponent,
-  },
-  {
-    path: 'events',
-    component: EventComponent,
-  },
-  {
-    path: 'events/:id',
-    component: EventInfoComponent,
-  },
-  {
-    path: 'my-events',
-    component: MyeventComponent,
-  },
-  {
-    path: 'create-event',
-    component: CreateEventComponent,
-  },
-  {
-    path: 'calendar',
-    component: CalendarComponent,
-  },
-  {
-    path: '',
-    component: HomePageComponent,
-  },
-  {
-    path: 'new-events',
-    component: NewEventsComponent,
-  },
-  {
-    path: 'statistics',
-    component: AnalyticsComponent,
-  },
-  {
-    path: 'event-info',
-    component: EventInfoComponent,
-  },
+  { path: 'login', component: LoginComponent },
+  { path: 'sign-up', component: SignupComponent },
+  { path: 'events', component: EventComponent },
+  { path: 'events/:id', component: EventInfoComponent },
+  { path: 'my-events', component: MyeventComponent },
+  { path: 'create-event', component: CreateEventComponent },
+  { path: 'calendar', component: CalendarComponent },
+  { path: 'new-events', component: NewEventsComponent },
+  { path: 'statistics', component: AnalyticsComponent },
+  { path: 'event-info', component: EventInfoComponent },
+  { path: '', component: HomePageComponent },
+
 ];
 
 @NgModule({

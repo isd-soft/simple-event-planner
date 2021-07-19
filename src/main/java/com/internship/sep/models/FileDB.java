@@ -23,7 +23,7 @@ public class FileDB extends AbstractEntity {
 //    private String type;
 
     @Lob
-    private MultipartFile file;
+    private byte[] content;
 //
 //    public FileDB(MultipartFile file) {
 //
@@ -44,7 +44,7 @@ public class FileDB extends AbstractEntity {
     @Override
     public String toString() {
         return "FileDB{" +
-                "file=" + file +
+                "file=" + content +
                 '}';
     }
 }

@@ -1,28 +1,30 @@
 <form [formGroup]="event" class="example-container">
-  <div class="vertical-space"></div>
   <h1>Create Event</h1>
 
   <div class="example-form">
-    <mat-form-field appearance="fill" class="example-half-width">
-      <mat-label>Event Name</mat-label>
-      <input matInput required id="name" type="text" formControlName="name" />
-      <button mat-icon-button matSuffix>
-        <mat-icon>celebration</mat-icon>
-      </button>
-    </mat-form-field>
 
-    <mat-form-field appearance="fill" class="example-half-width">
-      <mat-label>Category</mat-label>
-      <mat-select formControlName="category">
-        <mat-option value="Party">Party</mat-option>
-        <mat-option value="Conference">Conference</mat-option>
-        <mat-option value="Training">Training</mat-option>
-      </mat-select>
-      <button mat-icon-button matSuffix>
-        <mat-icon>category</mat-icon>
-      </button>
-    </mat-form-field>
+    <div class="form_group--wrapper">
+      <mat-form-field appearance="fill" class="example-half-width">
+        <mat-label>Event Name</mat-label>
+        <input matInput required id="name" type="text" formControlName="name" />
+        <button mat-icon-button matSuffix>
+          <mat-icon>celebration</mat-icon>
+        </button>
+      </mat-form-field>
 
+      <mat-form-field appearance="fill" class="example-half-width">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+
+          <mat-option *ngFor="let category of categories" value="{{category.id}}">{{category.name}}</mat-option>
+
+        </mat-select>
+        <button mat-icon-button matSuffix>
+          <mat-icon>category</mat-icon>
+        </button>
+      </mat-form-field>
+
+    </div>
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label>Location</mat-label>
       <input
@@ -37,19 +39,24 @@
       </button>
     </mat-form-field>
 
-    <mat-form-field color="accent" appearance="fill" class="example-half-width">
-      <mat-label>Start Date</mat-label>
-      <input matInput [matDatepicker]="picker1" formControlName="startDate" />
-      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-      <mat-datepicker #picker1></mat-datepicker>
-    </mat-form-field>
+    <div class="form_group--wrapper">
+      <mat-form-field color="accent" appearance="fill" class="example-half-width">
+        <mat-label>Start Date Time</mat-label>
+        <input matInput [ngxMatDatetimePicker]="pickerStart" placeholder="Choose a date" formControlName="startDateTime">
+        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #pickerStart>
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
 
-    <mat-form-field color="accent" appearance="fill" class="example-half-width">
-      <mat-label>End Date</mat-label>
-      <input matInput [matDatepicker]="picker2" formControlName="endDate" />
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2 color="primary"></mat-datepicker>
-    </mat-form-field>
+      <mat-form-field color="accent" appearance="fill" class="example-half-width">
+        <mat-label>End Date Time</mat-label>
+        <input matInput [ngxMatDatetimePicker]="pickerEnd" placeholder="Choose a date" formControlName="endDateTime">
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #pickerEnd>
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+    </div>
+
 
     <mat-form-field appearance="fill" class="example-full-width">
       <mat-label>Description</mat-label>
@@ -63,55 +70,26 @@
   </div>
   <h3>Cover Image</h3>
   <div class="image-selector">
-    <mat-card class="example-card">
-      <img
-        mat-card-image
-        src="http://www.canal2.md/media/2018/03/party.jpg"
-        alt="Photo of a Shiba Inu"
-      />
+    <mat-card class="example-card" [class.selected]="'/assets/event1.jpg' === event.getRawValue().imageSrc">
+      <img mat-card-image src="/assets/event1.jpg"/>
       <mat-card-actions>
-        <button
-          mat-button
-          (click)="changeImage('http://www.canal2.md/media/2018/03/party.jpg')"
-        >
+        <button mat-button (click)="changeImage('/assets/event1.jpg')">
           Select
         </button>
       </mat-card-actions>
     </mat-card>
-    <mat-card class="example-card">
-      <img
-        mat-card-image
-        src="https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg"
-        alt="Photo of a Shiba Inu"
-      />
+    <mat-card class="example-card" [class.selected]="'/assets/event2.jpg' === event.getRawValue().imageSrc">
+      <img mat-card-image src="/assets/event2.jpg"/>
       <mat-card-actions>
-        <button
-          mat-button
-          (click)="
-            changeImage(
-              'https://grubstreetauthor.co.uk/wp-content/uploads/2020/02/london-business-meeting-in-progress.jpg'
-            )
-          "
-        >
+        <button mat-button (click)="changeImage('/assets/event2.jpg')">
           Select
         </button>
       </mat-card-actions>
     </mat-card>
-    <mat-card class="example-card">
-      <img
-        mat-card-image
-        src="https://smartplaces.eu/wordpress/wp-content/uploads/2017/11/FG_7275.jpg"
-        alt="Photo of a Shiba Inu"
-      />
+    <mat-card class="example-card" [class.selected]="'/assets/event3.jpg' === event.getRawValue().imageSrc">
+      <img mat-card-image src="/assets/event3.jpg"/>
       <mat-card-actions>
-        <button
-          mat-button
-          (click)="
-            changeImage(
-              'https://smartplaces.eu/wordpress/wp-content/uploads/2017/11/FG_7275.jpg'
-            )
-          "
-        >
+        <button mat-button (click)="changeImage('/assets/event3.jpg')">
           Select
         </button>
       </mat-card-actions>
@@ -125,9 +103,8 @@
     (change)="csvInputChange($event)"
     accept=".jpg"
   />
-  <button mat-button (click)="csvInput.click()">Upload Custom Image</button>
+  <button class="select-image-custom" mat-button (click)="csvInput.click()">Upload Custom Image</button>
 
-  <!-- Attendies selection -->
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attendees</mat-label>
     <mat-chip-list #chipList aria-label="attendee selection">
@@ -162,6 +139,29 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+
+  <!-- Attendies selection -->
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Attachments</mat-label>
+    <mat-chip-list #chipList aria-label="attachments selection">
+      <mat-chip
+        *ngFor="let attachment of attachments"
+        [removable]="true"
+        (removed)="removeAttachment(attachment)"
+      >
+        {{ attachment.name }}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <input
+        #attachmentInput
+        hidden="true"
+        type="file"
+        onclick="this.value=null"
+        (change)="addAttachment($event)"/>
+    </mat-chip-list>
+  </mat-form-field>
+  <button class="select-attachments" mat-button (click)="attachmentInput.click()">Upload attachment</button>
 
   <button mat-flat-button color="primary" (click)="submit()">
     Create Event

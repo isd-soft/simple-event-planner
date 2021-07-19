@@ -1,11 +1,18 @@
+import { EventCategory } from "./event-category.model";
+import { Attendee } from "./attendee.model";
+import { Attachment } from "./attachment.model";
+
 export interface EventModel {
   id: number;
   name: string;
   location: string;
-  category: string;
+  eventCategory: EventCategory;
   description: string;
-  startDateTime: string;
-  endDateTime: string;
-  attendees: string[];
-  isApproved: string;
+  startDateTime: Date;
+  endDateTime: Date;
+  attendees: Attendee[];
+  isApproved: boolean;
+
+  image: any;
+  attachments: Attachment[];
 }

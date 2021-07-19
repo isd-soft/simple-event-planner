@@ -22,15 +22,15 @@ public class FileStorageServiceImpl implements FileStorageService {
     private FileDBRepository fileDBRepository;
 
 
-    @Transactional
-    @Override
-    public FileDB store(MultipartFile file) throws IOException {
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        //FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
-        var fileDB = new FileDB();
-        fileDB.setFile(file);
-        return fileDBRepository.save(fileDB);
-    }
+//    @Transactional
+//    @Override
+//    public FileDB store(MultipartFile file) throws IOException {
+////        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+//        //FileDB FileDB = new FileDB(fileName, file.getContentType(), file.getBytes());
+//        var fileDB = new FileDB();
+//        fileDB.setContent(file);
+//        return fileDBRepository.save(fileDB);
+//    }
 
     @Transactional
     @Override

@@ -55,6 +55,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import {TokenInterceptor} from "./interceptors/token.interceptor";
 
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,6 +76,9 @@ import {TokenInterceptor} from "./interceptors/token.interceptor";
   ],
   entryComponents: [DialogComponent],
   imports: [
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

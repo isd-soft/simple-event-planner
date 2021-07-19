@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import {MatSort, Sort} from '@angular/material/sort';
 import { EventsService } from "../../services/events.service";
 import { EventModel } from "../../models/event.model";
 
@@ -24,12 +24,10 @@ export class MyeventComponent implements AfterViewInit {
     'isApproved',
     'button'
   ];
-  dataSource = new MatTableDataSource<EventModel>([]);
+  dataSource = new MatTableDataSource<EventModel>();
+  data: any = []
 
   constructor(private eventsService: EventsService) {
-    eventsService.getMyEvents().toPromise()
-      .then(eventModels => this.dataSource = new MatTableDataSource(eventModels))
-      .catch(e => console.log(e))
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -37,8 +35,15 @@ export class MyeventComponent implements AfterViewInit {
   searchKey: string;
 
   ngAfterViewInit() {
+    this.dataSource.data = this.data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.eventsService.getMyEvents().toPromise()
+      .then(eventModels => {
+        this.dataSource.data = eventModels;
+        this.data = eventModels;
+      })
+      .catch(e => console.log(e))
   }
   onSearchClear() {
     this.searchKey = ' ';
@@ -48,8 +53,7 @@ export class MyeventComponent implements AfterViewInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  convertDate(x: number[]) {
-    // @ts-ignore
-    return new Date(...x).toUTCString();
+  convert(x: any) {
+    return new Date(x).toLocaleString();
   }
 }

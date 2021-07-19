@@ -74,7 +74,7 @@ public class Event extends AbstractEntity {
         return Collections.unmodifiableList(attendees);
     }
 
-    public void addAttachments(FileDB attachment){
+    public void addAttachment(FileDB attachment){
         attachments.add(attachment);
         attachment.setEvent(this);
     }
