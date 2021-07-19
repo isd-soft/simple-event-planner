@@ -11,8 +11,8 @@ import { EventCategoriesService } from "../../services/event-categories.service"
 import { EventsService } from "../../services/events.service";
 import { EventCategory } from "../../models/event-category.model";
 import { Router } from "@angular/router";
-import {HttpClient, HttpParams, HttpRequest} from "@angular/common/http";
 import {UserShortModel} from "../../models/user-short.model";
+import {EventModel} from "../../models/event.model";
 
 @Component({
   selector: 'app-create-event',
@@ -21,9 +21,10 @@ import {UserShortModel} from "../../models/user-short.model";
 })
 
 export class CreateEventComponent implements OnInit {
+  readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
+  readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
 
-  ngOnInit(): void {
-  }
+  readonly ENCODER = new TextEncoder();
 
   event = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -37,57 +38,13 @@ export class CreateEventComponent implements OnInit {
 
   selectedCustomImg: File | null = null;
 
+  attachments: File[] = [];
+  categories: EventCategory[] = [];
 
-  async submit() {
-    let event: any = this.event.getRawValue();
-
-    let tmp = this.categories.find((category: any) =>
-      "" + category.id === event.category)
-
-    if (!tmp) {
-      return;
-    }
-    event.eventCategory = tmp;
-
-    event.attendees = this.attendees.map(email => {
-      return {
-        email: email,
-      };
-    });
-
-    event.attachments = [];
-    for (let i = 0; i < this.attachments.length; i++) {
-      const buffer: ArrayBuffer = await this.attachments[i].arrayBuffer();
-      event.attachments.push({content: new Uint8Array(buffer).toString()});
-    }
-
-    console.log(event);
-
-    this.eventsService.createEvent(event).toPromise()
-      .then(() => this.router.navigate(["/my-events"]))
-      .catch(error => console.log(error));
-  }
-
-  changeImage(s : string) {
-    this.event.patchValue({ imageSrc: s })
-    this.selectedCustomImg = null;
-  }
-
-  csvInputChange(fileInputEvent: any) {
-    this.event.patchValue({imageSrc: ''})
-    this.selectedCustomImg = fileInputEvent.target.files[0];
-  }
-
-  // ==== Selector for attendees ==== //
-
-  selectable = true;
-  removable = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
   attendeeCtrl = new FormControl();
   filteredAttendees: Observable<string[]>;
   attendees: string[] = [];
   allAttendees: string[] = [];
-  categories: EventCategory[] = [];
 
   @ViewChild('attendeeInput')
   attendeeInput!: ElementRef<HTMLInputElement>;
@@ -102,14 +59,26 @@ export class CreateEventComponent implements OnInit {
 
     eventCategoriesService.getAllCategories().toPromise()
       .then(categories => this.categories = categories)
-      .then(x => console.log(x));
+      .catch(err => console.log(err));
 
     usersService.getAllUsers().toPromise()
       .then((users: UserShortModel[]) => this.allAttendees = users.map(user => user.email))
       .catch((err: any) => console.log(err))
   }
 
-  add(event: MatChipInputEvent): void {
+  ngOnInit(): void {}
+
+  changeImage(s : string) {
+    this.event.patchValue({ imageSrc: s })
+    this.selectedCustomImg = null;
+  }
+
+  csvInputChange(fileInputEvent: any) {
+    this.event.patchValue({imageSrc: ''})
+    this.selectedCustomImg = fileInputEvent.target.files[0];
+  }
+
+  addAttendee(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
     if (this.validateEmail(value)) {
@@ -120,7 +89,7 @@ export class CreateEventComponent implements OnInit {
     this.attendeeCtrl.setValue(null);
   }
 
-  remove(attendee: string): void {
+  removeAttendee(attendee: string): void {
     const index = this.attendees.indexOf(attendee);
 
     if (index >= 0) {
@@ -128,7 +97,7 @@ export class CreateEventComponent implements OnInit {
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
+  selectAttendee(event: MatAutocompleteSelectedEvent): void {
     if (this.validateEmail(event.option.viewValue)) {
       this.attendees.push(event.option.viewValue);
     }
@@ -143,9 +112,6 @@ export class CreateEventComponent implements OnInit {
     return this.allAttendees.filter(attendee => attendee.toLowerCase().includes(filterValue));
   }
 
-
-  attachments: File[] = [];
-
   addAttachment(attachmentEvent: any) {
     this.attachments.push(attachmentEvent.target.files[0]);
   }
@@ -154,10 +120,51 @@ export class CreateEventComponent implements OnInit {
     this.attachments = this.attachments.filter(x => attachment !== x);
   }
 
-
   validateEmail(email: string) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  async submit() {
+    const event: any = this.event.getRawValue();
+
+    try {
+      event.eventCategory = this.categories[event.category];
+      event.attendees = this.attendees.map(email => ({ email: email }));
+      event.attachments = [];
+
+      for (let attachment of this.attachments) {
+        const buffer: ArrayBuffer = await attachment.arrayBuffer();
+        event.attachments.push({
+          content: new TextDecoder("utf-8").decode(new Uint8Array(buffer)),
+          name: attachment.name,
+          type: attachment.type,
+        });
+      }
+
+      if (event.imageSrc) {
+        this.selectedCustomImg = await fetch(event.imageSrc)
+          .then(res => res.blob())
+          .then(blob => new File([blob], this.COVER_PHOTO_NAME));
+      }
+      if (this.selectedCustomImg) {
+        const buffer: ArrayBuffer = await this.selectedCustomImg.arrayBuffer();
+        event.attachments.push({
+          content: new Uint8Array(buffer).toString(),
+          // content: new Uint8Array(),
+          name: this.COVER_PHOTO_NAME,
+          type: this.selectedCustomImg.type
+        });
+
+      }
+
+      this.eventsService.createEvent(event).toPromise()
+        .then(() => this.router.navigate(["/my-events"]))
+        .catch(error => console.log(error));
+    }
+    catch (error) {
+      console.log(error);
+    }
   }
 
 }

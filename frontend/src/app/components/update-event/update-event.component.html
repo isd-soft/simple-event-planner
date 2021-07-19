@@ -1,5 +1,5 @@
 <form [formGroup]="event" class="example-container">
-  <h1>Create Event</h1>
+  <h1>Update Event</h1>
 
   <div class="example-form">
 
@@ -16,7 +16,7 @@
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
 
-          <mat-option *ngFor="let category of categories; let i = index" value="{{ i }}">{{category.name}}</mat-option>
+          <mat-option *ngFor="let category of categories; let i = index" [value]="i">{{category.name}}</mat-option>
 
         </mat-select>
         <button mat-icon-button matSuffix>
@@ -69,41 +69,45 @@
     </mat-form-field>
   </div>
   <h3>Cover Image</h3>
-  <div class="image-selector">
-    <mat-card class="example-card" [class.selected]="'/assets/event1.jpg' === event.getRawValue().imageSrc">
-      <img mat-card-image src="/assets/event1.jpg"/>
-      <mat-card-actions>
-        <button mat-button (click)="changeImage('/assets/event1.jpg')">
-          Select
-        </button>
-      </mat-card-actions>
-    </mat-card>
-    <mat-card class="example-card" [class.selected]="'/assets/event2.jpg' === event.getRawValue().imageSrc">
-      <img mat-card-image src="/assets/event2.jpg"/>
-      <mat-card-actions>
-        <button mat-button (click)="changeImage('/assets/event2.jpg')">
-          Select
-        </button>
-      </mat-card-actions>
-    </mat-card>
-    <mat-card class="example-card" [class.selected]="'/assets/event3.jpg' === event.getRawValue().imageSrc">
-      <img mat-card-image src="/assets/event3.jpg"/>
-      <mat-card-actions>
-        <button mat-button (click)="changeImage('/assets/event3.jpg')">
-          Select
-        </button>
-      </mat-card-actions>
-    </mat-card>
+<!--  <div class="image-selector">-->
+<!--    <mat-card class="example-card" [class.selected]="'/assets/event1.jpg' === event.getRawValue().imageSrc">-->
+<!--      <img mat-card-image src="/assets/event1.jpg"/>-->
+<!--      <mat-card-actions>-->
+<!--        <button mat-button (click)="changeImage('/assets/event1.jpg')">-->
+<!--          Select-->
+<!--        </button>-->
+<!--      </mat-card-actions>-->
+<!--    </mat-card>-->
+<!--    <mat-card class="example-card" [class.selected]="'/assets/event2.jpg' === event.getRawValue().imageSrc">-->
+<!--      <img mat-card-image src="/assets/event2.jpg"/>-->
+<!--      <mat-card-actions>-->
+<!--        <button mat-button (click)="changeImage('/assets/event2.jpg')">-->
+<!--          Select-->
+<!--        </button>-->
+<!--      </mat-card-actions>-->
+<!--    </mat-card>-->
+<!--    <mat-card class="example-card" [class.selected]="'/assets/event3.jpg' === event.getRawValue().imageSrc">-->
+<!--      <img mat-card-image src="/assets/event3.jpg"/>-->
+<!--      <mat-card-actions>-->
+<!--        <button mat-button (click)="changeImage('/assets/event3.jpg')">-->
+<!--          Select-->
+<!--        </button>-->
+<!--      </mat-card-actions>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+
+  <div class="event-cover-image__wrapper">
+    <img id="event-cover-image" src="">
   </div>
-  <input
-    #csvInput
-    hidden="true"
-    type="file"
-    onclick="this.value=null"
-    (change)="csvInputChange($event)"
-    accept=".jpg"
-  />
-  <button class="select-image-custom" mat-button (click)="csvInput.click()">Upload Custom Image</button>
+<!--  <input-->
+<!--    #csvInput-->
+<!--    hidden="true"-->
+<!--    type="file"-->
+<!--    onclick="this.value=null"-->
+<!--    (change)="csvInputChange($event)"-->
+<!--    accept=".jpg"-->
+<!--  />-->
+<!--  <button class="select-image-custom" mat-button (click)="csvInput.click()">Upload Custom Image</button>-->
 
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attendees</mat-label>
@@ -141,7 +145,6 @@
   </mat-form-field>
 
 
-  <!-- Attendies selection -->
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attachments</mat-label>
     <mat-chip-list #chipList aria-label="attachments selection">
@@ -149,6 +152,8 @@
         *ngFor="let attachment of attachments"
         [removable]="true"
         (removed)="removeAttachment(attachment)"
+        class="event-attachment"
+        (click)="downloadAttachment(attachment)"
       >
         {{ attachment.name }}
         <mat-icon matChipRemove>cancel</mat-icon>

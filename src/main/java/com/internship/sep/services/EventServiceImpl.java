@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -257,8 +258,8 @@ class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new ResourceNotFoundException("File with id: " + id + " does not exists"));
 
         FileDTO fileDTO = fileMapper.map(file);
-        fileDTO.setContent(Base64.getEncoder().encodeToString(file.getContent()));
-
+//        fileDTO.setContent(Base64.getEncoder().encodeToString(file.getContent()));
+        fileDTO.setContent(new String(file.getContent(), StandardCharsets.UTF_8));
         return fileDTO;
 
     }

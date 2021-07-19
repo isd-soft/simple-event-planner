@@ -18,3 +18,5 @@ export const USERS_URL: string = BASE_URL + USERS;
 export const CATEGORIES: string = "/categories";
 export const CATEGORIES_URL: string = BASE_URL + CATEGORIES;
 
+export const FILES: string = "/events/files";
+export const FILES_URL: string = BASE_URL + FILES;

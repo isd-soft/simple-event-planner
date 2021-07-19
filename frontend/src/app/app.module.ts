@@ -57,6 +57,7 @@ import {TokenInterceptor} from "./interceptors/token.interceptor";
 //import { EventOverviewComponent } from './components/event-overview/event-overview.component';
 
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { UpdateEventComponent } from './components/update-event/update-event.component';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     AnalyticsComponent,
     EventInfoComponent,
     DialogComponent,
-    //EventOverviewComponent,
+    UpdateEventComponent,
+    // EventOverviewComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [
