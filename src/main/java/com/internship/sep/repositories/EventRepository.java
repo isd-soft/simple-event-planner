@@ -1,5 +1,6 @@
 package com.internship.sep.repositories;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.FileDB;
 import com.internship.sep.models.User;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.UserDTO;
@@ -22,6 +23,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("select e from Event e WHERE e.host = ?1")
     List<Event> findEventsByHost(User host);
+
+//    @Query("select FileDB.content from FileDB where FileDB.id = ?1")
+//    List<FileDB> getAllFiles(Long event_id);
 
 
 }

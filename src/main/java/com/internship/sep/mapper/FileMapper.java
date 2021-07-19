@@ -12,7 +12,9 @@ public class FileMapper implements Mapper<FileDB, FileDTO> {
     public FileDTO map(FileDB entity) {
         FileDTO dto = new FileDTO();
         dto.setId(entity.getId());
-//        dto.setContent(enti);
+        dto.setName(entity.getName());
+        dto.setType(entity.getType());
+
         return dto;
     }
 
@@ -21,7 +23,8 @@ public class FileMapper implements Mapper<FileDB, FileDTO> {
         FileDB file = new FileDB();
         file.setContent(dto.getContent().getBytes(StandardCharsets.UTF_8));
         file.setId(dto.getId());
-
+        file.setName(dto.getName());
+        file.setType(dto.getType());
         return file;
     }
 }

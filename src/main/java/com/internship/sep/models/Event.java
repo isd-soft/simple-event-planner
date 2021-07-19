@@ -81,5 +81,6 @@ public class Event extends AbstractEntity {
     public List<FileDB> getAttachments(){
         return  Collections.unmodifiableList(attachments);
     }
+
 }
 

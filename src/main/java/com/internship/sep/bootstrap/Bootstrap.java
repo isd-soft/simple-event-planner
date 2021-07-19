@@ -25,9 +25,6 @@ import java.util.Locale;
 public class Bootstrap implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-    private final EventService eventService;
-    private final AttendeeRepository attendeeRepository;
-    private final EventRepository eventRepository;
     private final EventCategoryService eventCategoryService;
 
     private final UserDetailsService userDetailsService;

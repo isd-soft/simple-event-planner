@@ -30,9 +30,9 @@ public class EventController {
 
     private final EventService eventService;
     private final UserRepository userRepository;
-    private final Mapper<FileDB, FileDTO> fileMapper;
-    private final Mapper<Event, EventDTO> eventMapper;
-    private final FileStorageService fileStorageService;
+
+
+
 
     @CrossOrigin
     @GetMapping
@@ -86,6 +86,16 @@ public class EventController {
         String hostEmail = principal.getName();
         User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
         return ResponseEntity.ok(eventService.getMyEvents(host));
+    }
+    @GetMapping(path = "files/{id}")
+    public ResponseEntity<?> getFiles(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(eventService.getAttachments(id));
+    }
+
+    @DeleteMapping(path = "/files/{id}")
+    public ResponseEntity<?> deleteFileById(@PathVariable("id") Long id) {
+       eventService.deleteFileById(id);
+        return new ResponseEntity<>("File deleted successfully", HttpStatus.OK);
     }
 }
 

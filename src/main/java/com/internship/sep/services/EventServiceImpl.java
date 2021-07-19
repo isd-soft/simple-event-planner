@@ -1,27 +1,22 @@
 package com.internship.sep.services;
-
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
 import com.internship.sep.repositories.*;
-import com.internship.sep.repositories.AttendeeRepository;
-import com.internship.sep.repositories.EventCategoryRepository;
-import com.internship.sep.repositories.EventRepository;
-import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
+import com.internship.sep.web.FileDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.web.multipart.MultipartFile;
+
 
 @Slf4j
 @Service
@@ -37,7 +32,7 @@ class EventServiceImpl implements EventService {
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final EventCategoryRepository eventCategoryRepository;
     private final FileDBRepository fileDBRepository;
-    private final FileStorageService fileStorageService;
+    private final Mapper<FileDB, FileDTO> fileMapper;
 
 
     @Transactional
@@ -48,7 +43,6 @@ class EventServiceImpl implements EventService {
                 .stream()
                 .map(eventMapper::map)
                 .collect(Collectors.toList());
-
     }
 
     @Transactional
@@ -235,4 +229,22 @@ class EventServiceImpl implements EventService {
                 .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public List<FileDTO> getAttachments(Long id) {
+        return fileDBRepository.findById(id).stream().map(fileMapper::map).collect(Collectors.toList());
+
+    }
+
+    @Override
+    @Transactional
+    public void deleteFileById(Long id) {
+        FileDB file = fileDBRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("File with id: " + id + " does not exists"));
+
+        fileDBRepository.delete(file);
+    }
+
+
+
 }

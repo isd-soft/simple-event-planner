@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -75,9 +76,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         if (dto == null) {
             return null;
         }
-
-        UserDTO host = dto.getHost();
-        EventCategoryDTO eventCategoryDTO = dto.getEventCategory();
 
         final Event event = new Event();
 
