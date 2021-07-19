@@ -1,12 +1,9 @@
 package com.internship.sep.models;
 
 import lombok.*;
-import javax.persistence.*;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,12 +28,11 @@ public class Event extends AbstractEntity {
     private String location;
 
     @NotNull(message = "event start time must be present")
-    @FutureOrPresent(message = "event start time must be a future or a present date")
     @Column(name = "start_date_time", nullable = false)
     private LocalDateTime startDateTime;
 
     @NotNull(message = "event end time must be present")
-    @Future(message = "event end time must be a future date")
+    @Future(message = "event end time must be in the past")
     @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
@@ -78,8 +74,14 @@ public class Event extends AbstractEntity {
         attachments.add(attachment);
         attachment.setEvent(this);
     }
+
     public List<FileDB> getAttachments(){
         return  Collections.unmodifiableList(attachments);
+    }
+
+    @AssertTrue(message = "event end date time must be after start time")
+    private boolean isValidEndDateTime() {
+        return endDateTime.isAfter(startDateTime);
     }
 }
 
