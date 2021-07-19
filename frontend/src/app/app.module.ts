@@ -54,6 +54,7 @@ import { EventInfoComponent } from './components/event-info/event-info.component
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import {TokenInterceptor} from "./interceptors/token.interceptor";
+import { EventOverviewComponent } from './components/event-overview/event-overview.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import {TokenInterceptor} from "./interceptors/token.interceptor";
     AnalyticsComponent,
     EventInfoComponent,
     DialogComponent,
+    EventOverviewComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [

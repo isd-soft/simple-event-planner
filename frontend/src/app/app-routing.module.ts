@@ -10,6 +10,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { NewEventsComponent } from './components/new-events/new-events.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { EventInfoComponent } from './components/event-info/event-info.component';
+import { EventOverviewComponent } from './components/event-overview/event-overview.component';
 
 const routes: Routes = [
   {
@@ -53,7 +54,12 @@ const routes: Routes = [
     component: AnalyticsComponent,
   },
   {
-    path: 'event-info',
+    path: 'event-overview/:id',
+    component: EventOverviewComponent,
+    
+  },
+  {
+    path: 'event-demo/:id',
     component: EventInfoComponent,
   },
 ];

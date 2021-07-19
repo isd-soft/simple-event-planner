@@ -1,8 +1,8 @@
-import { UserModel } from "src/app/models/user.model";
-import { Attendee } from "./Attendee";
-import { EventCategory } from "./EventCategory";
+import {UserModel} from "src/app/models/user.model";
+import {Attendee} from "./Attendee";
+import {EventCategory} from "./EventCategory";
 
-export interface Event{
+export interface Event {
   id?: number;
   name: string;
   location: string;
@@ -11,6 +11,6 @@ export interface Event{
   description: string;
   isApproved: boolean;
   host: UserModel;
-  attendees: Attendee;
+  attendees: Attendee[];
   eventCategory: EventCategory;
 }
