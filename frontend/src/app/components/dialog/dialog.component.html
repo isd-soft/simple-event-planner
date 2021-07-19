@@ -7,7 +7,12 @@
   <h1>Attendees</h1>
   <ul>
     <div class="list">
-      <li *ngFor="let item of data.array; let i = index">{{ item }}</li>
+      <div *ngFor="let item of data.array; let i = index" class="attendee">
+        {{ item.email }}
+        <mat-icon *ngIf="item.status=='PENDING'">help_outline</mat-icon>
+        <mat-icon color="primary" *ngIf="item.status=='ACCEPTED'">check_circle_outline</mat-icon>
+        <mat-icon color="warn" *ngIf="item.status=='DECLINED'">cancel</mat-icon>
+      </div>
     </div>
   </ul>
 </div>

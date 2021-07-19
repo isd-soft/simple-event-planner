@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { EventService } from 'src/app/services/event.service';
-import { Event } from '../../models/Event';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {EventService} from 'src/app/services/event.service';
+import {Event} from '../../models/event';
+import {Router} from '@angular/router';
 
 /**
  * @title Table with pagination
@@ -12,13 +13,15 @@ import { Event } from '../../models/Event';
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css'],
+
 })
 export class EventComponent implements AfterViewInit {
-  event: Event[] = [] ;
+  event: Event[] = [];
 
 
- constructor(private eventService: EventService){
- }
+  constructor(private eventService: EventService, private router: Router) {
+
+  }
 
   displayedColumns: string[] = [
     'name',
@@ -36,21 +39,28 @@ export class EventComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
   searchKey: string;
 
-   ngAfterViewInit() {
+  ngAfterViewInit() {
     this.eventService.getEvents().subscribe((event) => {
       this.dataSource.data = event;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
+
   onSearchClear() {
     this.searchKey = ' ';
     this.applyFilter();
   }
+
   applyFilter() {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
+
+  redirectToEventOverview(event: Event): void {
+    this.router.navigate(['/event-demo/', event.id]);
+  }
 }
+
 
 export interface Element {
   name: string;
