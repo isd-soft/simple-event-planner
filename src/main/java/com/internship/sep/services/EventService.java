@@ -1,13 +1,12 @@
 package com.internship.sep.services;
-import com.internship.sep.models.FileDB;
+
 import com.internship.sep.models.User;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.FileDTO;
-import com.internship.sep.web.UserDTO;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.IOException;
-import java.security.Principal;
+
 import java.util.List;
 public interface EventService {
 
@@ -32,7 +31,7 @@ public interface EventService {
     List<EventDTO> getApprovedEvents();
 
     List<EventDTO> getMyEvents(User host);
-    List<FileDTO> getAttachments(Long id);
+    FileDTO getAttachments(Long id);
     void deleteFileById(Long id);
 }
 

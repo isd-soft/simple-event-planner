@@ -54,7 +54,7 @@ import { EventInfoComponent } from './components/event-info/event-info.component
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import {TokenInterceptor} from "./interceptors/token.interceptor";
-import { EventOverviewComponent } from './components/event-overview/event-overview.component';
+//import { EventOverviewComponent } from './components/event-overview/event-overview.component';
 
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 
@@ -74,7 +74,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     AnalyticsComponent,
     EventInfoComponent,
     DialogComponent,
-    EventOverviewComponent,
+    //EventOverviewComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [

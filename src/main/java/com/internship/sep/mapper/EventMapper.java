@@ -1,13 +1,9 @@
 package com.internship.sep.mapper;
-
 import com.internship.sep.models.*;
-import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.web.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -17,8 +13,8 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final Mapper<FileDB, FileDTO> fileMapper;
-    private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
-    //    private final Mapper<User, UserDTO> userMapper;
+
+
 
     @Override
     public EventDTO map(Event entity) {
@@ -98,9 +94,6 @@ public class EventMapper implements Mapper<Event, EventDTO> {
                 .map(fileMapper::unmap)
                 .forEach(event::addAttachment);
 
-//        if (dto.getEventCategory() != null) {
-//            event.setEventCategory(eventCategoryMapper.unmap(dto.getEventCategory()));
-//        }
 
         return event;
     }

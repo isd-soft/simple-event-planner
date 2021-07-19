@@ -1,6 +1,4 @@
 package com.internship.sep.services;
-
-import com.internship.sep.models.EventCategory;
 import com.internship.sep.web.EventCategoryDTO;
 
 import java.util.List;

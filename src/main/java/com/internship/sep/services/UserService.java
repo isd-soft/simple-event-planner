@@ -1,6 +1,5 @@
 package com.internship.sep.services;
 
-import com.internship.sep.models.User;
 import com.internship.sep.web.UserDTO;
 import com.internship.sep.web.UserShortDTO;
 import org.apache.http.auth.InvalidCredentialsException;

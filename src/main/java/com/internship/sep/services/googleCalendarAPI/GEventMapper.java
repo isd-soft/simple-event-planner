@@ -1,16 +1,12 @@
 package com.internship.sep.services.googleCalendarAPI;
-
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Attendee;
-import com.internship.sep.models.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

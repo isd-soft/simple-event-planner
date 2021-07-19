@@ -1,7 +1,5 @@
 package com.internship.sep.mapper;
-import com.internship.sep.models.Attendee;
 import com.internship.sep.models.FileDB;
-import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.FileDTO;
 import lombok.Synchronized;
 import org.springframework.lang.Nullable;
@@ -18,10 +16,8 @@ public class AttachmentMapper implements Mapper<FileDB, FileDTO>{
 
         FileDTO dto = new FileDTO();
 
-        dto.setId(entity.getId());
-//        dto.setName(entity.getName());
-//        dto.setType(entity.getType());
-//        dto.setData(entity.getData());
+          dto.setId(entity.getId());
+
 
         return dto;
     }
@@ -37,11 +33,6 @@ public class AttachmentMapper implements Mapper<FileDB, FileDTO>{
 
         FileDB entity = new FileDB();
         entity.setId(dto.getId());
-//        entity.setName(dto.getName());
-//        entity.setType(dto.getType());
-//        entity.setData(dto.getData());
-
-
         return entity;
     }
 }

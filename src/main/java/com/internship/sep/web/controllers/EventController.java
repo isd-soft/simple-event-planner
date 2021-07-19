@@ -1,12 +1,8 @@
 package com.internship.sep.web.controllers;
-
-import com.internship.sep.mapper.Mapper;
-import com.internship.sep.models.Event;
 import com.internship.sep.models.FileDB;
 import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
-import com.internship.sep.services.FileStorageService;
 import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.FileDTO;
@@ -14,12 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -30,9 +24,6 @@ public class EventController {
 
     private final EventService eventService;
     private final UserRepository userRepository;
-
-
-
 
     @CrossOrigin
     @GetMapping
@@ -88,7 +79,7 @@ public class EventController {
         return ResponseEntity.ok(eventService.getMyEvents(host));
     }
     @GetMapping(path = "files/{id}")
-    public ResponseEntity<?> getFiles(@PathVariable("id") Long id) {
+    public ResponseEntity<FileDTO> getFiles(@PathVariable("id") Long id) {
         return ResponseEntity.ok(eventService.getAttachments(id));
     }
 

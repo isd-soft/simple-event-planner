@@ -2,7 +2,7 @@ package com.internship.sep.web;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.internship.sep.models.Role;
-import com.internship.sep.models.User;
+
 import lombok.Data;
 
 import java.util.ArrayList;

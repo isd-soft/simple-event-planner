@@ -24,8 +24,4 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("select e from Event e WHERE e.host = ?1")
     List<Event> findEventsByHost(User host);
 
-//    @Query("select FileDB.content from FileDB where FileDB.id = ?1")
-//    List<FileDB> getAllFiles(Long event_id);
-
-
 }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -250,8 +251,15 @@ class EventServiceImpl implements EventService {
     }
 
     @Transactional
-    public List<FileDTO> getAttachments(Long id) {
-        return fileDBRepository.findById(id).stream().map(fileMapper::map).collect(Collectors.toList());
+    public FileDTO getAttachments(Long id) {
+
+        FileDB file = fileDBRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("File with id: " + id + " does not exists"));
+
+        FileDTO fileDTO = fileMapper.map(file);
+        fileDTO.setContent(Base64.getEncoder().encodeToString(file.getContent()));
+
+        return fileDTO;
 
     }
 
@@ -263,7 +271,5 @@ class EventServiceImpl implements EventService {
 
         fileDBRepository.delete(file);
     }
-
-
 
 }

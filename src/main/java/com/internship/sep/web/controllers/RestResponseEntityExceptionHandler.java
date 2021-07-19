@@ -22,7 +22,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleNotFoundException(Exception exception, WebRequest request) {
 
         return ResponseEntity.badRequest().body("Resource Not Found");
-        //return new ResponseEntity<>("Resource Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND);
+
     }
 
     @ExceptionHandler({ConstraintViolationException.class})
@@ -43,9 +43,4 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity<>("Invalid Credentials", HttpStatus.BAD_REQUEST);
     }
 
-//
-//    @ExceptionHandler({DataIntegrityViolationException.class})
-//    public ResponseEntity<?> handleDataIntegrityViolationException() {
-//        return ResponseEntity.badRequest().body("Email already registered");
-//    }
 }
