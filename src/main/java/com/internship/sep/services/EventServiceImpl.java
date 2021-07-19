@@ -31,6 +31,7 @@ class EventServiceImpl implements EventService {
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final EventCategoryRepository eventCategoryRepository;
+    private final EmailService emailService;
     private final FileDBRepository fileDBRepository;
     private final Mapper<FileDB, FileDTO> fileMapper;
 
@@ -148,10 +149,13 @@ class EventServiceImpl implements EventService {
                 gEventService.updateEvent(oldEvent);
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
+                log.warn("Couldn't update event in Google...");
             } catch (IOException e) {
                 e.printStackTrace();
+                log.warn("Couldn't update event in Google...");
             } catch (RuntimeException e) {
                 e.printStackTrace();
+                log.warn("Couldn't update event in Google...");
             }
         }
 
@@ -168,15 +172,22 @@ class EventServiceImpl implements EventService {
         event.setIsApproved(true);
         eventRepository.save(event);
 
-        log.info("Try to save to google...");
         try {
             gEventService.createEvent(event);
         } catch (GeneralSecurityException | IOException e) {
             e.printStackTrace();
+            log.warn("Couldn't save event to Google...");
         } catch (RuntimeException e) {
             e.printStackTrace();
+            log.warn("Couldn't save event to Google...");
         }
 
+        try {
+            emailService.sendEmail("Event " + event.getName() + " was approved!", event.getHost().getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("Couldn't send the email...");
+        }
     }
 
     @Transactional
@@ -195,15 +206,23 @@ class EventServiceImpl implements EventService {
                 gEventService.deleteEvent(event.getGoogleEventId());
             } catch (GeneralSecurityException e) {
                 e.printStackTrace();
+                log.warn("Couldn't delete event in Google...");
             } catch (IOException e) {
                 e.printStackTrace();
+                log.warn("Couldn't delete event in Google...");
             }
         }
 
         event.getAttendees().forEach(attendeeRepository::delete);
 
         eventRepository.deleteById(id);
-        log.warn("Event deleted from DB");
+
+        try {
+            emailService.sendEmail("Event " + event.getName() + " was deleted!", event.getHost().getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.warn("Couldn't send the email...");
+        }
     }
 
     @Transactional
