@@ -3,6 +3,7 @@ package com.internship.sep.web.controllers;
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +29,22 @@ public class UserController {
         );
     }
 
-    @PutMapping
-    public void updateUser(@RequestBody UserDTO updatedUser, Principal principal) {
-        userService.updateUser(updatedUser);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(
+                userService.getUserById(id)
+        );
     }
 
-    @DeleteMapping(path = "/{email}")
-     public ResponseEntity<Void> deleteUserByEmail(@PathVariable("email") String email) {
-        userService.deleteUserByEmail(email);
-        return ResponseEntity.noContent().build();
+    @PutMapping
+    public ResponseEntity<String> updateUser(@RequestBody UserDTO updatedUser, Principal principal) {
+        userService.updateUser(updatedUser);
+        return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>("User deleted successfully", HttpStatus.OK);
     }
 }

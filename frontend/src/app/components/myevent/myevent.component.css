@@ -59,6 +59,11 @@ th.mat-sort-header-sorted {
   width: 36%;
 }
 
+.mat-cell {
+  box-sizing: border-box;
+  padding: 10px;
+}
+
 @media (max-width: 1025px) {
 
   .mat-column-name,

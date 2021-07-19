@@ -1,27 +1,27 @@
 package com.internship.sep.services;
+
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
 import com.internship.sep.repositories.*;
-
+import com.internship.sep.repositories.AttendeeRepository;
+import com.internship.sep.repositories.EventCategoryRepository;
+import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
 import com.internship.sep.web.AttendeeDTO;
 import com.internship.sep.web.EventCategoryDTO;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -36,6 +36,8 @@ class EventServiceImpl implements EventService {
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final EventCategoryRepository eventCategoryRepository;
+    private final FileDBRepository fileDBRepository;
+    private final FileStorageService fileStorageService;
 
 
     @Transactional
@@ -79,16 +81,19 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) {
+    public EventDTO createNewEvent(EventDTO eventDTO, String hostEmail) throws IOException {
         Event event = eventMapper.unmap(eventDTO);
         User host = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
-        EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
+        try {
+            EventCategory eventCategory = eventCategoryRepository.getById(eventDTO.getEventCategory().getId());
+            event.setEventCategory(eventCategory);
+        } catch (NullPointerException ex) {
+            log.error("Null pointer exception, EventCategory object is null");
+        }
         event.setIsApproved(false);
         event.setHost(host);
-        event.setEventCategory(eventCategory);
-        Event savedEvent = eventRepository.save(event);
 
-//
+        Event savedEvent = eventRepository.save(event);
 
         EventDTO returnDto = eventMapper.map(savedEvent);
 
@@ -116,9 +121,15 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public EventDTO updateEvent(Long id, EventDTO eventDTO) {
+    public EventDTO updateEvent(Long id, EventDTO eventDTO, String hostEmail) {
         Event oldEvent = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+
+        User principal = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
+
+        if(!(principal.getEmail().equals(oldEvent.getHost().getEmail())) && !(principal.getRole().equals(Role.ADMIN))) {
+            return eventMapper.map(oldEvent);
+        }
 
         oldEvent.setName(eventDTO.getName());
         oldEvent.setStartDateTime(eventDTO.getStartDateTime());
@@ -127,9 +138,7 @@ class EventServiceImpl implements EventService {
         oldEvent.setDescription(eventDTO.getDescription());
         oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
 
-        oldEvent.getAttendees().forEach(attendee -> {
-            attendeeRepository.delete(attendee);
-        });
+        oldEvent.getAttendees().forEach(attendeeRepository::delete);
 
         oldEvent.setAttendees(new ArrayList<Attendee>());
 
@@ -178,9 +187,14 @@ class EventServiceImpl implements EventService {
 
     @Transactional
     @Override
-    public void deleteEventById(Long id) {
+    public void deleteEventById(Long id, String hostEmail) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+        User principal = userRepository.findByEmail(hostEmail).orElseThrow(ResourceNotFoundException::new);
+
+        if(!(principal.getEmail().equals(event.getHost().getEmail())) && !(principal.getRole().equals(Role.ADMIN))) {
+            return;
+        }
 
         if(event.getIsApproved()) {
             try {
@@ -192,9 +206,7 @@ class EventServiceImpl implements EventService {
             }
         }
 
-        event.getAttendees().forEach(attendee -> {
-            attendeeRepository.delete(attendee);
-        });
+        event.getAttendees().forEach(attendeeRepository::delete);
 
         eventRepository.deleteById(id);
         log.warn("Event deleted from DB");
@@ -223,5 +235,4 @@ class EventServiceImpl implements EventService {
                 .map(eventMapper::map)
                 .collect(Collectors.toList());
     }
-
 }

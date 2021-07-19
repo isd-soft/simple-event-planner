@@ -1,9 +1,12 @@
 package com.internship.sep.models;
 
 import lombok.*;
-
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,23 +21,29 @@ import java.util.List;
 @Builder
 @Table(name = "events")
 public class Event extends AbstractEntity {
-    // TODO: 14/07/2021 add validation for events when it's finished
 
+    @NotBlank(message = "event title should be present")
     @Column(name = "name")
     private String name;
 
+    @NotBlank(message = "event location must be present")
     @Column(name = "location")
     private String location;
 
+    @NotNull(message = "event start time must be present")
+    @FutureOrPresent(message = "event start time must be a future or a present date")
     @Column(name = "start_date_time", nullable = false)
     private LocalDateTime startDateTime;
 
+    @NotNull(message = "event end time must be present")
+    @Future(message = "event end time must be a future date")
     @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
     @Column(name = "description")
     private String description;
 
+    @NotNull(message = "event category must be present")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_category_id")
     private EventCategory eventCategory;
@@ -52,6 +61,10 @@ public class Event extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )
     private List<Attendee> attendees = new ArrayList<>();
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event" )
+    private List<FileDB> attachments = new ArrayList<>();
+
+
     public void addAttendee(Attendee attendee) {
         attendees.add(attendee);
         attendee.setEvent(this);
@@ -59,6 +72,14 @@ public class Event extends AbstractEntity {
 
     public List<Attendee> getAttendees() {
         return Collections.unmodifiableList(attendees);
+    }
+
+    public void addAttachment(FileDB attachment){
+        attachments.add(attachment);
+        attachment.setEvent(this);
+    }
+    public List<FileDB> getAttachments(){
+        return  Collections.unmodifiableList(attachments);
     }
 }
 

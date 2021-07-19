@@ -26,17 +26,22 @@ export class AuthService {
     this.emit();
   }
 
-  private setToken(token: string): void {
+  private setToken(token: string | null): void {
+    console.log(token)
     this.token = token;
-    sessionStorage.setItem(this.TOKEN_KEY, token);
+    if (token !== null) {
+      sessionStorage.setItem(this.TOKEN_KEY, token);
+    }
     this.emit();
   }
 
   private emit() {
+    console.log("emitted")
     this.eventEmitter.emit(this.isAuthenticated());
   }
 
   subscribe(callback: Function) {
+    console.log("subscriebed");
     this.eventEmitter.subscribe(callback);
   }
 
@@ -49,24 +54,12 @@ export class AuthService {
   }
 
   login(loginModel : LoginModel) {
-    return new Promise<void>((resolve, reject) => {
-      this.httpClient.post<any>(SIGN_IN_URL, loginModel, {
-        observe: 'response'
-      })
-        .pipe(
-          map((x: any) => x.headers.get("Authorization")),
-
-          catchError(err => {
-            reject(err);
-            return of(null);
-          })
-
-        )
-        .subscribe((token: string) => {
-          this.setToken(token);
-          resolve();
-        });
-    })
+    return this.httpClient.post(SIGN_IN_URL, loginModel, {
+      observe: 'response',
+      responseType: 'blob'
+    }).toPromise()
+      .then((response: any) => response.headers.get("Authorization"))
+      .then((token: string) => this.setToken(token))
   }
 
   logout(): void {
@@ -74,9 +67,10 @@ export class AuthService {
   }
 
   register(user: UserModel): Promise<any> {
-      return new Promise<any>((resolve, reject) => {
-      this.httpClient.post<any>(SING_UP_URL, user, {
-        observe: 'response'
+    return new Promise<any>((resolve, reject) => {
+      this.httpClient.post(SING_UP_URL, user, {
+        observe: 'response',
+        responseType: 'blob'
       })
         .pipe(
           map((x: any) => x.statusText),

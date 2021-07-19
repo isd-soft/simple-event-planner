@@ -12,10 +12,6 @@ export class NavigationComponent implements OnInit {
 
   constructor(private authService: AuthService) {
     this.authenticated = authService.isAuthenticated();
-
-    authService.subscribe((x: boolean) => {
-      this.authenticated = x;
-    });
   }
 
   logout() {
@@ -23,6 +19,9 @@ export class NavigationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.subscribe((x: boolean) => {
+      this.authenticated = x;
+    });
   }
 
 }

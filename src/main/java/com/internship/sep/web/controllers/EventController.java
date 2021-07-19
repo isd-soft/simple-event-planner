@@ -1,22 +1,25 @@
 package com.internship.sep.web.controllers;
+
 import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
+import com.internship.sep.models.FileDB;
 import com.internship.sep.models.User;
 import com.internship.sep.repositories.UserRepository;
 import com.internship.sep.services.EventService;
+import com.internship.sep.services.FileStorageService;
 import com.internship.sep.services.ResourceNotFoundException;
-import com.internship.sep.services.UserService;
 import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.UserDTO;
+import com.internship.sep.web.FileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +30,9 @@ public class EventController {
 
     private final EventService eventService;
     private final UserRepository userRepository;
+    private final Mapper<FileDB, FileDTO> fileMapper;
     private final Mapper<Event, EventDTO> eventMapper;
+    private final FileStorageService fileStorageService;
 
     @CrossOrigin
     @GetMapping
@@ -41,31 +46,31 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createEvent(@RequestBody EventDTO eventDTO, Principal principal) {
+    public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO, Principal principal) throws IOException {
         eventService.createNewEvent(eventDTO, principal.getName());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("Event created successfully");
     }
 
     @PutMapping(path = "/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            @RequestBody EventDTO eventDTO) {
+    public ResponseEntity<String> updateEvent(@PathVariable("eventId") Long eventId,
+                                            @RequestBody EventDTO eventDTO, Principal principal) {
 
-        eventService.updateEvent(eventId, eventDTO);
-        return ResponseEntity.noContent().build();
+        eventService.updateEvent(eventId, eventDTO, principal.getName());
+        return new ResponseEntity<>("Event updated successfully", HttpStatus.OK);
     }
 
     @PutMapping(path = "/approve-event/{eventId}")
-    public ResponseEntity<Void> updateEvent(@PathVariable("eventId") Long eventId,
-                                            Principal principal) {
+    public ResponseEntity<String> approveEvent(@PathVariable("eventId") Long eventId) {
 
         eventService.approveEventById(eventId);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>("Event approved successfully", HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{eventId}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") Long eventId) {
-        eventService.deleteEventById(eventId);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteEvent(@PathVariable("eventId") Long eventId, Principal principal) {
+
+        eventService.deleteEventById(eventId, principal.getName());
+        return new ResponseEntity<>("Event deleted successfully", HttpStatus.OK);
     }
 
     @GetMapping(path = "/unapproved")

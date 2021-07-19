@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
         })
         .catch(err => {
           this.err = err.error;
+          console.log(err);
         })
     }
     else {

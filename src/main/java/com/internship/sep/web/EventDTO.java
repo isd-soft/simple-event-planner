@@ -1,9 +1,11 @@
 package com.internship.sep.web;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.internship.sep.web.deserializer.LocalDateTimeDeserializer;
 import com.internship.sep.web.serializer.LocalDateTimeSerializer;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,5 +27,7 @@ public class EventDTO {
     private EventCategoryDTO eventCategory;
     private Boolean isApproved;
     private UserDTO host;
+    //private byte[] coverImage;
     private List <AttendeeDTO> attendees = new ArrayList<>();
+    private List<FileDTO> attachments = new ArrayList<>();
 }

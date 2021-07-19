@@ -4,6 +4,8 @@ import com.internship.sep.services.EventCategoryServiceImpl;
 import com.internship.sep.web.EventCategoryDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequestMapping("/categories")
 public class EventCategoryController {
     // TODO: 14/07/2021 Create a correct response for trying to add an existing category(if needed)
+
     private final EventCategoryServiceImpl eventCategoryService;
 
     @GetMapping
@@ -22,24 +25,23 @@ public class EventCategoryController {
     }
 
     @PostMapping
-    public void addCategory(@RequestBody EventCategoryDTO dto) {
-        try {
+    public ResponseEntity<String> addCategory(@RequestBody EventCategoryDTO dto) {
             eventCategoryService.addCategory(dto);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-        }
+            return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{categoryId}")
-    public void updateCategory(@PathVariable("categoryId") Long categoryId,
+    public ResponseEntity<String> updateCategory(@PathVariable("categoryId") Long categoryId,
                                @RequestBody EventCategoryDTO dto) {
 
         dto.setId(categoryId);
         eventCategoryService.updateCategory(dto);
+        return new ResponseEntity<>("Category updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{categoryId}")
-    public void deleteCategory(@PathVariable("categoryId") Long categoryId) {
+    public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") Long categoryId) {
         eventCategoryService.deleteCategory(categoryId);
+        return new ResponseEntity<>("Category deleted successfully", HttpStatus.OK);
     }
 }

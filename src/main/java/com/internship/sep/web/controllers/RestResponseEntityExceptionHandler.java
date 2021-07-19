@@ -1,6 +1,7 @@
 package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.ResourceNotFoundException;
+import org.apache.http.auth.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,23 +25,24 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         //return new ResponseEntity<>("Resource Not Found", new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleConstraintViolation(ConstraintViolationException ex) {
-            Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
 
-            Set<String> messages = new HashSet<>(constraintViolations.size());
-            messages.addAll(constraintViolations.stream()
-                    .map(constraintViolation -> String.format("field: %s, value '%s', %s", constraintViolation.getPropertyPath(),
-                            constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
-                    .collect(Collectors.toList()));
+        Set<String> messages = new HashSet<>(constraintViolations.size());
+        messages.addAll(constraintViolations.stream()
+                .map(constraintViolation -> String.format("field: %s, value '%s', %s", constraintViolation.getPropertyPath(),
+                        constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
+                .collect(Collectors.toList()));
 
-            return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler({InvalidCredentialsException.class})
-//    public ResponseEntity<?> handleInvalidCredentials(InvalidCredentialsException ex) {
-//        return ResponseEntity.badRequest().body("Invalid credentials");
-//    }
+    @ExceptionHandler({InvalidCredentialsException.class})
+    public ResponseEntity<?> handleInvalidCredentials() {
+        return new ResponseEntity<>("Invalid Credentials", HttpStatus.BAD_REQUEST);
+    }
+
 //
 //    @ExceptionHandler({DataIntegrityViolationException.class})
 //    public ResponseEntity<?> handleDataIntegrityViolationException() {
