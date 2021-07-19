@@ -53,8 +53,8 @@
 
       <ng-container matColumnDef="button">
         <th mat-header-cell *matHeaderCellDef></th>
-        <mat-cell *matCellDef="let row">
-          <button mat-icon-button color="primary">
+        <mat-cell *matCellDef="let event">
+          <button (click)="redirectToEventOverview(event)" mat-icon-button color="primary">
             <mat-icon>more_horiz</mat-icon>
           </button>
         </mat-cell>

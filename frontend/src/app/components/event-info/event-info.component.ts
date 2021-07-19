@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogComponent} from '../dialog/dialog.component';
+import {EventService} from 'src/app/services/event.service';
+import {ActivatedRoute} from '@angular/router';
+import {Event} from 'src/app/models/event';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-event-info',
@@ -8,15 +12,31 @@ import { DialogComponent } from '../dialog/dialog.component';
   styleUrls: ['./event-info.component.css'],
 })
 export class EventInfoComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
+  attendeeEmails: string[] = [];
+  event: Event;
+
+  constructor(public dialog: MatDialog, private eventService: EventService, private route: ActivatedRoute, private router: Router) {
+  }
+
+  redirection() {
+    window.location.href = "/events"
+  }
 
   openDialog() {
-    let dialogRef = this.dialog.open(DialogComponent, {
-      data: { array: this.attendees },
+    this.dialog.open(DialogComponent, {
+      data: {array: this.event.attendees}
     });
   }
 
-  event = {
+  deleteEvent() {
+    let id = this.event.id;
+    if (id != null) {
+      this.eventService.deleteEventById(id);
+      this.redirection();
+    }
+  }
+
+  eventMock = {
     name: 'Party Hard',
     location: 'Moldova',
     category: 'Party',
@@ -27,15 +47,21 @@ export class EventInfoComponent implements OnInit {
     endDate: '2021-07-08T21:00:00.000Z',
   };
 
-  startDate = new Date(this.event.startDate);
-  endDate = new Date(this.event.endDate);
 
-  attendees = [
+  attendeesMock = [
     'stanislav@isd.md',
     'dinara@mail.com',
     'marcel@mail.com',
     'denis@mail.com',
   ];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let stringId = this.route.snapshot.paramMap.get('id');
+    if (stringId != null) {
+      let id: number = parseInt(stringId);
+      this.eventService.getEventById(id).subscribe((event) => {
+        this.event = event
+      });
+    }
+  }
 }
