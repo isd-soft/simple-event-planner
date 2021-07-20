@@ -10,6 +10,7 @@ import { HomePageComponent } from './components/home-page/home-page.component';
 import { NewEventsComponent } from './components/new-events/new-events.component';
 import { AnalyticsComponent } from './components/analytics/analytics.component';
 import { EventInfoComponent } from './components/event-info/event-info.component';
+import {UpdateEventComponent} from "./components/update-event/update-event.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'new-events', component: NewEventsComponent },
   { path: 'statistics', component: AnalyticsComponent },
   { path: 'event-info', component: EventInfoComponent },
+  { path: 'update-event/:id', component: UpdateEventComponent },
   { path: '', component: HomePageComponent },
 
 ];

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -280,8 +281,8 @@ class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new ResourceNotFoundException("File with id: " + id + " does not exists"));
 
         FileDTO fileDTO = fileMapper.map(file);
-        fileDTO.setContent(Base64.getEncoder().encodeToString(file.getContent()));
-
+//        fileDTO.setContent(Base64.getEncoder().encodeToString(file.getContent()));
+        fileDTO.setContent(new String(file.getContent(), StandardCharsets.UTF_8));
         return fileDTO;
 
     }

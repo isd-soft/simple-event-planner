@@ -42,10 +42,12 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.CREATED).body("Event created successfully");
     }
 
+    @CrossOrigin("*")
     @PutMapping(path = "/{eventId}")
     public ResponseEntity<String> updateEvent(@PathVariable("eventId") Long eventId,
                                             @RequestBody EventDTO eventDTO, Principal principal) {
 
+        System.out.println(eventDTO);
         eventService.updateEvent(eventId, eventDTO, principal.getName());
         return new ResponseEntity<>("Event updated successfully", HttpStatus.OK);
     }
