@@ -52,6 +52,7 @@ public class EventController {
         return new ResponseEntity<>("Event updated successfully", HttpStatus.OK);
     }
 
+    @CrossOrigin("*")
     @PutMapping(path = "/approve-event/{eventId}")
     public ResponseEntity<String> approveEvent(@PathVariable("eventId") Long eventId) {
 
@@ -59,6 +60,7 @@ public class EventController {
         return new ResponseEntity<>("Event approved successfully", HttpStatus.OK);
     }
 
+    @CrossOrigin("*")
     @DeleteMapping(path = "/{eventId}")
     public ResponseEntity<String> deleteEvent(@PathVariable("eventId") Long eventId, Principal principal) {
 

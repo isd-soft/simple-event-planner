@@ -9,9 +9,11 @@ import {AuthService} from "../../services/auth.service";
 export class NavigationComponent implements OnInit {
 
   authenticated: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {
     this.authenticated = authService.isAuthenticated();
+    this.isAdmin = authService.isAdmin();
   }
 
   logout() {

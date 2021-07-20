@@ -17,25 +17,21 @@
   </button>
   <div class="custom-elevation">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-      <!-- Position Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let event">{{ event.name }}</td>
       </ng-container>
 
-      <!-- Name Column -->
       <ng-container matColumnDef="location">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
         <td mat-cell *matCellDef="let event">{{ event.location }}</td>
       </ng-container>
 
-      <!-- Weight Column -->
       <ng-container matColumnDef="category">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
-        <td mat-cell *matCellDef="let event">{{ event.eventCategory === null ? "" : event.eventCategory.name }}</td>
+        <td mat-cell *matCellDef="let event">{{ event.eventCategory.name }}</td>
       </ng-container>
 
-      <!-- Symbol Column -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
         <td mat-cell *matCellDef="let event">{{ event.description }}</td>
@@ -43,25 +39,20 @@
 
       <ng-container matColumnDef="startDateTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>startDateTime</th>
-        <td mat-cell *matCellDef="let event">{{ event.startDateTime }}</td>
+        <td mat-cell *matCellDef="let event">{{ convert(event.startDateTime) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="endDateTime">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>endDateTime</th>
-        <td mat-cell *matCellDef="let event">{{ event.endDateTime }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="button">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <mat-cell *matCellDef="let event">
-          <button (click)="redirectToEventOverview(event)" mat-icon-button color="primary">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-        </mat-cell>
+        <td mat-cell *matCellDef="let event">{{ convert(event.endDateTime) }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="selectEventRow(row)"
+        *matRowDef="let row; columns: displayedColumns;">
+      </tr>
     </table>
 
     <div class="paginator-container">

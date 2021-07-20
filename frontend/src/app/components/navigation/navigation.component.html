@@ -42,21 +42,20 @@
       ><mat-icon>home</mat-icon>
         <div class="menu-item">My Events</div>
       </a>
-      <a mat-list-item [routerLink]="'/new-events'"
-      ><mat-icon> library_add_check </mat-icon>
-        <div class="menu-item">New Events</div>
-      </a>
-      <a mat-list-item [routerLink]="'/statistics'"
-      ><mat-icon>analytics</mat-icon>
-        <div class="menu-item">Analytics</div>
-      </a>
+      
       <a mat-list-item [routerLink]="'/create-event'"
       ><mat-icon>add_circle</mat-icon>
         <div class="menu-item">Create Event</div>
       </a>
-      <a mat-list-item [routerLink]="'/event-info'"
-      ><mat-icon>celebration</mat-icon>
-        <div class="menu-item">Demo Event</div>
+
+      <a mat-list-item [routerLink]="'/new-events'" *ngIf="isAdmin">
+        <mat-icon> library_add_check </mat-icon>
+        <div class="menu-item">New Events</div>
+      </a>
+
+      <a mat-list-item [routerLink]="'/statistics'" *ngIf="isAdmin">
+        <mat-icon>analytics</mat-icon>
+        <div class="menu-item">Analytics</div>
       </a>
     </mat-nav-list>
   </mat-sidenav>

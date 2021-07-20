@@ -31,6 +31,15 @@ th.mat-sort-header-sorted {
 .search-div {
   margin: 10px;
 }
+
+.mat-row {
+  transition: all .1s;
+}
+.mat-row:hover {
+  background-color: #e6e6e6;
+  cursor: pointer;
+}
+
 .search-form-field {
   width: 20%;
   margin-left: 10px;
@@ -48,15 +57,14 @@ th.mat-sort-header-sorted {
   width: 10%;
 }
 
-.mat-column-details,
 .mat-column-isApproved {
   box-sizing: border-box;
-  width: 7%;
+  width: 10%;
 }
 
 .mat-column-description {
   box-sizing: border-box;
-  width: 36%;
+  width: 40%;
 }
 
 .mat-cell {
@@ -70,20 +78,11 @@ th.mat-sort-header-sorted {
   .mat-column-category,
   .mat-column-endDateTime,
   .mat-column-startDateTime {
-    width: 15%;
+    width: 12.5%;
   }
 
   .mat-column-location {
     display: none;
-  }
-
-  .mat-column-details,
-  .mat-column-isApproved {
-    width: 7%;
-  }
-
-  .mat-column-description {
-    width: 36%;
   }
 }
 
@@ -100,7 +99,6 @@ th.mat-sort-header-sorted {
     display: none;
   }
 
-  .mat-column-details,
   .mat-column-isApproved {
     width: 17.5%;
   }
@@ -116,10 +114,9 @@ th.mat-sort-header-sorted {
     display: none;
   }
 
-  .mat-column-details,
   .mat-column-name,
   .mat-column-isApproved {
-    width: 33.3%;
+    width: 50%;
   }
 
 }

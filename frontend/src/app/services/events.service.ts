@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import { Observable } from "rxjs";
 
-import { EVENTS_URL, MY_EVENTS_URL } from "../urls.config";
+import {APPROVE_EVENT_URL, EVENTS_URL, MY_EVENTS_URL} from "../urls.config";
 import { EventModel } from "../models/event.model";
 
 @Injectable({
@@ -28,9 +28,21 @@ export class EventsService {
   }
 
   changeEvent(event: EventModel, eventId: number): Observable<any> {
-    console.log(event);
     return this.httpClient.put(EVENTS_URL + '/' + eventId, event, {
       responseType: 'blob',
+      observe: 'response'
+    });
+  }
+
+  approveEvent(eventId: number) {
+    return this.httpClient.put(APPROVE_EVENT_URL + "/" + eventId, null, {
+      responseType: 'text'
+    });
+  }
+
+  declineEvent(eventId: number) {
+    return this.httpClient.delete(EVENTS_URL + "/" + eventId, {
+      responseType: 'text',
       observe: 'response'
     });
   }

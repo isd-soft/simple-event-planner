@@ -3,6 +3,9 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import {EventModel} from "../../models/event.model";
+import {EventsService} from "../../services/events.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-events',
@@ -14,21 +17,36 @@ export class NewEventsComponent implements AfterViewInit {
     'name',
     'location',
     'category',
-    'description',
     'startDateTime',
     'endDateTime',
-    'button',
+    'action'
   ];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<EventModel>();
+  data: any  = []
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   searchKey: string;
 
+  filterType: string = "ALL";
+
+
+  constructor(private eventsService: EventsService,
+              private router: Router) {
+  }
+
   ngAfterViewInit() {
+    this.dataSource.data = this.data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.eventsService.getMyEvents().toPromise()
+      .then(eventModels => {
+        this.dataSource.data = eventModels;
+        this.data = eventModels;
+      })
+      .catch(e => console.log(e))
   }
+
   onSearchClear() {
     this.searchKey = ' ';
     this.applyFilter();
@@ -36,71 +54,36 @@ export class NewEventsComponent implements AfterViewInit {
   applyFilter() {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
-}
 
-export interface Element {
-  name: string;
-  location: string;
-  category: string;
-  description: string;
-  startDateTime: string;
-  endDateTime: string;
-  button: string;
-}
+  convert(x: any) {
+    return new Date(x).toLocaleString();
+  }
 
-const ELEMENT_DATA: Element[] = [
-  {
-    name: 'Event1',
-    location: 'H',
-    category: 'H',
-    description: 'Hdfb',
-    startDateTime: 'ajbsjk',
-    endDateTime: 'bdssndkenfbd',
-    button: 'sdnkdkd',
-  },
-  {
-    name: 'sjdbj2',
-    location: 'H',
-    category: 'H',
-    description: 'Hdfvj',
-    startDateTime: 'ahgsj',
-    endDateTime: 'sfkfkek',
-    button: 'dnknvk',
-  },
-  {
-    name: 'vvjshdent3',
-    location: 'H',
-    category: 'H',
-    description: 'Hbdv',
-    startDateTime: 'sbdejkb',
-    endDateTime: 'dnfefn',
-    button: 'slkfeogh',
-  },
-  {
-    name: 'djdbnt4',
-    location: 'H',
-    category: 'H',
-    description: 'Hdfjg',
-    startDateTime: 'wdbjwb',
-    endDateTime: '',
-    button: '',
-  },
-  {
-    name: 'Lkent5',
-    location: 'H',
-    category: 'H',
-    description: 'Hsjkh',
-    startDateTime: 'sbnjwbk',
-    endDateTime: '',
-    button: '',
-  },
-  {
-    name: 'Tnent6',
-    location: 'H',
-    category: 'H',
-    description: 'Hhfkh',
-    startDateTime: 'nnshdvh',
-    endDateTime: '',
-    button: '',
-  },
-];
+  selectEventRow(event: EventModel) {
+    this.router.navigate(["/events/", event.id])
+  }
+
+  approveEvent(event: Event, eventModel: EventModel) {
+    this.eventsService.approveEvent(eventModel.id).toPromise()
+      .then(() => eventModel.isApproved = true)
+      .catch(error => console.log(error));
+
+    event.stopPropagation();
+  }
+
+  declineEvent(event: Event, eventModel: EventModel) {
+    this.eventsService.declineEvent(eventModel.id).toPromise()
+      .then(() => {
+        this.data = this.data.filter((event: EventModel) => event.id != eventModel.id);
+        this.dataSource.data = this.data;
+      })
+      .catch(x => console.log(x));
+    event.stopPropagation();
+  }
+
+  filterEvents(isApproved: boolean) {
+    this.dataSource.data = this.data.filter((ev: EventModel) => ev.isApproved == isApproved);
+
+    this.filterType = isApproved ? "APPROVED" : "PENDING";
+  }
+}

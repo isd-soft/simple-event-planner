@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import {MatSort, Sort} from '@angular/material/sort';
 import { EventsService } from "../../services/events.service";
 import { EventModel } from "../../models/event.model";
+import {Router} from "@angular/router";
+import {EVENTS_URL} from "../../urls.config";
 
 /**
  * @title Table with pagination
@@ -22,12 +24,12 @@ export class MyeventComponent implements AfterViewInit {
     'startDateTime',
     'endDateTime',
     'isApproved',
-    'button'
   ];
   dataSource = new MatTableDataSource<EventModel>();
-  data: any = []
+  data: any  = []
 
-  constructor(private eventsService: EventsService) {
+  constructor(private eventsService: EventsService,
+              private router: Router) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -55,5 +57,9 @@ export class MyeventComponent implements AfterViewInit {
 
   convert(x: any) {
     return new Date(x).toLocaleString();
+  }
+
+  selectEventRow(event: EventModel) {
+    this.router.navigate(["/events/", event.id])
   }
 }
