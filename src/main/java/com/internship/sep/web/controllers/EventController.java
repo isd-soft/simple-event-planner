@@ -88,6 +88,7 @@ public class EventController {
        eventService.deleteFileById(id);
         return new ResponseEntity<>("File deleted successfully", HttpStatus.OK);
     }
+
 }
 
 

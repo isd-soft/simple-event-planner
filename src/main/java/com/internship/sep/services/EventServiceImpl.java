@@ -11,11 +11,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -143,7 +147,17 @@ class EventServiceImpl implements EventService {
                 .forEach(oldEvent::addAttendee);
 
         // eventRepository.save(oldEvent);
+        oldEvent.getAttachments().retainAll(eventDTO.getAttachments()
+                .stream()
+                .map(fileMapper::unmap)
+                .collect(Collectors.toList()));
 
+        eventDTO.getAttachments().stream()
+                .filter(removeExistingFiles(oldEvent))
+                .map(fileMapper::unmap)
+                .forEach(oldEvent::addAttachment);
+
+        eventRepository.save(oldEvent);
 
         if(oldEvent.getIsApproved()) {
             try {
@@ -162,6 +176,14 @@ class EventServiceImpl implements EventService {
 
         return eventMapper.map(oldEvent);
 
+    }
+
+    private Predicate<FileDTO> removeExistingFiles(Event oldEvent) {
+        return attachment -> !oldEvent.getAttachments().
+                stream()
+                .map(FileDB::getId)
+                .collect(Collectors.toList())
+                .contains(attachment.getId());
     }
 
     @Transactional
@@ -251,6 +273,7 @@ class EventServiceImpl implements EventService {
     }
 
     @Transactional
+    @Override
     public FileDTO getAttachments(Long id) {
 
         FileDB file = fileDBRepository.findById(id)
@@ -271,5 +294,6 @@ class EventServiceImpl implements EventService {
 
         fileDBRepository.delete(file);
     }
+
 
 }

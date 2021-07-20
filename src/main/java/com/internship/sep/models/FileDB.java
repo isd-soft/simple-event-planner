@@ -2,9 +2,11 @@ package com.internship.sep.models;
 import javax.persistence.*;
 import lombok.*;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Data
 @Getter
 @Setter
@@ -26,6 +28,14 @@ public class FileDB extends AbstractEntity {
     @JoinColumn(name = "event_id")
     private Event event;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FileDB fileDB = (FileDB) o;
+        return Objects.equals(id, fileDB.id);
+    }
 
     @Override
     public int hashCode() {
