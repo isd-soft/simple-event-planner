@@ -31,8 +31,11 @@ public interface EventService {
     List<EventDTO> getApprovedEvents();
 
     List<EventDTO> getMyEvents(User host);
+
     FileDTO getAttachments(Long id);
+
     void deleteFileById(Long id);
+
 }
 
 

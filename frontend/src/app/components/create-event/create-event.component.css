@@ -1,6 +1,7 @@
 .example-right-align {
   text-align: right;
 }
+
 .example-container {
   margin: 40px 0;
 }
@@ -87,4 +88,16 @@ mat-form-field {
   .example-card > img {
     height: auto
   }
+}
+
+.upload-attachment:hover {
+  background-color: #4CAF50; /* Green */
+}
+
+#upload-attachment-placement {
+  text-align: right;
+}
+
+#add-icon-placement {
+  font-size: 20px;
 }
