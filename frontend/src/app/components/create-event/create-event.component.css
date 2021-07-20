@@ -90,10 +90,14 @@ mat-form-field {
   }
 }
 
-.button:hover {
+.upload-attachment:hover {
   background-color: #4CAF50; /* Green */
 }
 
-#button-placement {
+#upload-attachment-placement {
   text-align: right;
+}
+
+#add-icon-placement {
+  font-size: 20px;
 }
