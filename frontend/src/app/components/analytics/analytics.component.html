@@ -1,18 +1,17 @@
-<div>
-  <div class="container">
-    <div class="item">
-      <canvas
-        baseChart
-        [data]="doughnutChartData"
-        [labels]="doughnutChartLabels"
-        [chartType]="doughnutChartType"
-      >
-      </canvas>
-    </div>
-    <div class="item">
-      <span class="number">{{ this.stats.numberOfUsers }}</span
-      ><span class="text"> USERS</span>
-    </div>
+<div class="container">
+  <div class="item" class="users" class="users-number">
+    <span class="number">{{ this.stats.numberOfUsers }}</span
+    ><span class="text"> USERS</span>
+  </div>
+  <div class="item">
+    <div class="events">EVENTS</div>
+    <canvas
+      baseChart
+      [data]="doughnutChartData"
+      [labels]="doughnutChartLabels"
+      [chartType]="doughnutChartType"
+    >
+    </canvas>
   </div>
 </div>
 

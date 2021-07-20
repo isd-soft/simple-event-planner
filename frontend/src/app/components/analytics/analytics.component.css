@@ -9,7 +9,20 @@
   align-items: center;
 }
 
+.events {
+  position: absolute;
+  margin: 0;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #85bcfb;
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5em;
+  z-index: -1;
+}
+
 .item {
+  position: relative;
   width: 45%;
 }
 
@@ -19,6 +32,22 @@
     min-height: 250px;
     text-align: center;
     margin-top: 0;
+  }
+  .events {
+    font-size: 1em;
+    top: 40%;
+  }
+  .text {
+    font-size: 3em;
+  }
+  .number {
+    font-size: 6em;
+  }
+  .example-chip-list {
+    margin-top: 0;
+  }
+  .users-number {
+    margin-top: 10vh;
   }
 }
 
