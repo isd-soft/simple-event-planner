@@ -1,36 +1,39 @@
 <div>
-  <div class="graph-container">
-    <canvas
-      class="left-graph"
-      baseChart
-      [datasets]="lineChartData"
-      [labels]="lineChartLabels"
-      [options]="lineChartOptions"
-      [colors]="lineChartColors"
-      [legend]="lineChartLegend"
-      [chartType]="lineChartType"
-      [plugins]="lineChartPlugins"
-    ></canvas>
-    <canvas
-      class="right-graph"
-      baseChart
-      [datasets]="barChartData"
-      [labels]="barChartLabels"
-      [options]="barChartOptions"
-      [plugins]="barChartPlugins"
-      [legend]="barChartLegend"
-      [chartType]="barChartType"
-    >
-    </canvas>
-  </div>
-  <div class="third-graph">
-    <canvas
-      style="width: 900px"
-      baseChart
-      [data]="doughnutChartData"
-      [labels]="doughnutChartLabels"
-      [chartType]="doughnutChartType"
-    >
-    </canvas>
+  <div class="container">
+    <div class="item">
+      <canvas
+        baseChart
+        [data]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [chartType]="doughnutChartType"
+      >
+      </canvas>
+    </div>
+    <div class="item">
+      <span class="number">{{ this.stats.numberOfUsers }}</span
+      ><span class="text"> USERS</span>
+    </div>
   </div>
 </div>
+
+<mat-form-field class="example-chip-list" appearance="fill">
+  <mat-label>Categories</mat-label>
+  <mat-chip-list #chipList aria-label="Category selection">
+    <mat-chip
+      *ngFor="let category of categories"
+      [selectable]="selectable"
+      [removable]="removable"
+      (removed)="remove(category)"
+    >
+      {{ category.name }}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input
+      placeholder="New category..."
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      [matChipInputAddOnBlur]="addOnBlur"
+      (matChipInputTokenEnd)="add($event)"
+    />
+  </mat-chip-list>
+</mat-form-field>

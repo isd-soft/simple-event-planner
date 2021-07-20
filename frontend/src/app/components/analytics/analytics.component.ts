@@ -1,8 +1,13 @@
-import { ChartOptions } from 'chart.js';
-import { Color, Label } from 'ng2-charts';
+import { Label, ThemeService } from 'ng2-charts';
 import { Component } from '@angular/core';
 import { ChartType, ChartDataSets } from 'chart.js';
 import { MultiDataSet } from 'ng2-charts';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { EventCategory } from 'src/app/models/event-category.model';
+import { Statistics } from 'src/app/models/statistics';
+import { StatisticsService } from 'src/app/services/statistics.service';
+import { EventCategoriesService } from 'src/app/services/event-categories.service';
 
 @Component({
   selector: 'app-analytics',
@@ -10,56 +15,71 @@ import { MultiDataSet } from 'ng2-charts';
   styleUrls: ['./analytics.component.css'],
 })
 export class AnalyticsComponent {
-  lineChartData: ChartDataSets[] = [
-    {
-      data: [15, 12, 18, 15, 7, 15],
-      label: 'Total amount of organized events/month',
-    },
-  ];
-
-  lineChartLabels: Label[] = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
-
-  lineChartOptions = {
-    responsive: true,
+  stats: Statistics = {
+    approvedEvents: 0,
+    unapprovedEvents: 0,
+    numberOfUsers: 0,
+    totalEvents: 0,
   };
 
-  lineChartColors: Color[] = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'rgba(255,255,0,0.28)',
-    },
-  ];
+  constructor(
+    private statisticsService: StatisticsService,
+    private categoryService: EventCategoriesService
+  ) {}
 
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = 'line';
-
-  barChartOptions: ChartOptions = {
-    responsive: true,
-  };
-  barChartLabels: Label[] = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
+  doughnutChartLabels: Label[] = ['Unapproved', 'Approved', 'Total'];
+  doughnutChartData: MultiDataSet = [
+    [
+      this.stats.unapprovedEvents,
+      this.stats.approvedEvents,
+      this.stats.totalEvents,
+    ],
   ];
-  barChartType: ChartType = 'bar';
-  barChartLegend = true;
-  barChartPlugins = [];
-
-  barChartData: ChartDataSets[] = [
-    { data: [45, 37, 60, 70, 46, 33], label: 'Nr of attendees/month' },
-  ];
-  doughnutChartLabels: Label[] = ['Rejected', 'Accepted', 'Total/month'];
-  doughnutChartData: MultiDataSet = [[20, 35, 55]];
   doughnutChartType: ChartType = 'doughnut';
+
+  selectable = false;
+  removable = false;
+  addOnBlur = true;
+
+  // Categories
+
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
+  categories: EventCategory[] = [];
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.categoryService
+        .postCategory({ name: value })
+        .toPromise()
+        .then()
+        .catch((error) => {
+          console.log(error);
+        });
+      this.categories.push({ name: value });
+    }
+
+    event.chipInput!.clear();
+  }
+
+  remove(category: EventCategory): void {
+    const index = this.categories.indexOf(category);
+
+    if (index >= 0) {
+      this.categories.splice(index, 1);
+    }
+  }
+
+  ngOnInit(): void {
+    this.statisticsService.getStatistics().subscribe((stats) => {
+      this.stats = stats;
+      this.doughnutChartData = [
+        [stats.unapprovedEvents, stats.approvedEvents, stats.totalEvents],
+      ];
+    });
+    this.categoryService.getAllCategories().subscribe((categories) => {
+      this.categories = categories;
+    });
+  }
 }
