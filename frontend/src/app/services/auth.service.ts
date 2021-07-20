@@ -13,6 +13,8 @@ export class AuthService {
 
   private readonly TOKEN_KEY: string = "jwtToken";
 
+  private user: LoginModel;
+
   constructor(private httpClient: HttpClient) {
     this.token = sessionStorage.getItem(this.TOKEN_KEY);
   }
@@ -52,8 +54,11 @@ export class AuthService {
   getToken(): string | null {
     return this.token;
   }
-
+  getUser(){
+    return this.user;
+  }
   login(loginModel : LoginModel) {
+    this.user = loginModel;
     return this.httpClient.post(SIGN_IN_URL, loginModel, {
       observe: 'response',
       responseType: 'blob'

@@ -91,12 +91,16 @@ public class Bootstrap implements CommandLineRunner {
         EventCategoryDTO eventCategoryDTO = new EventCategoryDTO();
         EventCategoryDTO eventCategoryDTO1 = new EventCategoryDTO();
         EventCategoryDTO eventCategoryDTO2 = new EventCategoryDTO();
+
         eventCategoryDTO.setName("Conference");
         eventCategoryDTO1.setName("Meeting");
         eventCategoryDTO2.setName("Something");
+
         eventCategoryService.addCategory(eventCategoryDTO);
         eventCategoryService.addCategory(eventCategoryDTO1);
         eventCategoryService.addCategory(eventCategoryDTO2);
+
+
     }
 
 }
