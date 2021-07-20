@@ -1,6 +1,7 @@
 .example-right-align {
   text-align: right;
 }
+
 .example-container {
   margin: 40px 0;
 }
@@ -87,4 +88,12 @@ mat-form-field {
   .example-card > img {
     height: auto
   }
+}
+
+.button:hover {
+  background-color: #4CAF50; /* Green */
+}
+
+#button-placement {
+  text-align: right;
 }
