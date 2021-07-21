@@ -91,7 +91,7 @@ mat-form-field {
 }
 
 .upload-attachment:hover {
-  background-color: #4CAF50; /* Green */
+  background-color: #3F691F; /* Green */
 }
 
 .upload-attachment {
@@ -105,4 +105,8 @@ mat-form-field {
 
 #add-icon-placement {
   font-size: 19px;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: #3F691F;
 }
