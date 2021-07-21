@@ -14,9 +14,22 @@ export class AttachmentsService {
     return this.httpClient.get<Attachment>(`${FILES_URL}/${id}`);
   }
 
+  async fillAttachmentContent(attachment: Attachment) {
+    if (!attachment || typeof attachment.id === "undefined") {
+      return attachment;
+    }
 
-  setImageFromAttachment(image: Attachment, element: HTMLImageElement) {
-    let bytes: Uint8Array = this.string2bytes(image.content);
+    if (attachment.content) {
+      return attachment;
+    }
+
+    return await this.getAttachment(attachment.id).toPromise();
+  }
+
+  async setImageFromAttachment(image: Attachment, element: HTMLElement) {
+    image = await this.fillAttachmentContent(image);
+
+    let bytes: Uint8Array = AttachmentsService.string2bytes(image.content);
     let blob = new Blob([bytes]);
 
     let reader = new FileReader();
@@ -27,9 +40,11 @@ export class AttachmentsService {
     reader.readAsDataURL(blob);
   }
 
-  downloadAttachment(attachment: Attachment) {
+  async downloadAttachment(attachment: Attachment) {
+    attachment = await this.fillAttachmentContent(attachment);
+
     const url = window.URL.createObjectURL(new Blob(
-      [this.string2bytes(attachment.content)]
+      [AttachmentsService.string2bytes(attachment.content)]
     ))
 
     const link = document.createElement('a');
@@ -40,13 +55,21 @@ export class AttachmentsService {
     document.body.removeChild(link);
   }
 
-
-  string2bytes(text: string): Uint8Array {
+  private static string2bytes(text: string): Uint8Array {
     return new Uint8Array( JSON.parse(`[${text}]`) );
   }
 
-  bytes2string(bytes: Uint8Array): string {
+  private static bytes2string(bytes: Uint8Array): string {
     return bytes.toString();
+  }
+
+  fileToAttachment(file: File): Promise<Attachment> {
+    return file.arrayBuffer()
+      .then((buffer: ArrayBuffer) => ({
+        name: file.name,
+        type: file.type,
+        content: AttachmentsService.bytes2string(new Uint8Array(buffer))
+      }));
   }
 
 }
