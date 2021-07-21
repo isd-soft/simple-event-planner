@@ -1,4 +1,5 @@
 import {UserModel} from "src/app/models/user.model";
+import { Attachment } from "./attachment.model";
 import {Attendee} from "./Attendee";
 import {EventCategory} from "./EventCategory";
 
@@ -13,4 +14,5 @@ export interface Event {
   host: UserModel;
   attendees: Attendee[];
   eventCategory: EventCategory;
+  attachments: Attachment[];
 }

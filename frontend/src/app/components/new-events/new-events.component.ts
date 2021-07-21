@@ -39,7 +39,7 @@ export class NewEventsComponent implements AfterViewInit {
     this.dataSource.data = this.data;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    this.eventsService.getMyEvents().toPromise()
+    this.eventsService.getAllEvents().toPromise()
       .then(eventModels => {
         this.dataSource.data = eventModels;
         this.data = eventModels;

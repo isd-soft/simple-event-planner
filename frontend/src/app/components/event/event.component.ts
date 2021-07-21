@@ -18,8 +18,8 @@ export class EventComponent implements AfterViewInit {
   event: Event[] = [];
 
 
-  constructor(private eventService: EventService,
-              private router: Router) { }
+  constructor(private eventService: EventService, private router: Router) {
+              }
 
   displayedColumns: string[] = [
     'name',
@@ -37,6 +37,7 @@ export class EventComponent implements AfterViewInit {
   searchKey: string;
 
   ngAfterViewInit() {
+    
     this.eventService.getEvents().subscribe((event) => {
       this.dataSource.data = event;
       this.dataSource.paginator = this.paginator;
