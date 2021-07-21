@@ -5,10 +5,10 @@
   maxWidth="auto"
   proportion="25"
   interval="5000"
-  slides="5"
+  slides="4"
   [loop]="true"
   [hideArrows]="true"
-  [hideIndicators]="false"
+  [hideIndicators]="true"
   [useKeyboard]="true"
   [useMouseWheel]="false"
   orientation="ltr"
@@ -23,27 +23,22 @@
 </mat-carousel>
 
 <div class="card-container">
-  <mat-card class="card">
-    <a [routerLink]="'/event-info'"
-      ><button mat-mini-fab class="card-buttons" color="primary">
-        <mat-icon>menu</mat-icon>
-      </button></a
-    >Party Hard</mat-card
-  >
-  <mat-card class="card"
-    ><button mat-mini-fab class="card-buttons" color="primary">
-      <mat-icon>menu</mat-icon></button
-    >Event 2</mat-card
-  >
-  <mat-card class="card"
-    ><button mat-mini-fab class="card-buttons" color="primary">
-      <mat-icon>menu</mat-icon></button
-    >Event 3</mat-card
-  >
+  <div *ngFor="let event of events">
+    <mat-card class="card" [routerLink]="['/events', event.id]">
+      <div>
+        <button mat-mini-fab class="card-buttons" color="primary">
+          {{ getDate(event.startDateTime) }}
+        </button>
+        <span class="month">{{ getMonth(event.startDateTime) }}</span>
+      </div>
+      <strong>{{ event.name }}</strong>
+      {{ getTime(event.startDateTime) }}
+    </mat-card>
+  </div>
   <a [routerLink]="'/events'"
     ><button class="button1" mat-raised-button>View All</button></a
   >
   <a [routerLink]="'/calendar'"
-    ><button class="button2" mat-raised-button>Calendar</button></a
+    ><button class="button1" mat-raised-button>Calendar</button></a
   >
 </div>

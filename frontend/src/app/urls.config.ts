@@ -15,17 +15,20 @@ export const EVENTS_URL: string = BASE_URL + EVENTS;
 export const USERS: string = '/users';
 export const USERS_URL: string = BASE_URL + USERS;
 
-export const USERS_FULL: string = USERS + "/full";
+export const USERS_FULL: string = USERS + '/full';
 export const USERS_FULL_URL: string = BASE_URL + USERS_FULL;
 
-export const CATEGORIES: string = "/categories";
+export const CATEGORIES: string = '/categories';
 export const CATEGORIES_URL: string = BASE_URL + CATEGORIES;
 
 export const FILES: string = '/events/files';
 export const FILES_URL: string = BASE_URL + FILES;
 
-export const APPROVE_EVENT: string = EVENTS + "/approve-event";
+export const APPROVE_EVENT: string = EVENTS + '/approve-event';
 export const APPROVE_EVENT_URL: string = BASE_URL + APPROVE_EVENT;
+
+export const APPROVED_EVENTS: string = EVENTS + '/approved';
+export const APPROVED_EVENTS_URL: string = BASE_URL + APPROVED_EVENTS;
 
 export const STATISTICS: string = '/statistics';
 export const STATISTICS_URL: string = BASE_URL + STATISTICS;
