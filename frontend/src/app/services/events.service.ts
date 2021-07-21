@@ -35,7 +35,7 @@ export class EventsService {
   createEvent(event: EventModel, params?: HttpParams): Observable<any> {
     return this.httpClient.post(EVENTS_URL, event, {
       params: params,
-      responseType: 'text'
+      responseType: 'text',
     });
   }
 

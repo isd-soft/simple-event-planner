@@ -1,1 +1,6 @@
-<ejs-schedule></ejs-schedule>
+<ejs-schedule
+  #scheduleObj
+  [eventSettings]="eventObject"
+  *ngIf="eventObject.dataSource"
+  [readonly]="readonly"
+></ejs-schedule>
