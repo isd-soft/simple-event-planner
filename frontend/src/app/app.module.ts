@@ -24,8 +24,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MyeventComponent } from './components/myevent/myevent.component';
-import { CalendarComponent } from './components/calendar/calendar.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+//import { CalendarComponent } from './components/calendar/calendar.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import {
   ScheduleModule,
@@ -53,12 +53,16 @@ import { ChartsModule } from 'ng2-charts';
 import { EventInfoComponent } from './components/event-info/event-info.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
-import {TokenInterceptor} from "./interceptors/token.interceptor";
+import { TokenInterceptor } from './interceptors/token.interceptor';
 //import { EventOverviewComponent } from './components/event-overview/event-overview.component';
 
-import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatTimepickerModule,
+  NgxMatNativeDateModule,
+} from '@angular-material-components/datetime-picker';
 import { UpdateEventComponent } from './components/update-event/update-event.component';
-
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -122,10 +126,10 @@ import { UpdateEventComponent } from './components/update-event/update-event.com
     TimelineViewsService,
     TimelineMonthService,
     {
-      provide : HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi   : true,
-    }
+      multi: true,
+    },
   ],
 
   bootstrap: [AppComponent],

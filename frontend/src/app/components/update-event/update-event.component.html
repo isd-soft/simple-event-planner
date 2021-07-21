@@ -69,45 +69,10 @@
     </mat-form-field>
   </div>
   <h3>Cover Image</h3>
-<!--  <div class="image-selector">-->
-<!--    <mat-card class="example-card" [class.selected]="'/assets/event1.jpg' === event.getRawValue().imageSrc">-->
-<!--      <img mat-card-image src="/assets/event1.jpg"/>-->
-<!--      <mat-card-actions>-->
-<!--        <button mat-button (click)="changeImage('/assets/event1.jpg')">-->
-<!--          Select-->
-<!--        </button>-->
-<!--      </mat-card-actions>-->
-<!--    </mat-card>-->
-<!--    <mat-card class="example-card" [class.selected]="'/assets/event2.jpg' === event.getRawValue().imageSrc">-->
-<!--      <img mat-card-image src="/assets/event2.jpg"/>-->
-<!--      <mat-card-actions>-->
-<!--        <button mat-button (click)="changeImage('/assets/event2.jpg')">-->
-<!--          Select-->
-<!--        </button>-->
-<!--      </mat-card-actions>-->
-<!--    </mat-card>-->
-<!--    <mat-card class="example-card" [class.selected]="'/assets/event3.jpg' === event.getRawValue().imageSrc">-->
-<!--      <img mat-card-image src="/assets/event3.jpg"/>-->
-<!--      <mat-card-actions>-->
-<!--        <button mat-button (click)="changeImage('/assets/event3.jpg')">-->
-<!--          Select-->
-<!--        </button>-->
-<!--      </mat-card-actions>-->
-<!--    </mat-card>-->
-<!--  </div>-->
 
   <div class="event-cover-image__wrapper">
     <img id="event-cover-image" src="">
   </div>
-<!--  <input-->
-<!--    #csvInput-->
-<!--    hidden="true"-->
-<!--    type="file"-->
-<!--    onclick="this.value=null"-->
-<!--    (change)="csvInputChange($event)"-->
-<!--    accept=".jpg"-->
-<!--  />-->
-<!--  <button class="select-image-custom" mat-button (click)="csvInput.click()">Upload Custom Image</button>-->
 
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attendees</mat-label>
@@ -169,6 +134,6 @@
   <button class="select-attachments" mat-button (click)="attachmentInput.click()">Upload attachment</button>
 
   <button mat-flat-button color="primary" (click)="submit()">
-    Create Event
+    Update Event
   </button>
 </form>

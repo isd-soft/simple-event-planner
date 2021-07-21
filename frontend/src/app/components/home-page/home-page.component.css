@@ -1,22 +1,37 @@
 .card {
   margin-top: 20px;
-  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.card:hover {
+  background-color: #e2e2e2;
+}
+
 .card-container {
-  margin: auto;
-  width: 50%;
   padding-top: 30px;
+  margin: auto;
+  width: 50vw;
+}
+
+@media only screen and (max-width: 600px) {
+  .card-container {
+    width: 90vw;
+  }
 }
 
 .button1 {
-  margin: auto;
-  margin-top: 30px;
-  margin-right: 20px;
+  margin: 1em 1em 1em 0;
 }
-.button2 {
-  margin: auto;
-  margin-top: 30px;
+
+.month {
+  position: relative;
+  right: 1.5em;
+  font-weight: 800;
+  color: #4056b5;
 }
+
 .card-buttons {
   margin-right: 30px;
 }

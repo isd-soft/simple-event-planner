@@ -145,8 +145,8 @@ export class UpdateEventComponent implements OnInit {
   }
 
   addAttachment(event: any) {
-    this.uploadAttachment(event.target.files[0])
-      .catch(error => console.log(error))
+    this.attachmentsService.fileToAttachment(event.target.files[0])
+      .then(attachment => this.attachments.push(attachment));
   }
 
   removeAttachment(attachment: any) {
@@ -154,61 +154,30 @@ export class UpdateEventComponent implements OnInit {
   }
 
   downloadAttachment(attachment: Attachment) {
-    this.attachmentsService.downloadAttachment(attachment);
-  }
-
-  async uploadAttachment(file: File) {
-    const buffer: ArrayBuffer = await file.arrayBuffer();
-    this.attachments.push({
-      content: new Uint8Array(buffer).toString(),
-      name: file.name,
-      type: file.type
-    });
+    this.attachmentsService.downloadAttachment(attachment)
+      .catch(console.log);
   }
 
   async submit() {
-    // {
-    //   "name":"Updated Event",
-    //   "location":"testtesttes",
-    //   "description":"A lot of bugs...",
-    //   "startDateTime":"2021-08-10T09:40:23.097Z",
-    //   "endDateTime":"2021-08-10T21:00:00.000Z",
-    //   "attendees": [
-    //   {
-    //     "email": "bddinara@gmail.com"
-    //   },
-    //   {
-    //     "email": "test3@gmail.com"
-    //   }
-    // ],
-    //   "eventCategory": {
-    //   "id": 3,
-    //     "name": "Something"
-    // }
-    // }
-    // const event: EventModel = {
-    //   // ...this.initialEvent,
-    //   ...this.event.getRawValue(),
-    //   attendees: this.attendees.map(email => ({ email })),
-    //   attachments: this.attachments,
-    //   eventCategory: this.categories[this.event.getRawValue().category]
-    // };
+    let event: any = this.event.getRawValue();
 
+    event.eventCategory = this.categories[event.category];
+    event.attendees = this.attendees.map(email => ({ email: email }));
+    event.attachments = [ ...this.attachments, this.coverImage ];
 
-    const event: any = {
-      name: this.event.getRawValue().name,
-      location: this.event.getRawValue().location,
-      description: this.event.getRawValue().description,
-      startDateTime: this.event.getRawValue().startDateTime,
-      endDateTime: this.event.getRawValue().endDateTime,
-      attendees: this.attendees.map(email => ({ email })),
-      eventCategory: this.categories[this.event.getRawValue().category],
-      attachments: this.attachments,
-    }
+    // this.selectedCustomImg = await fetch(event.imageSrc)
+    //      .then(res => res.blob())
+    //     .then(blob => new File([blob], this.COVER_PHOTO_NAME))
+    //     .then(file => this.attachmentsService.fileToAttachment(file));
+
+    event.startDateTime = new Date(event.startDateTime).toISOString()
+    event.endDateTime = new Date(event.endDateTime).toISOString()
+
+    console.log(event);
 
     this.eventsService.changeEvent(event, this.initialEvent.id).toPromise()
       .then(() => this.router.navigate(["/my-events"]))
-      .catch(x => console.log(x))
+      .catch(error => console.log(error));
   }
 
 

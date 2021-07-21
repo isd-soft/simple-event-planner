@@ -5,14 +5,12 @@ import {catchError, map} from "rxjs/operators";
 import { of } from "rxjs";
 import {UserModel} from "../models/user.model";
 import {SIGN_IN_URL, SING_UP_URL, USERS_FULL_URL} from "../urls.config";
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly USER_KEY: string = "user";
   private readonly TOKEN_KEY: string = "jwtToken";
-
   constructor(private httpClient: HttpClient) {
     this.token = sessionStorage.getItem(this.TOKEN_KEY);
 
@@ -22,7 +20,7 @@ export class AuthService {
     }
   }
 
-  private user: UserModel | null = null;
+  private user: any = null;
   private token: string | null = null;
   private eventEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -49,6 +47,9 @@ export class AuthService {
     this.eventEmitter.subscribe(callback);
   }
 
+  getUserRole(){
+    return this.user.role;
+  }
   isAuthenticated() {
     return this.getToken() !== null;
   }
@@ -57,7 +58,7 @@ export class AuthService {
     return this.token;
   }
 
-  getUser(): UserModel | null {
+  getUser():any {
     return this.user;
   }
 

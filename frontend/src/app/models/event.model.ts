@@ -1,6 +1,6 @@
-import { EventCategory } from "./event-category.model";
-import { Attendee } from "./attendee.model";
-import { Attachment } from "./attachment.model";
+import { EventCategory } from './event-category.model';
+import { Attendee } from './attendee.model';
+import { Attachment } from './attachment.model';
 
 export interface EventModel {
   id: number;
@@ -12,7 +12,6 @@ export interface EventModel {
   endDateTime: Date;
   attendees: Attendee[];
   isApproved: boolean;
-
   image: any;
   attachments: Attachment[];
 }

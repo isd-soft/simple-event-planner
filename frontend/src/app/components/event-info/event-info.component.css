@@ -1,6 +1,8 @@
 .example-card {
   max-width: 600px;
   min-width: 350px;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
 }
 
 .center {

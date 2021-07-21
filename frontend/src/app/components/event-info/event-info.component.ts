@@ -5,6 +5,9 @@ import {EventService} from 'src/app/services/event.service';
 import {ActivatedRoute} from '@angular/router';
 import {Event} from 'src/app/models/event';
 import {Router} from '@angular/router';
+import {UserModel} from "../../models/user.model";
+import {Attendee} from "../../models/Attendee";
+import {EventCategory} from "../../models/EventCategory";
 
 @Component({
   selector: 'app-event-info',
@@ -16,6 +19,7 @@ export class EventInfoComponent implements OnInit {
   event: Event;
 
   constructor(public dialog: MatDialog, private eventService: EventService, private route: ActivatedRoute, private router: Router) {
+
   }
 
   redirection() {
@@ -57,6 +61,7 @@ export class EventInfoComponent implements OnInit {
 
   ngOnInit(): void {
     let stringId = this.route.snapshot.paramMap.get('id');
+    console.log(stringId);
     if (stringId != null) {
       let id: number = parseInt(stringId);
       this.eventService.getEventById(id).subscribe((event) => {

@@ -13,6 +13,8 @@ import { EventCategory } from "../../models/event-category.model";
 import { Router } from "@angular/router";
 import {UserShortModel} from "../../models/user-short.model";
 import {EventModel} from "../../models/event.model";
+import {AttachmentsService} from "../../services/attachments.service";
+import {Attachment} from "../../models/attachment.model";
 
 @Component({
   selector: 'app-create-event',
@@ -24,7 +26,6 @@ export class CreateEventComponent implements OnInit {
   readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
   readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
 
-  readonly ENCODER = new TextEncoder();
 
   event = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -36,9 +37,10 @@ export class CreateEventComponent implements OnInit {
     endDateTime: new FormControl(new Date(), [Validators.required])
   });
 
-  selectedCustomImg: File | null = null;
+  selectedCustomImg: Attachment | null = null;
+  selectedImgElement: HTMLElement | null;
 
-  attachments: File[] = [];
+  attachments: Attachment[] = [];
   categories: EventCategory[] = [];
 
   attendeeCtrl = new FormControl();
@@ -46,13 +48,15 @@ export class CreateEventComponent implements OnInit {
   attendees: string[] = [];
   allAttendees: string[] = [];
 
+
   @ViewChild('attendeeInput')
   attendeeInput!: ElementRef<HTMLInputElement>;
 
   constructor(private usersService: UsersService,
               private eventCategoriesService: EventCategoriesService,
               private eventsService: EventsService,
-              private router: Router) {
+              private router: Router,
+              private attachmentsService: AttachmentsService) {
     this.filteredAttendees = this.attendeeCtrl.valueChanges.pipe(
       startWith(null),
       map((attendee: string | null) => attendee ? this._filter(attendee) : this.allAttendees.slice()));
@@ -66,16 +70,23 @@ export class CreateEventComponent implements OnInit {
       .catch((err: any) => console.log(err))
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.selectedImgElement = document.getElementById("custom-image");
+  }
 
   changeImage(s : string) {
     this.event.patchValue({ imageSrc: s })
     this.selectedCustomImg = null;
   }
 
-  csvInputChange(fileInputEvent: any) {
+  async csvInputChange(fileInputEvent: any) {
     this.event.patchValue({imageSrc: ''})
-    this.selectedCustomImg = fileInputEvent.target.files[0];
+    this.selectedCustomImg = await this.attachmentsService.fileToAttachment(fileInputEvent.target.files[0]);
+
+    if (this.selectedCustomImg && this.selectedImgElement) {
+      this.attachmentsService.setImageFromAttachment(this.selectedCustomImg, this.selectedImgElement)
+        .catch(error => console.log(error));
+    }
   }
 
   addAttendee(event: MatChipInputEvent): void {
@@ -113,7 +124,8 @@ export class CreateEventComponent implements OnInit {
   }
 
   addAttachment(attachmentEvent: any) {
-    this.attachments.push(attachmentEvent.target.files[0]);
+    this.attachmentsService.fileToAttachment(attachmentEvent.target.files[0])
+      .then(attachment => this.attachments.push(attachment));
   }
 
   removeAttachment(attachment: any) {
@@ -128,43 +140,26 @@ export class CreateEventComponent implements OnInit {
   async submit() {
     const event: any = this.event.getRawValue();
 
-    try {
-      event.eventCategory = this.categories[event.category];
-      event.attendees = this.attendees.map(email => ({ email: email }));
-      event.attachments = [];
+    event.eventCategory = this.categories[event.category];
+    event.attendees = this.attendees.map(email => ({ email: email }));
+    event.attachments = [ ...this.attachments ];
 
-      for (let attachment of this.attachments) {
-        const buffer: ArrayBuffer = await attachment.arrayBuffer();
-        event.attachments.push({
-          content: new TextDecoder("utf-8").decode(new Uint8Array(buffer)),
-          name: attachment.name,
-          type: attachment.type,
-        });
-      }
+    event.startDateTime = event.startDateTime.toISOString();
+    event.endDateTime = event.endDateTime.toISOString();
 
-      if (event.imageSrc) {
-        this.selectedCustomImg = await fetch(event.imageSrc)
-          .then(res => res.blob())
-          .then(blob => new File([blob], this.COVER_PHOTO_NAME));
-      }
-      if (this.selectedCustomImg) {
-        const buffer: ArrayBuffer = await this.selectedCustomImg.arrayBuffer();
-        event.attachments.push({
-          content: new Uint8Array(buffer).toString(),
-          // content: new Uint8Array(),
-          name: this.COVER_PHOTO_NAME,
-          type: this.selectedCustomImg.type
-        });
-
-      }
-
-      this.eventsService.createEvent(event).toPromise()
-        .then(() => this.router.navigate(["/my-events"]))
-        .catch(error => console.log(error));
+    if (event.imageSrc) {
+      this.selectedCustomImg = await fetch(event.imageSrc)
+        .then(res => res.blob())
+        .then(blob => new File([blob], this.COVER_PHOTO_NAME))
+        .then(file => this.attachmentsService.fileToAttachment(file));
     }
-    catch (error) {
-      console.log(error);
+    if (this.selectedCustomImg) {
+      event.attachments.push(this.selectedCustomImg);
     }
+
+    this.eventsService.createEvent(event).toPromise()
+      .then(() => this.router.navigate(["/my-events"]))
+      .catch(error => console.log(error));
   }
 
 }
