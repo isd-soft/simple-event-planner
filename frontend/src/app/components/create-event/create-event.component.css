@@ -94,10 +94,15 @@ mat-form-field {
   background-color: #4CAF50; /* Green */
 }
 
+.upload-attachment {
+  width: 35px;
+  height: 35px;
+}
+
 #upload-attachment-placement {
   text-align: right;
 }
 
 #add-icon-placement {
-  font-size: 20px;
+  font-size: 19px;
 }
