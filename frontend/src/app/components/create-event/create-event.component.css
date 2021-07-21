@@ -119,3 +119,8 @@ mat-form-field {
 ::ng-deep .mat-calendar-body-selected {
   background-color: #3F691F;
 }
+
+.example-custom-date-class {
+  background: red;
+  border-radius: 100%;
+}

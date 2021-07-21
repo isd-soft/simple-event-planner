@@ -42,7 +42,7 @@
     <div class="form_group--wrapper">
       <mat-form-field color="primary" appearance="fill">
         <mat-label>Start Date Time</mat-label>
-        <input matInput [ngxMatDatetimePicker]="pickerStart" placeholder="Choose a date" formControlName="startDateTime">
+        <input matInput [ngxMatDatetimePickerFilter]="myFilter" [ngxMatDatetimePicker]="pickerStart" placeholder="Choose a date" formControlName="startDateTime">
         <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #pickerStart>
         </ngx-mat-datetime-picker>
