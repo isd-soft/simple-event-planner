@@ -45,7 +45,7 @@ mat-form-field {
 }
 
 .example-card.selected {
-  border: 3px solid green;
+  border: 3px solid #4056B5;
   border-radius: 7px;
 }
 
