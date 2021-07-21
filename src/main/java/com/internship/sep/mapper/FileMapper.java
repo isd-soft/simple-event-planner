@@ -21,7 +21,9 @@ public class FileMapper implements Mapper<FileDB, FileDTO> {
     @Override
     public FileDB unmap(FileDTO dto) {
         FileDB file = new FileDB();
-        file.setContent(dto.getContent().getBytes(StandardCharsets.UTF_8));
+        if (dto.getContent() != null) {
+            file.setContent(dto.getContent().getBytes(StandardCharsets.UTF_8));
+        }
         file.setId(dto.getId());
         file.setName(dto.getName());
         file.setType(dto.getType());

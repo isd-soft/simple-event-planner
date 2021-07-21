@@ -25,7 +25,7 @@ export class EventService {
     getRole():string {
       console.log(this.role);
       return this.role;
-      
+
     }
   getEvents(): Observable<Event[]> {
     const header = (this.authService.isAuthenticated) ? {Authorization: `Bearer ${this.token}`} : undefined;

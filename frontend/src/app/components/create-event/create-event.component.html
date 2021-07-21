@@ -95,6 +95,10 @@
       </mat-card-actions>
     </mat-card>
   </div>
+
+  <div class="custom-image-wrapper" [hidden]="selectedCustomImg === null">
+    <img src="" id="custom-image">
+  </div>
   <input
     #csvInput
     hidden="true"

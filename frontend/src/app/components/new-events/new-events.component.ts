@@ -74,7 +74,7 @@ export class NewEventsComponent implements AfterViewInit {
   declineEvent(event: Event, eventModel: EventModel) {
     this.eventsService.declineEvent(eventModel.id).toPromise()
       .then(() => {
-        this.data = this.data.filter((event: EventModel) => event.id != eventModel.id);
+        this.data = this.data.filter((event: EventModel) => event.id !== eventModel.id);
         this.dataSource.data = this.data;
       })
       .catch(x => console.log(x));
@@ -82,7 +82,7 @@ export class NewEventsComponent implements AfterViewInit {
   }
 
   filterEvents(isApproved: boolean) {
-    this.dataSource.data = this.data.filter((ev: EventModel) => ev.isApproved == isApproved);
+    this.dataSource.data = this.data.filter((ev: EventModel) => ev.isApproved === isApproved);
 
     this.filterType = isApproved ? "APPROVED" : "PENDING";
   }

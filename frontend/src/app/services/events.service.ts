@@ -12,12 +12,12 @@ export class EventsService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getMyEvents(): Observable<any[]> {
-    return this.httpClient.get<any[]>(MY_EVENTS_URL);
-  }
-
   getAllEvents(): Observable<any[]> {
     return this.httpClient.get<any[]>(EVENTS_URL);
+  }
+
+  getMyEvents(): Observable<any[]> {
+    return this.httpClient.get<any[]>(MY_EVENTS_URL);
   }
 
   getEvent(id: number): Observable<EventModel> {
@@ -27,7 +27,7 @@ export class EventsService {
   createEvent(event: EventModel, params?: HttpParams): Observable<any> {
     return this.httpClient.post(EVENTS_URL, event, {
       params: params,
-      responseType: 'blob'
+      responseType: 'text'
     });
   }
 

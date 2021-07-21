@@ -67,7 +67,16 @@ mat-form-field {
 .select-image-custom {
   margin: 15px;
 }
-
+.custom-image-wrapper {
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.custom-image-wrapper img {
+  display: block;
+  width: 100%;
+}
 @media (max-width: 550px) {
   .form_group--wrapper {
     display: block;

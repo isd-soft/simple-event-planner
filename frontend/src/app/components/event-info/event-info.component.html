@@ -1,15 +1,15 @@
-<div class="center">
+<div class="center" *ngIf="event">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>{{ event.name }}</mat-card-title>
       <mat-card-subtitle>by <strong>{{event.host.firstName + " " + event.host.lastName}}</strong></mat-card-subtitle>
       <mat-card-subtitle>
-        from <strong>{{convert(event.startDateTime) }}</strong> to
-        <strong>{{ convert(event.endDateTime) }}</strong> at
+        from <strong>{{event.startDateTime }}</strong> to
+        <strong>{{ event.endDateTime }}</strong> at
         <strong>{{ event.location }}</strong></mat-card-subtitle
       >
     </mat-card-header>
-    <img id = "mat-card-image" mat-card-image src=""/>
+    <img mat-card-image src="{{ eventMock.imageSrc }}"/>
     <mat-card-content>
       <p>
         {{ event.description }}
@@ -17,8 +17,8 @@
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="openDialog()">ATTENDEES</button>
-      <button *ngIf = "role == 'ADMIN'" mat-button (click)="editEvent()" >EDIT</button>
-      <button *ngIf = "role == 'ADMIN'" mat-button (click)="deleteEvent()" color="warn" >DELETE</button>
+      <button mat-button>EDIT</button>
+      <button mat-button (click)="deleteEvent()" color="warn">DELETE</button>
     </mat-card-actions>
   </mat-card>
 </div>

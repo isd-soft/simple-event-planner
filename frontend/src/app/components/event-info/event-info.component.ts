@@ -5,9 +5,9 @@ import {EventService} from 'src/app/services/event.service';
 import {ActivatedRoute} from '@angular/router';
 import {Event} from 'src/app/models/event';
 import {Router} from '@angular/router';
-import { Attachment } from 'src/app/models/attachment.model';
-import { AttachmentsService } from 'src/app/services/attachments.service';
-import { User } from 'src/app/models/user';
+import {UserModel} from "../../models/user.model";
+import {Attendee} from "../../models/Attendee";
+import {EventCategory} from "../../models/EventCategory";
 
 @Component({
   selector: 'app-event-info',
@@ -15,31 +15,13 @@ import { User } from 'src/app/models/user';
   styleUrls: ['./event-info.component.css'],
 })
 export class EventInfoComponent implements OnInit {
-  private COVER_PHOTO_NAME: string = "cover_photo.jpg";
-
   attendeeEmails: string[] = [];
   event: Event;
-  atachments:Attachment[];
-  role: string;
 
-  constructor(public dialog: MatDialog, private eventService: EventService,private attachmentService: AttachmentsService, private route: ActivatedRoute, private router: Router) {
-    let stringId = this.route.snapshot.paramMap.get('id');
-    if (stringId != null) {
-      let id: number = parseInt(stringId);
-      this.eventService.getEventById(id).subscribe((event) => {
-        this.event = event
-        this.atachments = event.attachments;
-        this.getCover();
-        this.role = this.eventService.getRole();
+  constructor(public dialog: MatDialog, private eventService: EventService, private route: ActivatedRoute, private router: Router) {
 
-      });
-    }
   }
 
-  editEvent(): void{
-      this.router.navigate(["/update-event/"+ this.event.id]);
-    
-  }
   redirection() {
     window.location.href = "/events"
   }
@@ -50,20 +32,6 @@ export class EventInfoComponent implements OnInit {
     });
   }
 
-  convert(x: any) {
-    return new Date(x).toLocaleString();
-  }
-
-  getCover(){
-  let element: any = document.getElementById("mat-card-image");
-    for(let atachment of this.atachments){
-      if(atachment.name == "cover_photo.jpg"){
-        this.attachmentService.setImageFromAttachment(atachment,element)
-        break;
-      }
-    }
-
-  }
   deleteEvent() {
     let id = this.event.id;
     if (id != null) {
@@ -92,6 +60,13 @@ export class EventInfoComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-
+    let stringId = this.route.snapshot.paramMap.get('id');
+    console.log(stringId);
+    if (stringId != null) {
+      let id: number = parseInt(stringId);
+      this.eventService.getEventById(id).subscribe((event) => {
+        this.event = event
+      });
+    }
   }
 }
