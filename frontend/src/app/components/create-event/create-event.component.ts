@@ -61,6 +61,11 @@ export class CreateEventComponent implements OnInit {
       startWith(null),
       map((attendee: string | null) => attendee ? this._filter(attendee) : this.allAttendees.slice()));
 
+    this.eventsService.getApprovedEvents().toPromise().then((events) => {
+      this.events = events;
+      console.log(events);
+    });
+
     eventCategoriesService.getAllCategories().toPromise()
       .then(categories => this.categories = categories)
       .catch(err => console.log(err));
@@ -165,12 +170,15 @@ export class CreateEventComponent implements OnInit {
 
   myFilter = (d: Date | null): boolean => {
     const date = (d || new Date()).getDate();
-    let apprDate;
-    this.eventsService.getApprovedEvents().toPromise().then((events) => {
-      events.forEach((element) => {
-        apprDate = new Date(element.startDateTime).getDate();
-      })
-    });
-    return date !== apprDate;
+    let startDate : number;
+    let endDate : number;
+    for (let i = 0; i < this.events.length; i++) {
+      startDate = new Date(this.events[i].startDateTime).getDate();
+      endDate = new Date(this.events[i].endDateTime).getDate();
+      if (startDate <= date && date <= endDate) {
+        return false;
+      }
+    }
+    return true;
   }
 }
