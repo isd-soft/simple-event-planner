@@ -1,8 +1,6 @@
 package com.internship.sep.models;
 import javax.persistence.*;
 import lombok.*;
-
-import java.util.Arrays;
 import java.util.Objects;
 
 @AllArgsConstructor
