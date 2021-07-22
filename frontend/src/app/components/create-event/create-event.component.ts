@@ -25,7 +25,7 @@ import {Attachment} from "../../models/attachment.model";
 export class CreateEventComponent implements OnInit {
   readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
   readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
-  events: EventModel[];
+  events: EventModel[] = [];
 
   event = new FormGroup({
     name: new FormControl('', [Validators.required]),
