@@ -3,10 +3,7 @@ import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.*;
 import com.internship.sep.repositories.*;
 import com.internship.sep.services.googleCalendarAPI.GEventService;
-import com.internship.sep.web.AttendeeDTO;
-import com.internship.sep.web.EventCategoryDTO;
-import com.internship.sep.web.EventDTO;
-import com.internship.sep.web.FileDTO;
+import com.internship.sep.web.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,6 +30,7 @@ class EventServiceImpl implements EventService {
     private final Mapper<Event, EventDTO> eventMapper;
     private final GEventService gEventService;
     private final AttendeeRepository attendeeRepository;
+    private final LinkDBRepository linkDBRepository;
     private final UserRepository userRepository;
     private final Mapper<EventCategory, EventCategoryDTO> eventCategoryMapper;
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
@@ -40,6 +38,7 @@ class EventServiceImpl implements EventService {
     private final EmailService emailService;
     private final FileDBRepository fileDBRepository;
     private final Mapper<FileDB, FileDTO> fileMapper;
+    private final Mapper<LinkDB, LinkDTO> linkMapper;
 
 
     @Transactional
@@ -141,11 +140,19 @@ class EventServiceImpl implements EventService {
 
         oldEvent.getAttendees().forEach(attendeeRepository::delete);
 
-        oldEvent.setAttendees(new ArrayList<Attendee>());
+        oldEvent.setAttendees(new ArrayList<>());
+
+        oldEvent.getLinks().forEach(linkDBRepository::delete);
+
+        oldEvent.setLinks(new ArrayList<>());
 
         eventDTO.getAttendees().stream()
                 .map(attendeeMapper::unmap)
                 .forEach(oldEvent::addAttendee);
+
+        eventDTO.getLinks().stream()
+                .map(linkMapper::unmap)
+                .forEach(oldEvent::addLinkDB);
 
         // eventRepository.save(oldEvent);
         oldEvent.getAttachments().retainAll(eventDTO.getAttachments()
@@ -238,6 +245,7 @@ class EventServiceImpl implements EventService {
         }
 
         event.getAttendees().forEach(attendeeRepository::delete);
+        event.getLinkDB().forEach(linkDBRepository::delete);
 
         eventRepository.deleteById(id);
 

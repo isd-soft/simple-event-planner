@@ -59,6 +59,9 @@ public class Event extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "event", orphanRemoval = true)
     private List<FileDB> attachments = new ArrayList<>();
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event")
+    private List<LinkDB> links = new ArrayList<>();
+
 
     public void addAttendee(Attendee attendee) {
         attendees.add(attendee);
@@ -77,6 +80,15 @@ public class Event extends AbstractEntity {
     public void removeAttachment(FileDB attachment) {
         attachments.remove(attachment);
         attachment.setEvent(null);
+    }
+
+    public void  addLinkDB (LinkDB linkDB){
+        links.add(linkDB);
+        linkDB.setEvent(this);
+    }
+
+    public List<LinkDB> getLinkDB(){
+        return Collections.unmodifiableList(links);
     }
 
     @AssertTrue(message = "event end date time must be after start time")
