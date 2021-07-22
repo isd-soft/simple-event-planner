@@ -13,6 +13,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
 
     private final Mapper<Attendee, AttendeeDTO> attendeeMapper;
     private final Mapper<FileDB, FileDTO> fileMapper;
+    private final Mapper <LinkDB, LinkDTO> linkMapper;
 
 
 
@@ -50,6 +51,11 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         if (entity.getAttendees() != null && entity.getAttendees().size() > 0) {
             dto.setAttendees(attendeeMapper.mapList(entity.getAttendees()));
         }
+
+        if (entity.getLinkDB()!= null && entity.getLinkDB().size()>0){
+            dto.setLinks(linkMapper.mapList(entity.getLinks()));
+        }
+
         if (entity.getEventCategory() != null) {
             EventCategory eventCategory = entity.getEventCategory();
             EventCategoryDTO eventCategoryDTO = new EventCategoryDTO();
@@ -89,6 +95,10 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         dto.getAttendees().stream()
                 .map(attendeeMapper::unmap)
                 .forEach(event::addAttendee);
+
+        dto.getLinks().stream()
+                .map(linkMapper::unmap)
+                .forEach(event::addLinkDB);
 
         dto.getAttachments().stream()
                 .map(fileMapper::unmap)

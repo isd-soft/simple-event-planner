@@ -29,4 +29,5 @@ public class EventDTO {
     private UserDTO host;
     private List <AttendeeDTO> attendees = new ArrayList<>();
     private List<FileDTO> attachments = new ArrayList<>();
+    private List<LinkDTO> links = new ArrayList<>();
 }
