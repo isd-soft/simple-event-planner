@@ -1,16 +1,16 @@
-import { Component, NgModule, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ElementRef, ViewChild } from '@angular/core';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { UsersService } from "../../services/users.service";
-import { EventCategoriesService } from "../../services/event-categories.service";
-import { EventsService } from "../../services/events.service";
-import { EventCategory } from "../../models/event-category.model";
-import { Router } from "@angular/router";
+import {Component, NgModule, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ElementRef, ViewChild} from '@angular/core';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {UsersService} from "../../services/users.service";
+import {EventCategoriesService} from "../../services/event-categories.service";
+import {EventsService} from "../../services/events.service";
+import {EventCategory} from "../../models/event-category.model";
+import {Router} from "@angular/router";
 import {UserShortModel} from "../../models/user-short.model";
 import {EventModel} from "../../models/event.model";
 import {AttachmentsService} from "../../services/attachments.service";
@@ -25,7 +25,7 @@ import {Attachment} from "../../models/attachment.model";
 export class CreateEventComponent implements OnInit {
   readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
   readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
-
+  events: EventModel[];
 
   event = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -74,8 +74,8 @@ export class CreateEventComponent implements OnInit {
     this.selectedImgElement = document.getElementById("custom-image");
   }
 
-  changeImage(s : string) {
-    this.event.patchValue({ imageSrc: s })
+  changeImage(s: string) {
+    this.event.patchValue({imageSrc: s})
     this.selectedCustomImg = null;
   }
 
@@ -99,6 +99,7 @@ export class CreateEventComponent implements OnInit {
     event.chipInput!.clear();
     this.attendeeCtrl.setValue(null);
   }
+
 
   removeAttendee(attendee: string): void {
     const index = this.attendees.indexOf(attendee);
@@ -141,8 +142,8 @@ export class CreateEventComponent implements OnInit {
     const event: any = this.event.getRawValue();
 
     event.eventCategory = this.categories[event.category];
-    event.attendees = this.attendees.map(email => ({ email: email }));
-    event.attachments = [ ...this.attachments ];
+    event.attendees = this.attendees.map(email => ({email: email}));
+    event.attachments = [...this.attachments];
 
     event.startDateTime = event.startDateTime.toISOString();
     event.endDateTime = event.endDateTime.toISOString();
@@ -162,4 +163,14 @@ export class CreateEventComponent implements OnInit {
       .catch(error => console.log(error));
   }
 
+  myFilter = (d: Date | null): boolean => {
+    const date = (d || new Date()).getDate();
+    let apprDate;
+    this.eventsService.getApprovedEvents().toPromise().then((events) => {
+      events.forEach((element) => {
+        apprDate = new Date(element.startDateTime).getDate();
+      })
+    });
+    return date !== apprDate;
+  }
 }
