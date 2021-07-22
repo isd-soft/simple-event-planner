@@ -33,7 +33,6 @@ export class EventInfoComponent implements OnInit {
     if (stringId != null) {
       let id: number = parseInt(stringId);
       this.eventsService.getEvent(id).subscribe((event: EventModel) => {
-        console.log(event);
         this.event = event;
         this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
         this.getCover(event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME));

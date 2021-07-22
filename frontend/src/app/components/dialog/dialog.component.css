@@ -1,3 +1,18 @@
 .list {
   margin-right: 30px;
 }
+
+.attendee {
+  display: flex;
+  justify-content: space-between;
+  line-height: 20px;
+  font-size: 20px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+
+.item-email {
+  margin-right: 10px;
+  margin-bottom: 3px;
+}
