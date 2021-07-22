@@ -15,10 +15,23 @@
         {{ event.description }}
       </p>
     </mat-card-content>
+
+    <div class="attachment-wrapper">
+      <mat-chip-list>
+        <mat-chip *ngFor="let attachment of attachments" (click)="downloadAttachment(attachment)">{{ attachment.name }}</mat-chip>
+      </mat-chip-list>
+    </div>
+
+    <div class="attachment-wrapper">
+      <mat-chip-list>
+        <mat-chip *ngFor="let link of linkAttachments" (click)="openLinkAttachment(link)">{{ showLink(link) }}</mat-chip>
+      </mat-chip-list>
+    </div>
+
     <mat-card-actions>
       <button mat-button (click)="openDialog()">ATTENDEES</button>
-      <button *ngIf = "role == 'ADMIN'" mat-button (click)="editEvent()" >EDIT</button>
-      <button *ngIf = "role == 'ADMIN'" mat-button (click)="deleteEvent()" color="warn">DELETE</button>
+      <button *ngIf = "role === 'ADMIN'" mat-button (click)="editEvent()" >EDIT</button>
+      <button *ngIf = "role === 'ADMIN'" mat-button (click)="deleteEvent()" color="warn">DELETE</button>
     </mat-card-actions>
   </mat-card>
 </div>

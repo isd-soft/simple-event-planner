@@ -14,4 +14,5 @@ export interface EventModel {
   isApproved: boolean;
   image: any;
   attachments: Attachment[];
+  links: any[];
 }

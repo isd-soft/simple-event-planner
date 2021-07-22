@@ -25,7 +25,7 @@ import {Attachment} from "../../models/attachment.model";
 export class CreateEventComponent implements OnInit {
   readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
   readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
-  events: EventModel[];
+  events: EventModel[] = [];
 
   event = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -48,44 +48,63 @@ export class CreateEventComponent implements OnInit {
   attendees: string[] = [];
   allAttendees: string[] = [];
 
+  linkAttachments: string[] = [];
+
 
   @ViewChild('attendeeInput')
   attendeeInput!: ElementRef<HTMLInputElement>;
 
-  constructor(private usersService: UsersService,
-              private eventCategoriesService: EventCategoriesService,
-              private eventsService: EventsService,
-              private router: Router,
-              private attachmentsService: AttachmentsService) {
+  constructor(
+    private usersService: UsersService,
+    private eventCategoriesService: EventCategoriesService,
+    private eventsService: EventsService,
+    private router: Router,
+    private attachmentsService: AttachmentsService
+  ) {
     this.filteredAttendees = this.attendeeCtrl.valueChanges.pipe(
       startWith(null),
-      map((attendee: string | null) => attendee ? this._filter(attendee) : this.allAttendees.slice()));
+      map((attendee: string | null) =>
+        attendee ? this._filter(attendee) : this.allAttendees.slice()
+      )
+    );
+
+    this.eventsService.getApprovedEvents().toPromise().then((events) => {
+      this.events = events;
+    });
 
     eventCategoriesService.getAllCategories().toPromise()
       .then(categories => this.categories = categories)
       .catch(err => console.log(err));
 
-    usersService.getAllUsers().toPromise()
-      .then((users: UserShortModel[]) => this.allAttendees = users.map(user => user.email))
-      .catch((err: any) => console.log(err))
+    usersService
+      .getAllUsers()
+      .toPromise()
+      .then(
+        (users: UserShortModel[]) =>
+          (this.allAttendees = users.map((user) => user.email))
+      )
+      .catch((err: any) => console.log(err));
   }
 
   ngOnInit(): void {
-    this.selectedImgElement = document.getElementById("custom-image");
+    this.selectedImgElement = document.getElementById('custom-image');
   }
 
   changeImage(s: string) {
-    this.event.patchValue({imageSrc: s})
+    this.event.patchValue({ imageSrc: s });
     this.selectedCustomImg = null;
   }
 
   async csvInputChange(fileInputEvent: any) {
-    this.event.patchValue({imageSrc: ''})
-    this.selectedCustomImg = await this.attachmentsService.fileToAttachment(fileInputEvent.target.files[0]);
+    this.event.patchValue({ imageSrc: '' });
+    this.selectedCustomImg = await this.attachmentsService.fileToAttachment(
+      fileInputEvent.target.files[0]
+    );
 
     if (this.selectedCustomImg && this.selectedImgElement) {
-      this.attachmentsService.setImageFromAttachment(this.selectedCustomImg, this.selectedImgElement)
-        .catch(error => console.log(error));
+      this.attachmentsService
+        .setImageFromAttachment(this.selectedCustomImg, this.selectedImgElement)
+        .catch((error) => console.log(error));
     }
   }
 
@@ -99,7 +118,6 @@ export class CreateEventComponent implements OnInit {
     event.chipInput!.clear();
     this.attendeeCtrl.setValue(null);
   }
-
 
   removeAttendee(attendee: string): void {
     const index = this.attendees.indexOf(attendee);
@@ -121,20 +139,42 @@ export class CreateEventComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.allAttendees.filter(attendee => attendee.toLowerCase().includes(filterValue));
+    return this.allAttendees.filter((attendee) =>
+      attendee.toLowerCase().includes(filterValue)
+    );
   }
 
   addAttachment(attachmentEvent: any) {
-    this.attachmentsService.fileToAttachment(attachmentEvent.target.files[0])
-      .then(attachment => this.attachments.push(attachment));
+    this.attachmentsService
+      .fileToAttachment(attachmentEvent.target.files[0])
+      .then((attachment) => this.attachments.push(attachment));
   }
 
   removeAttachment(attachment: any) {
-    this.attachments = this.attachments.filter(x => attachment !== x);
+    this.attachments = this.attachments.filter((x) => attachment !== x);
+  }
+
+  addLinkAttachment(event: any) {
+    this.linkAttachments.push(event.input.value);
+    event.input.value = '';
+  }
+
+  openLinkAttachment(link: string) {
+    window.open(link);
+  }
+
+  showLink(link: string) {
+    // @ts-ignore
+    return link.match(/:\/\/(.[^/]+)/)[1];
+  }
+
+  removeLinkAttachment(linkPos: number) {
+    this.linkAttachments.splice(linkPos, 1);
   }
 
   validateEmail(email: string) {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
@@ -142,35 +182,41 @@ export class CreateEventComponent implements OnInit {
     const event: any = this.event.getRawValue();
 
     event.eventCategory = this.categories[event.category];
-    event.attendees = this.attendees.map(email => ({email: email}));
+    event.attendees = this.attendees.map(email => ({ email }));
     event.attachments = [...this.attachments];
+    event.links = this.linkAttachments.map(link => ({ link }))
 
     event.startDateTime = event.startDateTime.toISOString();
     event.endDateTime = event.endDateTime.toISOString();
 
     if (event.imageSrc) {
       this.selectedCustomImg = await fetch(event.imageSrc)
-        .then(res => res.blob())
-        .then(blob => new File([blob], this.COVER_PHOTO_NAME))
-        .then(file => this.attachmentsService.fileToAttachment(file));
+        .then((res) => res.blob())
+        .then((blob) => new File([blob], this.COVER_PHOTO_NAME))
+        .then((file) => this.attachmentsService.fileToAttachment(file));
     }
     if (this.selectedCustomImg) {
       event.attachments.push(this.selectedCustomImg);
     }
-
-    this.eventsService.createEvent(event).toPromise()
-      .then(() => this.router.navigate(["/my-events"]))
-      .catch(error => console.log(error));
+    this.eventsService
+      .createEvent(event)
+      .toPromise()
+      .then(() => this.router.navigate(['/my-events']))
+      .catch((error) => console.log(error));
   }
 
-  myFilter = (d: Date | null): boolean => {
-    const date = (d || new Date()).getDate();
-    let apprDate;
-    this.eventsService.getApprovedEvents().toPromise().then((events) => {
-      events.forEach((element) => {
-        apprDate = new Date(element.startDateTime).getDate();
-      })
-    });
-    return date !== apprDate;
+  filterByApprovedEvents = (d: Date | null): boolean => {
+    const date = (d || new Date());
+    let startDate;
+    let endDate;
+    for (let i = 0; i < this.events.length; i++) {
+      startDate = new Date(this.events[i].startDateTime);
+
+      endDate = new Date(this.events[i].endDateTime);
+      if (startDate <= date && date <= endDate) {
+        return false;
+      }
+    }
+    return true;
   }
 }

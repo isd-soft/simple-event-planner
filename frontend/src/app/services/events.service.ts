@@ -41,7 +41,7 @@ export class EventsService {
 
   changeEvent(event: EventModel, eventId: number): Observable<any> {
     return this.httpClient.put(EVENTS_URL + '/' + eventId, event, {
-      responseType: 'blob',
+      responseType: 'text',
       observe: 'response',
     });
   }
