@@ -83,7 +83,7 @@ public class GEventServiceImpl implements GEventService {
     public void createEvent(com.internship.sep.models.Event sepEvent) throws GeneralSecurityException, IOException {
         Event event = eventMapper.map(sepEvent);
 
-        event = service.events().insert(calendarId, event).execute();
+        event = service.events().insert(calendarId, event).setSupportsAttachments(true).execute();
         sepEvent.setGoogleEventId(event.getId());
         log.info(event.toPrettyString());
     }
@@ -99,7 +99,7 @@ public class GEventServiceImpl implements GEventService {
         log.info("Start event updating");
         Event event = eventMapper.map(sepEvent);
 
-        Event updatedEvent = service.events().update(calendarId, sepEvent.getGoogleEventId(), event).execute();
+        Event updatedEvent = service.events().update(calendarId, sepEvent.getGoogleEventId(), event).setSupportsAttachments(true).execute();
         sepEvent.setGoogleEventId(updatedEvent.getId());
         log.info(updatedEvent.toPrettyString());
     }

@@ -1,26 +1,22 @@
 package com.internship.sep.services.googleCalendarAPI;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttachment;
 import com.google.api.services.calendar.model.EventAttendee;
 import com.google.api.services.calendar.model.EventDateTime;
-import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Attendee;
+import com.internship.sep.models.LinkDB;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 
 @Slf4j
 @Component
-public class GEventMapper implements Mapper<com.internship.sep.models.Event, Event> {
+public class GEventMapper {
 
-    private GoogleAPIMapper<EventAttendee, Attendee> attendeeMapper;
-
-    @Override
     public Event map(com.internship.sep.models.Event sepEvent) {
         Event gEvent = new Event();
         gEvent.setSummary(sepEvent.getName());
@@ -45,37 +41,18 @@ public class GEventMapper implements Mapper<com.internship.sep.models.Event, Eve
             gAttendees[i] = new EventAttendee().setEmail(attendees[i].getEmail());
         }
 
+        LinkDB[] attachments = new LinkDB[sepEvent.getLinks().size()];
+        sepEvent.getLinks().toArray(attachments);
+        EventAttachment[] gAttachments = new EventAttachment[attachments.length];
+        for (int i = 0; i < gAttachments.length; i++) {
+            gAttachments[i] = new EventAttachment().setFileUrl(attachments[i].getLink());
+        }
+
         gEvent.setStart(start);
         gEvent.setEnd(end);
         gEvent.setAttendees(Arrays.asList(gAttendees));
+        gEvent.setAttachments(Arrays.asList(gAttachments));
 
         return gEvent;
-    }
-
-    @Override
-    public com.internship.sep.models.Event unmap(Event gEvent) {
-        com.internship.sep.models.Event sepEvent = new com.internship.sep.models.Event();
-        sepEvent.setName(gEvent.getSummary());
-        sepEvent.setDescription(gEvent.getDescription());
-        sepEvent.setLocation(gEvent.getLocation());
-
-        sepEvent.setStartDateTime(convertToLocalDateTime(new Date(gEvent.getStart().getDateTime().getValue())));
-        sepEvent.setEndDateTime(convertToLocalDateTime(new Date(gEvent.getEnd().getDateTime().getValue())));
-
-        EventAttendee[] attendees = new EventAttendee[gEvent.getAttendees().size()];
-        gEvent.getAttendees().toArray(attendees);
-        Attendee[] sepAttendee = new Attendee[attendees.length];
-        for (int i = 0; i < attendees.length; i++) {
-            sepAttendee[i] = attendeeMapper.unmap(attendees[i]);
-        }
-        sepEvent.setAttendees(Arrays.asList(sepAttendee));
-
-        return sepEvent;
-    }
-
-    private LocalDateTime convertToLocalDateTime(Date dateToConvert) {
-        return dateToConvert.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
     }
 }
