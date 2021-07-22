@@ -168,13 +168,14 @@ export class CreateEventComponent implements OnInit {
       .catch(error => console.log(error));
   }
 
-  myFilter = (d: Date | null): boolean => {
-    const date = (d || new Date()).getDate();
-    let startDate : number;
-    let endDate : number;
+  filterByApprovedEvents = (d: Date | null): boolean => {
+    const date = (d || new Date());
+    let startDate;
+    let endDate;
     for (let i = 0; i < this.events.length; i++) {
-      startDate = new Date(this.events[i].startDateTime).getDate();
-      endDate = new Date(this.events[i].endDateTime).getDate();
+      startDate = new Date(this.events[i].startDateTime);
+
+      endDate = new Date(this.events[i].endDateTime);
       if (startDate <= date && date <= endDate) {
         return false;
       }
