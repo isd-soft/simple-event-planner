@@ -13,11 +13,11 @@ import { AttachmentsService } from 'src/app/services/attachments.service';
   styleUrls: ['./event-info.component.css'],
 })
 export class EventInfoComponent implements OnInit {
-  private COVER_PHOTO_NAME: string = "cover_photo.jpg";
+  private readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
 
   attendeeEmails: string[] = [];
   event: Event;
-  atachments:Attachment[];
+  attachments: Attachment[] = [];
   role: string;
 
   constructor(public dialog: MatDialog, private eventService: EventService,private attachmentService: AttachmentsService, private route: ActivatedRoute, private router: Router) {
@@ -26,16 +26,16 @@ export class EventInfoComponent implements OnInit {
       let id: number = parseInt(stringId);
       this.eventService.getEventById(id).subscribe((event) => {
         this.event = event
-        this.atachments = event.attachments;
-        this.getCover();
+        this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
+        this.getCover(event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME));
         this.role = this.eventService.getRole();
-
       });
     }
   }
 
   redirection() {
-    window.location.href = "/events"
+    this.router.navigate(["/events"])
+      .catch(console.log)
   }
 
   openDialog() {
@@ -51,43 +51,25 @@ export class EventInfoComponent implements OnInit {
       this.redirection();
     }
   }
+
   editEvent(): void{
     this.router.navigate(["/update-event/"+ this.event.id]);
-
-}
-
-convert(x: any) {
-  return new Date(x).toLocaleString();
-}
-
-getCover(){
-let element: any = document.getElementById("mat-card-image");
-  for(let atachment of this.atachments){
-    if(atachment.name == "cover_photo.jpg"){
-      this.attachmentService.setImageFromAttachment(atachment,element)
-      break;
-    }
   }
 
-}
-  eventMock = {
-    name: 'Party Hard',
-    location: 'Moldova',
-    category: 'Party',
-    description:
-      'Super team building event. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    imageSrc: 'http://www.canal2.md/media/2018/03/party.jpg',
-    startDate: '2021-07-08T09:40:23.097Z',
-    endDate: '2021-07-08T21:00:00.000Z',
-  };
+  convert(x: any) {
+    return new Date(x).toLocaleString();
+  }
 
+  getCover(image: any){
+    let element: any = document.getElementById("mat-card-image");
+    this.attachmentService.setImageFromAttachment(image, element)
+      .catch(console.log);
+  }
 
-  attendeesMock = [
-    'stanislav@isd.md',
-    'dinara@mail.com',
-    'marcel@mail.com',
-    'denis@mail.com',
-  ];
+  downloadAttachment(attachment: Attachment) {
+    this.attachmentService.downloadAttachment(attachment)
+      .catch(console.log);
+  }
 
   ngOnInit(): void {
   }
