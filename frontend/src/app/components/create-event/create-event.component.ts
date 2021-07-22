@@ -48,6 +48,9 @@ export class CreateEventComponent implements OnInit {
   attendees: string[] = [];
   allAttendees: string[] = [];
 
+  linkAttachments: string[] = [];
+
+
   @ViewChild('attendeeInput')
   attendeeInput!: ElementRef<HTMLInputElement>;
 
@@ -67,7 +70,6 @@ export class CreateEventComponent implements OnInit {
 
     this.eventsService.getApprovedEvents().toPromise().then((events) => {
       this.events = events;
-      console.log(events);
     });
 
     eventCategoriesService.getAllCategories().toPromise()
@@ -152,6 +154,24 @@ export class CreateEventComponent implements OnInit {
     this.attachments = this.attachments.filter((x) => attachment !== x);
   }
 
+  addLinkAttachment(event: any) {
+    this.linkAttachments.push(event.input.value);
+    event.input.value = '';
+  }
+
+  openLinkAttachment(link: string) {
+    window.open(link);
+  }
+
+  showLink(link: string) {
+    // @ts-ignore
+    return link.match(/:\/\/(.[^/]+)/)[1];
+  }
+
+  removeLinkAttachment(linkPos: number) {
+    this.linkAttachments.splice(linkPos, 1);
+  }
+
   validateEmail(email: string) {
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -162,8 +182,9 @@ export class CreateEventComponent implements OnInit {
     const event: any = this.event.getRawValue();
 
     event.eventCategory = this.categories[event.category];
-    event.attendees = this.attendees.map((email) => ({ email: email }));
+    event.attendees = this.attendees.map(email => ({ email }));
     event.attachments = [...this.attachments];
+    event.links = this.linkAttachments.map(link => ({ link }))
 
     event.startDateTime = event.startDateTime.toISOString();
     event.endDateTime = event.endDateTime.toISOString();
@@ -177,7 +198,6 @@ export class CreateEventComponent implements OnInit {
     if (this.selectedCustomImg) {
       event.attachments.push(this.selectedCustomImg);
     }
-
     this.eventsService
       .createEvent(event)
       .toPromise()

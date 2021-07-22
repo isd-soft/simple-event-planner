@@ -44,6 +44,8 @@ export class UpdateEventComponent implements OnInit {
     type: ''
   }
 
+  linkAttachments: string[] = [];
+
   imageElement: any;
 
   attachments: Attachment[] = [];
@@ -98,7 +100,7 @@ export class UpdateEventComponent implements OnInit {
 
         this.attendees = event.attendees.map((attendee: Attendee) => attendee.email);
         this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
-
+        this.linkAttachments = event.links.map(linkObject => linkObject.link);
         let coverPhoto = event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME);
         if (!coverPhoto) {
           return;
@@ -171,21 +173,34 @@ export class UpdateEventComponent implements OnInit {
     event.attendees = this.attendees.map(email => ({ email: email }));
     event.attachments = [ ...this.attachments, this.coverImage ];
 
-    // this.selectedCustomImg = await fetch(event.imageSrc)
-    //      .then(res => res.blob())
-    //     .then(blob => new File([blob], this.COVER_PHOTO_NAME))
-    //     .then(file => this.attachmentsService.fileToAttachment(file));
-
     event.startDateTime = new Date(event.startDateTime).toISOString()
     event.endDateTime = new Date(event.endDateTime).toISOString()
 
-    console.log(event);
+    event.links = this.linkAttachments.map(link => ({ link }));
 
     this.eventsService.changeEvent(event, this.initialEvent.id).toPromise()
       .then(() => this.router.navigate(["/my-events"]))
       .catch(error => console.log(error));
   }
 
+
+  addLinkAttachment(event: any) {
+    this.linkAttachments.push(event.input.value);
+    event.input.value = '';
+  }
+
+  openLinkAttachment(link: string) {
+    window.open(link);
+  }
+
+  showLink(link: string) {
+    // @ts-ignore
+    return link.match(/:\/\/(.[^/]+)/)[1];
+  }
+
+  removeLinkAttachment(linkPos: number) {
+    this.linkAttachments.splice(linkPos, 1);
+  }
 
   validateEmail(email: string) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

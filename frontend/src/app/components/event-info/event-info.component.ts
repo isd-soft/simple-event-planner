@@ -7,6 +7,8 @@ import {Event} from 'src/app/models/event';
 import {Router} from '@angular/router';
 import { Attachment } from 'src/app/models/attachment.model';
 import { AttachmentsService } from 'src/app/services/attachments.service';
+import {EventModel} from "../../models/event.model";
+import {EventsService} from "../../services/events.service";
 @Component({
   selector: 'app-event-info',
   templateUrl: './event-info.component.html',
@@ -16,19 +18,26 @@ export class EventInfoComponent implements OnInit {
   private readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
 
   attendeeEmails: string[] = [];
-  event: Event;
+  event: any;
   attachments: Attachment[] = [];
+  linkAttachments: string[] = [];
   role: string;
 
-  constructor(public dialog: MatDialog, private eventService: EventService,private attachmentService: AttachmentsService, private route: ActivatedRoute, private router: Router) {
+  constructor(public dialog: MatDialog,
+              private eventService: EventService,
+              private eventsService: EventsService,
+              private attachmentService: AttachmentsService,
+              private route: ActivatedRoute,
+              private router: Router) {
     let stringId = this.route.snapshot.paramMap.get('id');
     if (stringId != null) {
       let id: number = parseInt(stringId);
-      this.eventService.getEventById(id).subscribe((event) => {
-        this.event = event
+      this.eventsService.getEvent(id).subscribe((event: EventModel) => {
+        this.event = event;
         this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
         this.getCover(event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME));
         this.role = this.eventService.getRole();
+        this.linkAttachments = event.links.map(linkObject => linkObject.link);
       });
     }
   }
@@ -50,6 +59,15 @@ export class EventInfoComponent implements OnInit {
       this.eventService.deleteEventById(id);
       this.redirection();
     }
+  }
+
+  openLinkAttachment(link: string) {
+    window.open(link);
+  }
+
+  showLink(link: string) {
+    // @ts-ignore
+    return link.match(/:\/\/(.[^/]+)/)[1];
   }
 
   editEvent(): void{

@@ -22,6 +22,12 @@
       </mat-chip-list>
     </div>
 
+    <div class="attachment-wrapper">
+      <mat-chip-list>
+        <mat-chip *ngFor="let link of linkAttachments" (click)="openLinkAttachment(link)">{{ showLink(link) }}</mat-chip>
+      </mat-chip-list>
+    </div>
+
     <mat-card-actions>
       <button mat-button (click)="openDialog()">ATTENDEES</button>
       <button *ngIf = "role === 'ADMIN'" mat-button (click)="editEvent()" >EDIT</button>

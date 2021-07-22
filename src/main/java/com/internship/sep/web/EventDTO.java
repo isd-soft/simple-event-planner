@@ -30,4 +30,5 @@ public class EventDTO {
     private List <AttendeeDTO> attendees = new ArrayList<>();
     private List<FileDTO> attachments = new ArrayList<>();
     private List<LinkDTO> links = new ArrayList<>();
+    private List<CommentDTO> comments = new ArrayList<>();
 }

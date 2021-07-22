@@ -55,6 +55,9 @@ public class User extends AbstractEntity {
     @OneToMany(mappedBy = "host")
     private List<Event> events = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
+
     @Override
     public String toString() {
         return "User{" +

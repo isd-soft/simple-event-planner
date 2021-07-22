@@ -145,7 +145,6 @@
   </mat-form-field>
 
 
-  <!-- Attendies selection -->
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attachments</mat-label>
     <div id="upload-attachment-placement">
@@ -171,6 +170,31 @@
         (change)="addAttachment($event)"/>
     </mat-chip-list>
   </mat-form-field>
+
+
+  <mat-form-field appearance="fill" class="example-full-width">
+    <mat-label>Link attachemnts</mat-label>
+    <mat-chip-list #chipList1 aria-label="attachmentLink selection">
+      <mat-chip
+        *ngFor="let link of linkAttachments; let i = index"
+        [removable]="true"
+        (removed)="removeLinkAttachment(i)"
+        (click)="openLinkAttachment(link)"
+      >
+        {{ showLink(link) }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        #linkAttachmentInput
+        autocomplete="off"
+        type="url"
+        [matChipInputFor]="chipList1"
+        (matChipInputTokenEnd)="addLinkAttachment($event)"
+      />
+    </mat-chip-list>
+  </mat-form-field>
+
+
   <button mat-flat-button color="primary" (click)="submit()">
     Create Event
   </button>
