@@ -25,6 +25,7 @@ import {AttachmentsService} from "../../services/attachments.service";
 export class UpdateEventComponent implements OnInit {
   readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
   readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
+  events: EventModel[] = [];
 
   initialEvent: EventModel;
 
@@ -73,6 +74,11 @@ export class UpdateEventComponent implements OnInit {
     usersService.getAllUsers().toPromise()
       .then((users: UserShortModel[]) => this.allAttendees = users.map(user => user.email))
       .catch((err: any) => console.log(err));
+
+    this.eventsService.getApprovedEvents().toPromise().then((events) => {
+      this.events = events;
+      console.log(events);
+    });
 
   }
 
@@ -186,4 +192,18 @@ export class UpdateEventComponent implements OnInit {
     return re.test(String(email).toLowerCase());
   }
 
+  filterByApprovedEvents = (d: Date | null): boolean => {
+    const date = (d || new Date());
+    let startDate;
+    let endDate;
+    for (let i = 0; i < this.events.length; i++) {
+      startDate = new Date(this.events[i].startDateTime);
+
+      endDate = new Date(this.events[i].endDateTime);
+      if (startDate <= date && date <= endDate) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

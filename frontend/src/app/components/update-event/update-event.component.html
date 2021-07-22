@@ -40,17 +40,17 @@
     </mat-form-field>
 
     <div class="form_group--wrapper">
-      <mat-form-field color="accent" appearance="fill" class="example-half-width">
+      <mat-form-field color="primary" appearance="fill" class="example-half-width">
         <mat-label>Start Date Time</mat-label>
-        <input matInput [ngxMatDatetimePicker]="pickerStart" placeholder="Choose a date" formControlName="startDateTime">
+        <input matInput [ngxMatDatetimePickerFilter]="filterByApprovedEvents" [ngxMatDatetimePicker]="pickerStart" placeholder="Choose a date" formControlName="startDateTime">
         <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #pickerStart>
         </ngx-mat-datetime-picker>
       </mat-form-field>
 
-      <mat-form-field color="accent" appearance="fill" class="example-half-width">
+      <mat-form-field color="primary" appearance="fill" class="example-half-width">
         <mat-label>End Date Time</mat-label>
-        <input matInput [ngxMatDatetimePicker]="pickerEnd" placeholder="Choose a date" formControlName="endDateTime">
+        <input matInput [ngxMatDatetimePickerFilter]="filterByApprovedEvents" [ngxMatDatetimePicker]="pickerEnd" placeholder="Choose a date" formControlName="endDateTime">
         <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
         <ngx-mat-datetime-picker #pickerEnd>
         </ngx-mat-datetime-picker>
