@@ -1,8 +1,7 @@
 package com.internship.sep.models;
-
 import lombok.*;
-
 import javax.persistence.*;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,15 +9,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "event_reactions")
-public class EventReaction extends AbstractEntity{
+@Table(name = "comment_reactions")
+public class CommentReaction extends AbstractEntity{
 
     @Column(name="type")
     private ReactionType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id")
-    private Event event;
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -28,27 +27,20 @@ public class EventReaction extends AbstractEntity{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        EventReaction that = (EventReaction) o;
-
-        if (type != that.type) return false;
-        if (event != null ? !event.equals(that.event) : that.event != null) return false;
-        return user != null ? user.equals(that.user) : that.user == null;
+        CommentReaction commentReaction = (CommentReaction) o;
+        return Objects.equals(id, commentReaction.id);
     }
 
     @Override
     public int hashCode() {
-        int result = type != null ? type.hashCode() : 0;
-        result = 31 * result + (event != null ? event.hashCode() : 0);
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        return result;
+        return getClass().hashCode();
     }
 
     @Override
     public String toString() {
-        return "EventReaction{" +
+        return "CommentReaction{" +
                 "type=" + type +
-                ", event=" + event +
+                ", comment=" + comment +
                 ", user=" + user +
                 '}';
     }

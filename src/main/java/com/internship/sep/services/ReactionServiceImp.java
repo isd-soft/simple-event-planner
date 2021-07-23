@@ -4,7 +4,6 @@ import com.internship.sep.mapper.Mapper;
 import com.internship.sep.models.Event;
 import com.internship.sep.models.EventReaction;
 import com.internship.sep.models.User;
-import com.internship.sep.repositories.CommentRepository;
 import com.internship.sep.repositories.EventReactionRepository;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.repositories.UserRepository;
@@ -20,13 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReactionServiceImp implements ReactionService {
     private final Mapper<EventReaction, EventReactionDTO> eventReactionMapper;
     private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
     private final EventRepository eventRepository;
     private final EventReactionRepository eventReactionRepository;
 
     @Transactional
     @Override
-    public void setEventReaction(EventReactionDTO reactionDTO, String creatorEmail, Long eventId) {
+    public EventReactionDTO setEventReaction(EventReactionDTO reactionDTO, String creatorEmail, Long eventId) {
         User user = userRepository.findByEmail(creatorEmail).orElseThrow(ResourceNotFoundException::new);
         Event event = eventRepository.findById(eventId).orElseThrow(ResourceNotFoundException::new);
         EventReaction reaction = eventReactionMapper.unmap(reactionDTO);
@@ -48,6 +46,6 @@ public class ReactionServiceImp implements ReactionService {
 
         event.addEventReaction(reaction);
         eventReactionRepository.save(reaction);
-        return;
+        return eventReactionMapper.map(reaction);
     }
 }

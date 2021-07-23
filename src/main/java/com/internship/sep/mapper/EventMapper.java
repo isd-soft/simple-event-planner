@@ -15,6 +15,7 @@ public class EventMapper implements Mapper<Event, EventDTO> {
     private final Mapper<FileDB, FileDTO> fileMapper;
     private final Mapper<LinkDB, LinkDTO> linkMapper;
     private final Mapper<Comment, CommentDTO> commentMapper;
+    private final Mapper<EventReaction, EventReactionDTO> eventReactionMapper;
 
 
 
@@ -79,6 +80,12 @@ public class EventMapper implements Mapper<Event, EventDTO> {
                     collect(Collectors.toList()));
         }
 
+        if (entity.getEventReaction() != null && entity.getEventReaction().size()>0){
+            dto.setEventReactions(entity.getEventReaction().stream()
+                    .map(eventReactionMapper::map).
+                    collect(Collectors.toList()));
+        }
+
         return dto;
     }
 
@@ -118,6 +125,10 @@ public class EventMapper implements Mapper<Event, EventDTO> {
                 .map(commentMapper::unmap)
                 .forEach(event::addComment);
 
+
+        dto.getEventReactions().stream()
+                .map(eventReactionMapper::unmap)
+                .forEach(event::addEventReaction);
 
         return event;
     }

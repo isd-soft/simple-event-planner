@@ -2,6 +2,7 @@ package com.internship.sep.web;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.internship.sep.models.EventReaction;
 import com.internship.sep.web.deserializer.LocalDateTimeDeserializer;
 import com.internship.sep.web.serializer.LocalDateTimeSerializer;
 import lombok.Data;
@@ -31,4 +32,5 @@ public class EventDTO {
     private List<FileDTO> attachments = new ArrayList<>();
     private List<LinkDTO> links = new ArrayList<>();
     private List<CommentDTO> comments = new ArrayList<>();
+    private List<EventReactionDTO> eventReactions = new ArrayList<>();
 }
