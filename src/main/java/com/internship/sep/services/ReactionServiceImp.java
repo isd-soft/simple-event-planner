@@ -61,17 +61,20 @@ public class ReactionServiceImp implements ReactionService {
         reaction.setUser(user);
         reaction.setComment(comment);
 
-        comment.getCommentReactions().forEach(commentReaction ->{
-            if (commentReaction.getUser().getEmail().equalsIgnoreCase(creatorEmail)){
-                if(commentReaction.getType().equals(reaction.getType())){
-                    commentReactionRepository.delete(commentReaction);
-                }else{
-                    commentReaction.setType(reaction.getType());
-                    commentReactionRepository.save(reaction);
+
+        List<CommentReaction> allReactions =  comment.getCommentReactions();
+
+        for(int i = 0; i < allReactions.size(); i++) {
+            if(allReactions.get(i).getUser().getEmail().equalsIgnoreCase(creatorEmail)) {
+                if(allReactions.get(i).getType().equals(reaction.getType())) {
+                    allReactions.remove(i);
+                } else {
+                    allReactions.get(i).setType(reaction.getType());
+                    commentReactionRepository.save(allReactions.get(i));
                 }
-                return;
+                return commentReactionMapper.map(reaction);
             }
-        } );
+        }
 
         comment.addCommentReaction(reaction);
         commentReactionRepository.save(reaction);
