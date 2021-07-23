@@ -1,0 +1,17 @@
+<div class="comments-component-container">
+  <div class="comments-header">Comments:</div>
+  <div class="comments-wrapper">
+    <div class="comment" *ngFor="let comment of comments; let i = index">
+      <app-comment [comment]="comment"
+                   [uid]="i"
+                   [isReadonly]="isReadonly(comment)"
+                   (onDelete)="deleteComment(comment, i)"
+                   (onEdit)="editComment(comment, $event)"></app-comment>
+    </div>
+  </div>
+  <div class="comment-insert">
+    <div class="comment-insert-header">Add a comment</div>
+    <textarea name="" id="comment-insert-area" class="comment-insert-textarea"></textarea>
+    <button mat-stroked-button (click)="addComment()">Add comment</button>
+  </div>
+</div>

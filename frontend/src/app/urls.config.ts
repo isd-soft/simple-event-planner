@@ -32,3 +32,7 @@ export const APPROVED_EVENTS_URL: string = BASE_URL + APPROVED_EVENTS;
 
 export const STATISTICS: string = '/statistics';
 export const STATISTICS_URL: string = BASE_URL + STATISTICS;
+
+export const COMMENTS: string = '/comments';
+export const COMMENTS_URL: string = BASE_URL + COMMENTS;
+

@@ -9,6 +9,10 @@ import { Attachment } from 'src/app/models/attachment.model';
 import { AttachmentsService } from 'src/app/services/attachments.service';
 import {EventModel} from "../../models/event.model";
 import {EventsService} from "../../services/events.service";
+import {AuthService} from "../../services/auth.service";
+import { Comment } from "../../models/comment.model";
+import {CommentsService} from "../../services/comments.service";
+
 @Component({
   selector: 'app-event-info',
   templateUrl: './event-info.component.html',
@@ -22,17 +26,20 @@ export class EventInfoComponent implements OnInit {
   attachments: Attachment[] = [];
   linkAttachments: string[] = [];
   role: string;
-
+  comments: Comment[] = [];
   constructor(public dialog: MatDialog,
+              public authService: AuthService,
               private eventService: EventService,
               private eventsService: EventsService,
               private attachmentService: AttachmentsService,
+              private commentsService: CommentsService,
               private route: ActivatedRoute,
               private router: Router) {
     let stringId = this.route.snapshot.paramMap.get('id');
     if (stringId != null) {
       let id: number = parseInt(stringId);
       this.eventsService.getEvent(id).subscribe((event: EventModel) => {
+        this.comments = event.comments;
         this.event = event;
         this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
         this.getCover(event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME));
@@ -91,4 +98,33 @@ export class EventInfoComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
+  isCommentReadonly() {
+    let isAdmin = this.authService.isAdmin();
+    let creatorEmail = this.authService.getUser().email;
+
+    return (comment: Comment) => !(isAdmin || (comment.creator && creatorEmail === comment.creator.email));
+  }
+
+  addComment(comment: Comment) {
+    this.commentsService.addComment(comment, this.event.id).toPromise()
+      .then((createdComment: Comment) => {
+        Object.assign(comment, createdComment);
+      })
+      .catch(console.log);
+  }
+
+  updateComment(comment: Comment) {
+    if (!comment.id) return;
+    this.commentsService.updateComment(comment, comment.id).toPromise()
+      .catch(console.log);
+  }
+
+  deleteComment(comment: Comment) {
+    if (!comment.id) return;
+    this.commentsService.deleteComment(comment.id).toPromise()
+      .catch(console.log);
+  }
+
 }

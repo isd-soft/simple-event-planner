@@ -1,0 +1,31 @@
+<div class="comment">
+  <div class="comment-header">
+    <div class="comment-info">
+      <div class="comment-creator-name" *ngIf="comment.creator">
+        {{comment.creator.firstName + ' ' + comment.creator.lastName}}
+      </div>
+      <div class="comment-created-time">{{ showTime() }}</div>
+    </div>
+    <div class="comment-actions" *ngIf="!isReadonly && !isEditing">
+      <mat-icon class="comment-action-button"
+                (click)="startEditing()">edit</mat-icon>
+      <mat-icon class="comment-action-button"
+                (click)="delete()">delete</mat-icon>
+    </div>
+
+  </div>
+
+  <div class="comment-content" *ngIf="!isEditing">
+    {{ comment.content }}
+  </div>
+
+
+  <div class="comment-edit" [hidden]="!isEditing">
+    <div class="comment-content editing" id="{{'comment-content-editing' + uid}}" contenteditable>
+      {{ comment.content }}
+    </div>
+
+    <button class="comment-edit-button" mat-stroked-button (click)="edit()">Edit</button>
+    <button class="comment-edit-button" mat-stroked-button (click)="isEditing = !isEditing">Cancel</button>
+  </div>
+</div>

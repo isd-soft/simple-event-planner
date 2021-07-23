@@ -63,6 +63,8 @@ import {
 } from '@angular-material-components/datetime-picker';
 import { UpdateEventComponent } from './components/update-event/update-event.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { CommentListComponent } from './components/util/comment-list/comment-list.component';
+import { CommentComponent } from './components/util/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     EventInfoComponent,
     DialogComponent,
     UpdateEventComponent,
+    CommentListComponent,
+    CommentComponent,
     // EventOverviewComponent,
   ],
   entryComponents: [DialogComponent],

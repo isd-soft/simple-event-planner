@@ -1,6 +1,7 @@
 import { EventCategory } from './event-category.model';
 import { Attendee } from './attendee.model';
 import { Attachment } from './attachment.model';
+import { Comment } from './comment.model';
 
 export interface EventModel {
   id: number;
@@ -15,4 +16,5 @@ export interface EventModel {
   image: any;
   attachments: Attachment[];
   links: any[];
+  comments: Comment[];
 }

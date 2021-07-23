@@ -28,6 +28,14 @@
       </mat-chip-list>
     </div>
 
+    <app-comment-list [comments]="comments"
+                      [isReadonly]="isCommentReadonly()"
+                      (onCreate)="addComment($event)"
+                      (onEdit)="updateComment($event)"
+                      (onDelete)="deleteComment($event)"></app-comment-list>
+
+
+
     <mat-card-actions>
       <button mat-button (click)="openDialog()">ATTENDEES</button>
       <button *ngIf = "role === 'ADMIN'" mat-button (click)="editEvent()" >EDIT</button>

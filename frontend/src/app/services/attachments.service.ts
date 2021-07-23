@@ -27,9 +27,8 @@ export class AttachmentsService {
   }
 
   async setImageFromAttachment(image: Attachment, element: HTMLElement) {
-    console.log(image,element);
     image = await this.fillAttachmentContent(image);
-    
+
     let bytes: Uint8Array = AttachmentsService.string2bytes(image.content);
     let blob = new Blob([bytes]);
 

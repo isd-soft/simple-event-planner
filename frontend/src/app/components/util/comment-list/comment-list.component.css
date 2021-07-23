@@ -1,0 +1,36 @@
+.comments-component-container {
+  box-sizing: border-box;
+  padding-top: 15px;
+  border-top: 1px solid black;
+  max-width: 600px;
+  margin: 15px auto 0;
+
+}
+
+.comment {
+  margin-bottom: 15px;
+}
+
+.comments-header {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.comment-insert-textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 100px;
+
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 12px;
+  line-height: 140%;
+
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+}
+
+.comment-insert-textarea:focus-visible {
+  outline: 0;
+}
