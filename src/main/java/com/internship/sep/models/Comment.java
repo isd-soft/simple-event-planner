@@ -14,7 +14,6 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-
 @Table(name = "comments")
 public class Comment  extends AbstractEntity{
 
