@@ -103,3 +103,19 @@ mat-form-field {
     height: auto
   }
 }
+
+.upload-attachment {
+  width: 35px;
+  height: 35px;
+  margin-left: 93%;
+}
+
+.upload-attachment:hover {
+  background-color: #00B333;
+}
+
+#add-icon-placement {
+  font-size: 19px;
+}
+
+

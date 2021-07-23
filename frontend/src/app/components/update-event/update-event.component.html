@@ -113,6 +113,9 @@
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attachments</mat-label>
     <mat-chip-list #chipList aria-label="attachments selection">
+        <button mat-mini-fab color="primary" class="upload-attachment" (click)="attachmentInput.click()">
+          <mat-icon id="add-icon-placement">add</mat-icon>
+        </button>
       <mat-chip
         *ngFor="let attachment of attachments"
         [removable]="true"
@@ -133,7 +136,7 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="example-full-width">
-    <mat-label>Link attachemnts</mat-label>
+    <mat-label>Link attachments</mat-label>
     <mat-chip-list #chipList1 aria-label="attachmentLink selection">
       <mat-chip
         *ngFor="let link of linkAttachments; let i = index"
@@ -153,7 +156,6 @@
       />
     </mat-chip-list>
   </mat-form-field>
-  <button class="select-attachments" mat-button (click)="attachmentInput.click()">Upload attachment</button>
 
   <button mat-flat-button color="primary" (click)="submit()">
     Update Event
