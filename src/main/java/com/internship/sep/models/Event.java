@@ -65,6 +65,8 @@ public class Event extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event")
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event")
+    private List<EventReaction> eventReactions = new ArrayList<>();
 
     public void addAttendee(Attendee attendee) {
         attendees.add(attendee);
@@ -96,6 +98,14 @@ public class Event extends AbstractEntity {
     }
     public List<Comment> getComment(){
         return Collections.unmodifiableList(comments);
+    }
+
+    public void addEventReaction(EventReaction reaction){
+        eventReactions.add(reaction);
+        reaction.setEvent(this);
+    }
+    public List<EventReaction> getEventReaction(){
+        return Collections.unmodifiableList(eventReactions);
     }
 
     @AssertTrue(message = "event end date time must be after start time")

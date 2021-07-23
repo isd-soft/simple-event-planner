@@ -27,8 +27,6 @@ class CommentMapper implements Mapper<Comment, CommentDTO>{
         dto.setContent(entity.getContent());
         dto.setCreator(userShortMapper.map(entity.getUser()));
 
-
-
         return dto;
     }
     @Synchronized
