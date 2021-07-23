@@ -7,6 +7,6 @@ import lombok.Data;
 public class EventReactionDTO {
     private Long id;
     private Long eventId;
-    private Long creatorId;
+    private UserShortDTO creator;
     private ReactionType type;
 }

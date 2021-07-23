@@ -4,6 +4,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,5 +58,8 @@ public class Comment  extends AbstractEntity{
     public void addCommentReaction(CommentReaction commentReaction){
         commentReactions.add(commentReaction);
         commentReaction.setComment(this);
+    }
+    public List<CommentReaction> getCommentReaction(){
+        return Collections.unmodifiableList(commentReactions);
     }
 }

@@ -1,9 +1,10 @@
 package com.internship.sep.mapper;
 import com.internship.sep.models.CommentReaction;
 import com.internship.sep.web.CommentReactionDTO;
+import org.springframework.stereotype.Component;
 
-
-public class CommentReactionMapper  implements Mapper<CommentReaction, CommentReactionDTO>{
+@Component
+public class CommentReactionMapper implements Mapper<CommentReaction, CommentReactionDTO>{
 
     @Override
     public CommentReactionDTO map(CommentReaction entity) {
