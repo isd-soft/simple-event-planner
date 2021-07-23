@@ -31,7 +31,7 @@ public class Comment  extends AbstractEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "comment")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "comment", orphanRemoval = true)
     private List<CommentReaction> commentReactions = new ArrayList<>();
 
     @Override
@@ -59,7 +59,4 @@ public class Comment  extends AbstractEntity{
         commentReactions.add(commentReaction);
         commentReaction.setComment(this);
     }
-//    public List<CommentReaction> getCommentReaction(){
-//        return Collections.unmodifiableList(commentReactions);
-//    }
 }
