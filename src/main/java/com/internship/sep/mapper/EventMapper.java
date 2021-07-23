@@ -75,13 +75,13 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         }
 
         if (entity.getComment() != null && entity.getComment().size()>0){
-            dto.setComments(entity.getComments().stream()
+            dto.setComments(entity.getComment().stream()
                     .map(commentMapper::map).
                     collect(Collectors.toList()));
         }
 
-        if (entity.getEventReaction() != null && entity.getEventReaction().size()>0){
-            dto.setEventReactions(entity.getEventReaction().stream()
+        if (entity.getEventReactions() != null && entity.getEventReactions().size()>0){
+            dto.setEventReactions(entity.getEventReactions().stream()
                     .map(eventReactionMapper::map).
                     collect(Collectors.toList()));
         }

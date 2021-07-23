@@ -105,9 +105,6 @@ public class Event extends AbstractEntity {
         eventReactions.add(reaction);
         reaction.setEvent(this);
     }
-    public List<EventReaction> getEventReaction(){
-        return Collections.unmodifiableList(eventReactions);
-    }
 
     @AssertTrue(message = "event end date time must be after start time")
     private boolean isValidEndDateTime() {

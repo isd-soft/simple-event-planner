@@ -1,9 +1,7 @@
 package com.internship.sep.mapper;
-
 import com.internship.sep.models.EventReaction;
 import com.internship.sep.web.EventReactionDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor

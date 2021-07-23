@@ -1,12 +1,9 @@
 package com.internship.sep.services;
 
 import com.internship.sep.mapper.Mapper;
-import com.internship.sep.models.Event;
-import com.internship.sep.models.EventReaction;
-import com.internship.sep.models.User;
-import com.internship.sep.repositories.EventReactionRepository;
-import com.internship.sep.repositories.EventRepository;
-import com.internship.sep.repositories.UserRepository;
+import com.internship.sep.models.*;
+import com.internship.sep.repositories.*;
+import com.internship.sep.web.CommentReactionDTO;
 import com.internship.sep.web.EventReactionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ReactionServiceImp implements ReactionService {
     private final Mapper<EventReaction, EventReactionDTO> eventReactionMapper;
+    private final Mapper<CommentReaction, CommentReactionDTO> commentReactionMapper;
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
+    private final CommentRepository commentRepository;
     private final EventReactionRepository eventReactionRepository;
+    private final CommentReactionRepository commentReactionRepository;
 
     @Transactional
     @Override
@@ -31,7 +31,7 @@ public class ReactionServiceImp implements ReactionService {
         reaction.setUser(user);
         reaction.setEvent(event);
 
-        event.getEventReaction().forEach(eventReaction -> {
+        event.getEventReactions().forEach(eventReaction -> {
             if(eventReaction.getUser().getEmail().equalsIgnoreCase(creatorEmail)) {
                 if(eventReaction.getType().equals(reaction.getType())) {
                     eventReactionRepository.delete(eventReaction);
@@ -48,4 +48,31 @@ public class ReactionServiceImp implements ReactionService {
         eventReactionRepository.save(reaction);
         return eventReactionMapper.map(reaction);
     }
+
+    @Transactional
+    @Override
+    public CommentReactionDTO setCommentReaction(CommentReactionDTO commentReactionDTO, String creatorEmail, Long commentId){
+        User user = userRepository.findByEmail(creatorEmail).orElseThrow(ResourceNotFoundException::new);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(ResourceNotFoundException::new);
+        CommentReaction reaction = commentReactionMapper.unmap(commentReactionDTO);
+        reaction.setUser(user);
+        reaction.setComment(comment);
+
+        comment.getCommentReactions().forEach(commentReaction ->{
+            if (commentReaction.getUser().getEmail().equalsIgnoreCase(creatorEmail)){
+                if(commentReaction.getType().equals(reaction.getType())){
+                    commentReactionRepository.delete(commentReaction);
+                }else{
+                    commentReaction.setType(reaction.getType());
+                    commentReactionRepository.save(reaction);
+                }
+                return;
+            }
+        } );
+
+        comment.addCommentReaction(reaction);
+        commentReactionRepository.save(reaction);
+        return commentReactionMapper.map(reaction);
+    }
+
 }

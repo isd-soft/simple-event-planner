@@ -6,7 +6,6 @@ import com.internship.sep.web.CommentReactionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
@@ -18,9 +17,7 @@ import java.util.stream.Collectors;
 class CommentMapper implements Mapper<Comment, CommentDTO>{
 
     private final Mapper<CommentReaction, CommentReactionDTO> commentReactionMapper;
-
-
-    UserShortMapper userShortMapper;
+    private final UserShortMapper userShortMapper;
 
 
     @Override
@@ -37,7 +34,7 @@ class CommentMapper implements Mapper<Comment, CommentDTO>{
         dto.setContent(entity.getContent());
         dto.setCreator(userShortMapper.map(entity.getUser()));
 
-        if (entity.getCommentReaction() != null && entity.getCommentReaction().size()>0){
+        if (entity.getCommentReactions() != null && entity.getCommentReactions().size()>0){
             dto.setCommentReactions(entity.getCommentReactions().stream()
                     .map(commentReactionMapper::map).
                             collect(Collectors.toList()));

@@ -59,7 +59,7 @@ public class Comment  extends AbstractEntity{
         commentReactions.add(commentReaction);
         commentReaction.setComment(this);
     }
-    public List<CommentReaction> getCommentReaction(){
-        return Collections.unmodifiableList(commentReactions);
-    }
+//    public List<CommentReaction> getCommentReaction(){
+//        return Collections.unmodifiableList(commentReactions);
+//    }
 }

@@ -8,5 +8,5 @@ public class CommentReactionDTO {
     private Long id;
     private ReactionType type;
     private Long commentId;
-    private Long creatorId;
+    private UserShortDTO creator;
 }
