@@ -80,8 +80,8 @@ public class EventMapper implements Mapper<Event, EventDTO> {
                     collect(Collectors.toList()));
         }
 
-        if (entity.getEventReaction() != null && entity.getEventReaction().size()>0){
-            dto.setEventReactions(entity.getEventReaction().stream()
+        if (entity.getEventReactions() != null && entity.getEventReactions().size()>0){
+            dto.setEventReactions(entity.getEventReactions().stream()
                     .map(eventReactionMapper::map).
                     collect(Collectors.toList()));
         }
