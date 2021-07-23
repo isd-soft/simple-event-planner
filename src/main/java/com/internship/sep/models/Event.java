@@ -68,6 +68,7 @@ public class Event extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event")
     private List<EventReaction> eventReactions = new ArrayList<>();
 
+
     public void addAttendee(Attendee attendee) {
         attendees.add(attendee);
         attendee.setEvent(this);

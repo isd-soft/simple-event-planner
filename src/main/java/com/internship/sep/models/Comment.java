@@ -1,11 +1,10 @@
 package com.internship.sep.models;
-
-import com.google.api.client.util.DateTime;
-import com.internship.sep.web.UserShortDTO;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -31,6 +30,9 @@ public class Comment  extends AbstractEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "comment")
+    private List<CommentReaction> commentReactions = new ArrayList<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,5 +52,10 @@ public class Comment  extends AbstractEntity{
                 ", content='" + content + '\'' +
                 ", creation_date=" + creationDate +
                 '}';
+    }
+
+    public void addCommentReaction(CommentReaction commentReaction){
+        commentReactions.add(commentReaction);
+        commentReaction.setComment(this);
     }
 }

@@ -4,6 +4,6 @@ import com.internship.sep.web.EventReactionDTO;
 
 public interface ReactionService {
 
-    void setEventReaction(EventReactionDTO reactionDTO, String creatorEmail, Long EventId);
+    EventReactionDTO setEventReaction(EventReactionDTO reactionDTO, String creatorEmail, Long EventId);
 
 }
