@@ -14,6 +14,36 @@
     </canvas>
   </div>
 </div>
+<mat-list class="server-info" *ngIf = "app && health" role="list">
+  <mat-list-item role="listitem"> <div mat-line>{{app.app.name}}</div>
+    <div mat-line>{{app.app.description}}</div>
+    <div mat-line>Version: {{app.app.version}}</div>
+  </mat-list-item>
+  
+  <mat-list-item role="listitem" *ngIf="health.status=='UP'"><mat-icon color="primary" >
+    check_circle_outline</mat-icon> Server Status </mat-list-item>
+
+  <mat-list-item role="listitem" *ngIf="health.status=='DOWN'"><mat-icon color="warn" >highlight_off</mat-icon> Server Status 
+    </mat-list-item>
+
+  <mat-list-item role="listitem" *ngIf="health.components.db.status=='UP'"><mat-icon color="primary" >check_circle_outline</mat-icon> {{health.components.db.details.database}}
+    </mat-list-item>
+
+  <mat-list-item role="listitem" *ngIf="health.components.db.status=='DOWN'"><mat-icon color="warn" >highlight_off</mat-icon> {{health.components.db.details.database}}
+    </mat-list-item>
+
+  <mat-list-item role="listitem" *ngIf="health.components.diskSpace.status=='UP'" ><mat-icon color="primary" >check_circle_outline</mat-icon> Disc Status
+    </mat-list-item>
+
+  <mat-list-item role="listitem" *ngIf="health.components.diskSpace.status=='DOWN'" ><mat-icon color="warn" >highlight_off</mat-icon> Disc Status
+     </mat-list-item>
+
+     <mat-list-item role="listitem" *ngIf="health.components.mail.status=='UP'" ><mat-icon color="primary">check_circle_outline</mat-icon>
+       Mail Service Status </mat-list-item>
+  
+      <mat-list-item role="listitem" *ngIf="health.components.mail.status=='DOWN'" ><mat-icon color="warn">highlight_off</mat-icon> Mail Service Status: 
+         </mat-list-item>
+</mat-list>
 
 <mat-form-field class="example-chip-list" appearance="fill">
   <mat-label>Categories</mat-label>
