@@ -1,11 +1,9 @@
 package com.internship.sep.web.controllers;
-import com.internship.sep.models.Comment;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.services.CommentService;
 import com.internship.sep.services.EventService;
 
 import com.internship.sep.web.CommentDTO;
-import com.internship.sep.web.EventDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
