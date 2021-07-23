@@ -37,7 +37,7 @@ public class CommentServiceImpl implements CommentService{
         comment.setUser(creator);
         event.addComment(comment);
         commentRepository.save(comment);
-        return commentDTO;
+        return commentMapper.map(comment);
     }
 
     @Transactional

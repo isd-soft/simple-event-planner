@@ -1,4 +1,5 @@
 package com.internship.sep.web.controllers;
+import com.internship.sep.models.Comment;
 import com.internship.sep.repositories.EventRepository;
 import com.internship.sep.services.CommentService;
 import com.internship.sep.services.EventService;
@@ -24,9 +25,9 @@ public class CommentController {
     public final EventRepository eventRepository;
 
     @PostMapping(path = "/{eventId}")
-    public ResponseEntity<String> createComment(@PathVariable("eventId") Long eventId, @RequestBody CommentDTO commentDTO, Principal principal){
-        commentService.createNewComment(commentDTO, eventId, principal.getName());
-        return ResponseEntity.status(HttpStatus.CREATED).body("Comment created successfully");
+    public ResponseEntity<?> createComment(@PathVariable("eventId") Long eventId, @RequestBody CommentDTO commentDTO, Principal principal){
+        CommentDTO comment = commentService.createNewComment(commentDTO, eventId, principal.getName());
+        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
 
     @CrossOrigin("*")
@@ -37,9 +38,9 @@ public class CommentController {
     }
 
     @PutMapping(path = "/{commentId}")
-    public ResponseEntity<String> updateComment(@PathVariable("commentId") Long commentId, Principal principal, @RequestBody CommentDTO commentDTO){
-        commentService.updateComment(commentId, commentDTO, principal.getName());
-        return new ResponseEntity<>("Comment updated successfully", HttpStatus.OK);
+    public ResponseEntity<?> updateComment(@PathVariable("commentId") Long commentId, Principal principal, @RequestBody CommentDTO commentDTO){
+        CommentDTO comment = commentService.updateComment(commentId, commentDTO, principal.getName());
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
 }
