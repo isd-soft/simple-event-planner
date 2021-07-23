@@ -147,13 +147,10 @@
 
   <mat-form-field appearance="fill" class="example-full-width">
     <mat-label>Attachments</mat-label>
-    <div id="upload-attachment-placement">
+    <mat-chip-list #chipList aria-label="attachments selection">
       <button mat-mini-fab color="primary" class="upload-attachment" (click)="attachmentInput.click()">
         <mat-icon id="add-icon-placement">add</mat-icon>
       </button>
-    </div>
-
-    <mat-chip-list #chipList aria-label="attachments selection">
       <mat-chip
         *ngFor="let attachment of attachments"
         [removable]="true"
