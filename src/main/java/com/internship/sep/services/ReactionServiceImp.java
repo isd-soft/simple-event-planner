@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,18 +33,19 @@ public class ReactionServiceImp implements ReactionService {
         reaction.setUser(user);
         reaction.setEvent(event);
 
-        event.getEventReactions().forEach(eventReaction -> {
-            if(eventReaction.getUser().getEmail().equalsIgnoreCase(creatorEmail)) {
-                if(eventReaction.getType().equals(reaction.getType())) {
-                    eventReactionRepository.delete(eventReaction);
-                } else {
-                    eventReaction.setType(reaction.getType());
-                    eventReactionRepository.save(eventReaction);
-                }
-                return;
-            }
-        });
+        List<EventReaction> allReactions = event.getEventReactions();
 
+        for(int i = 0; i < allReactions.size(); i++) {
+            if(allReactions.get(i).getUser().getEmail().equalsIgnoreCase(creatorEmail)) {
+                if(allReactions.get(i).getType().equals(reaction.getType())) {
+                    allReactions.remove(i);
+                } else {
+                    allReactions.get(i).setType(reaction.getType());
+                    eventReactionRepository.save(allReactions.get(i));
+                }
+                return eventReactionMapper.map(reaction);
+            }
+        }
 
         event.addEventReaction(reaction);
         eventReactionRepository.save(reaction);

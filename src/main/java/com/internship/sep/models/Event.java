@@ -65,7 +65,7 @@ public class Event extends AbstractEntity {
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "event", orphanRemoval = true)
     private List<EventReaction> eventReactions = new ArrayList<>();
 
 
@@ -82,7 +82,6 @@ public class Event extends AbstractEntity {
         attachments.add(attachment);
         attachment.setEvent(this);
     }
-
 
     public void  addLinkDB (LinkDB linkDB){
         links.add(linkDB);

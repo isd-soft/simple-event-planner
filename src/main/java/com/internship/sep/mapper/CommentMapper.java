@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @Component
 class CommentMapper implements Mapper<Comment, CommentDTO>{

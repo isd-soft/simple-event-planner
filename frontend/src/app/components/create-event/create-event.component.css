@@ -106,10 +106,7 @@ mat-form-field {
 .upload-attachment {
   width: 35px;
   height: 35px;
-}
-
-#upload-attachment-placement {
-  text-align: right;
+  margin-left: 93%;
 }
 
 #add-icon-placement {
