@@ -1,6 +1,6 @@
 .comment {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 140%;
 
   border-radius: 20px;
@@ -13,6 +13,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 10px;
+  margin-left: -2px;
 }
 
 .comment-info {
@@ -27,7 +28,7 @@
 }
 
 .comment-created-time {
-  font-size: 12px;
+  font-size: 13px;
   color: #8a8a8a;
 }
 
@@ -48,12 +49,15 @@
 }
 
 .comment-content {
-  white-space: pre-wrap;
+  white-space: pre-line;
+  margin-left: -2px;
+  margin-bottom: 5px;
+  margin-top: -5px;
 }
 
 .comment-content.editing {
-  margin: -10px -15px 10px;
-  padding: 15px 15px;
+  margin: 13px -2px 13px;
+  padding: 15px 18px;
   border-radius: 10px;
   background-color: #f3f3f3;
 }
@@ -62,4 +66,5 @@
 }
 .comment-edit-button {
   margin-right: 10px;
+  margin-bottom: -2px;
 }
