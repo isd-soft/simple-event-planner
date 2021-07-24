@@ -6,6 +6,13 @@
 }
 
 .center {
+  position: relative;
   display: flex;
   justify-content: center;
+}
+
+app-reactions {
+  position: absolute;
+  right: 0;
+  top: 10px;
 }

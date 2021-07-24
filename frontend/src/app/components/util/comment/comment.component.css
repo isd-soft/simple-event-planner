@@ -68,3 +68,8 @@
   margin-right: 10px;
   margin-bottom: -2px;
 }
+
+.reactions-action {
+  display: flex;
+  justify-content: flex-end;
+}

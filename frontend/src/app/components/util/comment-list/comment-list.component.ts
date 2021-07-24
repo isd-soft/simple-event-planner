@@ -11,6 +11,7 @@ export class CommentListComponent implements OnInit {
 
   @Input() comments: Comment[];
   @Input() isReadonly: Function = () => true;
+  @Input() commentReactions: any[] = [];
 
   @Output() onCreate = new EventEmitter<Comment>();
   @Output() onEdit = new EventEmitter<Comment>();

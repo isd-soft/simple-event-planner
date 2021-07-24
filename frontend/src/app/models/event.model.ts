@@ -17,4 +17,5 @@ export interface EventModel {
   attachments: Attachment[];
   links: any[];
   comments: Comment[];
+  eventReactions: any[];
 }

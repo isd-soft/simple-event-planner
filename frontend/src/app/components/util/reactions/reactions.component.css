@@ -1,0 +1,91 @@
+.reactions {
+  position: relative;
+  z-index: 20;
+}
+
+
+.reactions-select-reaction {
+  position: absolute;
+  bottom: -80%;
+  right: 0;
+
+  display: flex;
+  align-items: center;
+
+  background-color: #fff;
+
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+}
+
+.reaction-button {
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 21px;
+  margin: 5px;
+  text-align: center;
+
+  border-radius: 10px;
+}
+
+.reaction-button-show {
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 30px;
+  margin: 5px;
+  text-align: center;
+
+  border-radius: 10px;
+}
+
+.reaction-button.selected {
+  background-color: #b3dcf8;
+}
+
+.reaction-button:hover {
+  background-color: #eee;
+}
+
+.reactions-dialog {
+  z-index: 100;
+  position: fixed;
+  background-color: #00000070;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.reactions-dialog-wrapper {
+  background-color: #fff;
+  max-width: 300px;
+  margin: 100px auto;
+  overflow-y: scroll;
+  padding: 20px;
+  position: relative;
+}
+
+.reaction-user {
+  display: flex;
+  align-items: center;
+}
+
+.reaction-user-name {
+  margin-right: 10px;
+}
+
+.reaction-dialog-close_button {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  cursor: pointer;
+}
+
+.reaction-dialog-close_button:hover {
+  background-color: #00000010;
+}
+
+.reactions-action {
+  display: flex;
+  justify-content: flex-end;
+}

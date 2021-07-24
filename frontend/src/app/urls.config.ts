@@ -36,3 +36,8 @@ export const STATISTICS_URL: string = BASE_URL + STATISTICS;
 export const COMMENTS: string = '/comments';
 export const COMMENTS_URL: string = BASE_URL + COMMENTS;
 
+export const EVENT_REACTION: string = '/reactions/events'
+export const EVENT_REACTION_URL: string = BASE_URL + EVENT_REACTION;
+
+export const COMMENT_REACTION: string = '/reactions/comments'
+export const COMMENT_REACTION_URL: string = BASE_URL + COMMENT_REACTION;

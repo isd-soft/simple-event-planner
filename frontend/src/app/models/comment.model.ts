@@ -6,4 +6,5 @@ export interface Comment {
   creator?: UserShortModel;
   content: string;
   creation_date?: string;
+  commentReactions?: any[];
 }

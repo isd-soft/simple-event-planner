@@ -28,4 +28,9 @@
     <button class="comment-edit-button" mat-stroked-button (click)="edit()">Edit</button>
     <button class="comment-edit-button" mat-stroked-button (click)="isEditing = !isEditing">Cancel</button>
   </div>
+
+  <app-reactions [reactions]="commentReactions"
+                 [allReactions]="allReactions"
+                 [myReaction]="myReaction"
+                 (onSelect)="selectReaction($event)"></app-reactions>
 </div>

@@ -196,6 +196,7 @@ export class CreateEventComponent implements OnInit {
         .then((file) => this.attachmentsService.fileToAttachment(file));
     }
     if (this.selectedCustomImg) {
+      this.selectedCustomImg.name = this.COVER_PHOTO_NAME;
       event.attachments.push(this.selectedCustomImg);
     }
     this.eventsService

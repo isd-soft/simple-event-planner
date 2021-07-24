@@ -65,6 +65,7 @@ import { UpdateEventComponent } from './components/update-event/update-event.com
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { CommentListComponent } from './components/util/comment-list/comment-list.component';
 import { CommentComponent } from './components/util/comment/comment.component';
+import { ReactionsComponent } from './components/util/reactions/reactions.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { CommentComponent } from './components/util/comment/comment.component';
     UpdateEventComponent,
     CommentListComponent,
     CommentComponent,
+    ReactionsComponent,
     // EventOverviewComponent,
   ],
   entryComponents: [DialogComponent],

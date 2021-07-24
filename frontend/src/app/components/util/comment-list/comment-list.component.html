@@ -4,6 +4,7 @@
     <div class="comment" *ngFor="let comment of comments; let i = index">
       <app-comment [comment]="comment"
                    [uid]="i"
+                   [commentReactions]="commentReactions"
                    [isReadonly]="isReadonly(comment)"
                    (onDelete)="deleteComment(comment, i)"
                    (onEdit)="editComment(comment, $event)"></app-comment>

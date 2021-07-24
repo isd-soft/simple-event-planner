@@ -1,0 +1,32 @@
+<div class="reactions">
+  <div class="reactions-action">
+    <button mat-button *ngIf="allReactions.length > 0" (click)="showAll = true">
+      {{allReactions.length}} {{allReactions.length === 1 ? 'reaction' : 'reactions'}}
+    </button>
+    <button mat-button (click)="selectable = !selectable">React</button>
+  </div>
+  <div class="reactions-select-reaction" *ngIf="selectable">
+    <mat-icon *ngFor="let reaction of reactions; let i = index"
+              (click)="selectReaction(i)"
+              [class.selected]="myReaction && reaction.type === myReaction.type"
+              [style]="reaction.style"
+              class="reaction-button">
+      {{reaction.icon}}
+    </mat-icon>
+  </div>
+</div>
+
+<div class="reactions-dialog" *ngIf="showAll">
+  <div class="reactions-dialog-wrapper">
+    <mat-icon class="reaction-dialog-close_button" (click)="showAll = false">close</mat-icon>
+    <div class="reaction-user" *ngFor="let reaction of allReactions">
+      <div class="reaction-user-name" *ngIf="reaction.creator">
+        {{reaction.creator.firstName + ' ' + reaction.creator.lastName}}
+      </div>
+      <div class="reaction-user-reaction">
+        <mat-icon class="reaction-button-show"
+                  [style]="reactions[reaction.index].style">{{reactions[reaction.index].icon}}</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

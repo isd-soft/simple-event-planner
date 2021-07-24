@@ -12,6 +12,7 @@ import {EventsService} from "../../services/events.service";
 import {AuthService} from "../../services/auth.service";
 import { Comment } from "../../models/comment.model";
 import {CommentsService} from "../../services/comments.service";
+import {ReactionsService} from "../../services/reactions.service";
 
 @Component({
   selector: 'app-event-info',
@@ -33,18 +34,27 @@ export class EventInfoComponent implements OnInit {
               private eventsService: EventsService,
               private attachmentService: AttachmentsService,
               private commentsService: CommentsService,
+              private reactionsService: ReactionsService,
               private route: ActivatedRoute,
               private router: Router) {
+
     let stringId = this.route.snapshot.paramMap.get('id');
     if (stringId != null) {
       let id: number = parseInt(stringId);
       this.eventsService.getEvent(id).subscribe((event: EventModel) => {
+        console.log(event);
         this.comments = event.comments;
         this.event = event;
         this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
         this.getCover(event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME));
         this.role = this.eventService.getRole();
         this.linkAttachments = event.links.map(linkObject => linkObject.link);
+        this.allReactions = event.eventReactions.map(reaction =>  ({
+          ...reaction,
+          index: this.reactions.findIndex(r => r.type == reaction.type)
+        }))
+
+        this.myReaction = this.allReactions.find(x => x.creator.email === authService.getUser().email);
       });
     }
   }
@@ -64,7 +74,7 @@ export class EventInfoComponent implements OnInit {
     let id = this.event.id;
     if (id != null) {
       this.eventService.deleteEventById(id);
-      this.redirection();
+      // this.redirection();
     }
   }
 
@@ -127,4 +137,28 @@ export class EventInfoComponent implements OnInit {
       .catch(console.log);
   }
 
+
+
+  reactions = [
+    {
+      icon: 'thumb_up',
+      style: "color:#f5f56e",
+      type: 'LIKE'
+    },
+    {
+      icon: 'thumb_down',
+      style: "color:#f5f56e",
+      type: 'DISLIKE'
+    },
+  ]
+
+
+  allReactions: any[] = []
+  myReaction: any = null;
+
+  selectReaction(reaction: any) {
+    this.reactionsService.addEventReaction(reaction, this.event.id).toPromise()
+      .then(r => Object.assign(reaction, r))
+      .catch(console.log)
+  }
 }

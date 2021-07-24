@@ -1,16 +1,19 @@
-import {AfterViewInit, Component, Input, Output, EventEmitter} from '@angular/core';
+import {AfterViewInit, Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 import { Comment } from '../../../models/comment.model';
+import {ReactionsService} from "../../../services/reactions.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css']
 })
-export class CommentComponent implements AfterViewInit {
+export class CommentComponent implements AfterViewInit, OnInit {
 
   @Input() comment: Comment;
   @Input() isReadonly: boolean = true;
   @Input() uid: number;
+  @Input() commentReactions: any[] = [];
 
   @Output() onEdit = new EventEmitter<string>();
   @Output() onDelete = new EventEmitter();
@@ -18,12 +21,32 @@ export class CommentComponent implements AfterViewInit {
   isEditing = false;
   editingComponent: any;
 
-  constructor() { }
+  allReactions: any[] = [];
+  myReaction: any = null;
+
+  constructor(private reactionsService: ReactionsService,
+              private authService: AuthService) {
+  }
+
+  ngOnInit() {
+    this.allReactions = this.comment.commentReactions || [];
+    this.allReactions = this.allReactions.map(reaction =>  ({
+      ...reaction,
+      index: this.commentReactions.findIndex(r => r.type == reaction.type)
+    }))
+
+    this.myReaction = this.allReactions.find(reaction => reaction.creator.email == this.authService.getUser().email)
+  }
 
   ngAfterViewInit(): void {
     this.editingComponent = document.getElementById('comment-content-editing' + this.uid);
   }
 
+  selectReaction(reaction: any) {
+    this.reactionsService.addCommentReaction(reaction, this.comment.id || -1).toPromise()
+      .then(r => Object.assign(reaction, r))
+      .catch(console.log);
+  }
 
   startEditing() {
     this.isEditing = true;

@@ -1,5 +1,13 @@
 <div class="center">
+
+
   <mat-card class="example-card">
+    <app-reactions [reactions]="reactions"
+                   [allReactions]="allReactions"
+                   [myReaction]="myReaction"
+                   (onSelect)="selectReaction($event)"></app-reactions>
+
+
     <mat-card-header>
       <mat-card-title>{{ event.name }}</mat-card-title>
       <mat-card-subtitle>by <strong>{{event.host.firstName + " " + event.host.lastName}}</strong></mat-card-subtitle>
@@ -29,6 +37,7 @@
     </div>
 
     <app-comment-list [comments]="comments"
+                      [commentReactions]="reactions"
                       [isReadonly]="isCommentReadonly()"
                       (onCreate)="addComment($event)"
                       (onEdit)="updateComment($event)"
