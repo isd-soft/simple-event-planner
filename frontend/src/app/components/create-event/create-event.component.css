@@ -112,3 +112,13 @@ mat-form-field {
 #add-icon-placement {
   font-size: 19px;
 }
+
+.login-error {
+  padding: 10px 25px;
+  color: #842029;
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  border-radius: 5px;
+  margin-top: 19px;
+  margin-bottom: 10px;
+}

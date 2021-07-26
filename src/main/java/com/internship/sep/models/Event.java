@@ -31,7 +31,7 @@ public class Event extends AbstractEntity {
     private LocalDateTime startDateTime;
 
     @NotNull(message = "event end time must be present")
-    @Future(message = "event end time must be in the past")
+    @Future(message = "event end time must be in the future")
     @Column(name = "end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 

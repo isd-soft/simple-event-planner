@@ -32,8 +32,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         Set<String> messages = new HashSet<>(constraintViolations.size());
         messages.addAll(constraintViolations.stream()
-                .map(constraintViolation -> String.format("field: %s, value '%s', %s", constraintViolation.getPropertyPath(),
-                        constraintViolation.getInvalidValue(), constraintViolation.getMessage()))
+                .map(constraintViolation -> String.format("%s",  constraintViolation.getMessage()))
                 .collect(Collectors.toList()));
 
         return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);

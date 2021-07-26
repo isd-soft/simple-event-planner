@@ -195,4 +195,7 @@
   <button mat-flat-button color="primary" (click)="submit()">
     Create Event
   </button>
+
+  <div *ngIf="err" class="login-error">{{ err }}</div>
+
 </form>

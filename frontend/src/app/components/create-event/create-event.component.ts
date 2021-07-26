@@ -15,6 +15,7 @@ import {UserShortModel} from "../../models/user-short.model";
 import {EventModel} from "../../models/event.model";
 import {AttachmentsService} from "../../services/attachments.service";
 import {Attachment} from "../../models/attachment.model";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-create-event',
@@ -26,6 +27,7 @@ export class CreateEventComponent implements OnInit {
   readonly ATTENDEE_SEPARATOR: number[] = [ENTER, COMMA];
   readonly COVER_PHOTO_NAME: string = "cover_photo.jpg";
   events: EventModel[] = [];
+  err: string | null = null;
 
   event = new FormGroup({
     name: new FormControl('', [Validators.required]),
@@ -83,7 +85,9 @@ export class CreateEventComponent implements OnInit {
         (users: UserShortModel[]) =>
           (this.allAttendees = users.map((user) => user.email))
       )
-      .catch((err: any) => console.log(err));
+      .catch((err: any) => {
+        console.log(err);
+      });
   }
 
   ngOnInit(): void {
@@ -203,7 +207,10 @@ export class CreateEventComponent implements OnInit {
       .createEvent(event)
       .toPromise()
       .then(() => this.router.navigate(['/my-events']))
-      .catch((error) => console.log(error));
+      .catch((error : HttpErrorResponse) => {
+        console.error(`Backend returned code ${error.status}, body was: ${error.error}`)
+        this.err = error.error;
+      });
   }
 
   filterByApprovedEvents = (d: Date | null): boolean => {
