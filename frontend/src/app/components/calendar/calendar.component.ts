@@ -10,6 +10,10 @@ import { EventsService } from 'src/app/services/events.service';
 })
 export class CalendarComponent {
   public eventObject: EventSettingsModel = {
+    allowAdding: false,
+    allowEditing: false,
+    allowDeleting: false,
+
     fields: {
       location: { name: 'location' },
       description: { name: 'description' },
