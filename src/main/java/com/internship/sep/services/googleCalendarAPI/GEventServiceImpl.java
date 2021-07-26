@@ -90,12 +90,21 @@ public class GEventServiceImpl implements GEventService {
 
     public void deleteEvent(String eventId) throws GeneralSecurityException, IOException {
 
+        if(eventId == null) {
+            return;
+        }
+
         service.events().delete(calendarId, eventId).execute();
         log.info("Google Event Deleted");
     }
 
     @Override
     public void updateEvent(com.internship.sep.models.Event sepEvent) throws GeneralSecurityException, IOException {
+
+        if(sepEvent.getGoogleEventId() == null) {
+            return;
+        }
+
         log.info("Start event updating");
         Event event = eventMapper.map(sepEvent);
 
@@ -106,6 +115,11 @@ public class GEventServiceImpl implements GEventService {
 
     @Override
     public void updateAttendeesStatus(com.internship.sep.models.Event event) throws GeneralSecurityException, IOException {
+
+        if(event.getGoogleEventId() == null) {
+            return;
+        }
+
         Event gEvent = service.events().get(calendarId, event.getGoogleEventId()).execute();
 
         List<EventAttendee> gAttendees = gEvent.getAttendees();
