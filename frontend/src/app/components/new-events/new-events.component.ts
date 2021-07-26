@@ -64,8 +64,8 @@ export class NewEventsComponent implements AfterViewInit {
   }
 
   approveEvent(event: Event, eventModel: EventModel) {
+    eventModel.isApproved = true;
     this.eventsService.approveEvent(eventModel.id).toPromise()
-      .then(() => eventModel.isApproved = true)
       .catch(error => console.log(error));
 
     event.stopPropagation();

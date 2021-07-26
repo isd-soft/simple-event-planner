@@ -3,7 +3,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../dialog/dialog.component';
 import {EventService} from 'src/app/services/event.service';
 import {ActivatedRoute} from '@angular/router';
-import {Event} from 'src/app/models/event';
 import {Router} from '@angular/router';
 import { Attachment } from 'src/app/models/attachment.model';
 import { AttachmentsService } from 'src/app/services/attachments.service';
@@ -13,6 +12,7 @@ import {AuthService} from "../../services/auth.service";
 import { Comment } from "../../models/comment.model";
 import {CommentsService} from "../../services/comments.service";
 import {ReactionsService} from "../../services/reactions.service";
+import { EVENTS } from 'src/app/urls.config';
 
 @Component({
   selector: 'app-event-info',
@@ -62,8 +62,7 @@ export class EventInfoComponent implements OnInit {
   }
 
   redirection() {
-    this.router.navigate(["/events"])
-      .catch(console.log)
+    this.router.navigate(["/"])
   }
 
   openDialog() {
@@ -76,7 +75,7 @@ export class EventInfoComponent implements OnInit {
     let id = this.event.id;
     if (id != null) {
       this.eventService.deleteEventById(id);
-      // this.redirection();
+       this.redirection();
     }
   }
 
