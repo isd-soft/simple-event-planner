@@ -27,6 +27,7 @@ export class EventInfoComponent implements OnInit {
   attachments: Attachment[] = [];
   linkAttachments: string[] = [];
   role: string;
+  userId: any;
   comments: Comment[] = [];
   constructor(public dialog: MatDialog,
               public authService: AuthService,
@@ -48,6 +49,7 @@ export class EventInfoComponent implements OnInit {
         this.attachments = event.attachments.filter(attachment => attachment.name !== this.COVER_PHOTO_NAME);
         this.getCover(event.attachments.find(attachment => attachment.name === this.COVER_PHOTO_NAME));
         this.role = this.eventService.getRole();
+        this.userId = this.eventService.getUserId();
         this.linkAttachments = event.links.map(linkObject => linkObject.link);
         this.allReactions = event.eventReactions.map(reaction =>  ({
           ...reaction,

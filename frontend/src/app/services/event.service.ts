@@ -3,14 +3,14 @@ import {Event} from '../models/event';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from 'rxjs';
 import {AuthService} from './auth.service';
-import { User } from '../models/user';
+import {UserModel} from "../models/user.model";
 @Injectable({
   providedIn: 'root'
 })
 
 export class EventService {
-  private role: string ;
-  private user: User;
+  private readonly role: string ;
+  private user: UserModel;
   private status: string;
   private token = sessionStorage.getItem('TOKEN_KEY');
   private authService: AuthService;
@@ -20,12 +20,13 @@ export class EventService {
   constructor(private http: HttpClient,) {
     this.authService = new AuthService(http);
     this.role = this.authService.getUserRole();
-    console.log(this.role);
+    this.user = this.authService.getUser()
+  }
+  getUserId():any{
+    return this.user.id;
   }
     getRole():string {
-      console.log(this.role);
       return this.role;
-
     }
   getEvents(): Observable<Event[]> {
     const header = (this.authService.isAuthenticated) ? {Authorization: `Bearer ${this.token}`} : undefined;
