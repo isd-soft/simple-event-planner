@@ -161,7 +161,7 @@ class EventServiceImpl implements EventService {
                 .map(fileMapper::unmap)
                 .forEach(oldEvent::addAttachment);
 
-       eventRepository.save(oldEvent);
+        eventRepository.save(oldEvent);
 
         if(oldEvent.getIsApproved()) {
             try {
@@ -187,6 +187,10 @@ class EventServiceImpl implements EventService {
     public void approveEventById(Long id) {
         Event event = eventRepository.findById(id)
                 .orElseThrow(ResourceNotFoundException::new);
+
+        if(event.getIsApproved() == true) {
+            return;
+        }
 
         event.setIsApproved(true);
         eventRepository.save(event);
