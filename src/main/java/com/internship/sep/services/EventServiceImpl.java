@@ -158,7 +158,6 @@ class EventServiceImpl implements EventService {
                 .collect(Collectors.toList()));
 
         eventDTO.getAttachments().stream()
-                .filter(removeExistingFiles(oldEvent))
                 .map(fileMapper::unmap)
                 .forEach(oldEvent::addAttachment);
 
@@ -181,14 +180,6 @@ class EventServiceImpl implements EventService {
 
         return eventMapper.map(oldEvent);
 
-    }
-
-    private Predicate<FileDTO> removeExistingFiles(Event oldEvent) {
-        return attachment -> !oldEvent.getAttachments().
-                stream()
-                .map(FileDB::getId)
-                .collect(Collectors.toList())
-                .contains(attachment.getId());
     }
 
     @Transactional

@@ -79,8 +79,10 @@ public class Event extends AbstractEntity {
     }
 
     public void addAttachment(FileDB attachment){
-        attachments.add(attachment);
-        attachment.setEvent(this);
+        if (attachment.getId() == null) {
+            attachments.add(attachment);
+            attachment.setEvent(this);
+        }
     }
 
     public void  addLinkDB (LinkDB linkDB){
