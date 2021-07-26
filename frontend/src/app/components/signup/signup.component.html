@@ -3,7 +3,9 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Enter your email</mat-label>
-    <input matInput required id="email" type="text" formControlName="email" />
+    <input matInput required id="email" 
+    type="text" formControlName="email"
+     />
     <button mat-icon-button matSuffix>
       <mat-icon>email</mat-icon>
     </button>
@@ -90,6 +92,7 @@
       <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
     </button>
   </mat-form-field>
-  <div *ngIf="err" class="login-error">{{ err }}</div>
+  <div *ngIf="err" class="login-error"> 
+    {{ err }}</div>
   <button mat-flat-button color="primary" (click)="submit()">Register</button>
 </form>

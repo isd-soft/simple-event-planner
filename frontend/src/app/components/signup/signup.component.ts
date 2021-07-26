@@ -32,13 +32,13 @@ export class SignupComponent implements OnInit {
 
 
   submit() {
-    if (this.user.valid && this.passwordCheck.value === this.user.value.password) {
+    if (this.user.valid && this.passwordCheck.value === this.user.value.password && this.user.value.phoneNumber.length == 9) {
       this.authService.register(this.user.getRawValue())
         .then(x => {
           this.router.navigate(["/"]);
         })
-        .catch(err => {
-          this.err = err.error;
+        .catch(() => {
+          this.err = 'Please provide valid credentials!';
         })
     } else {
       this.err = 'Please provide valid credentials!';
