@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   user = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('',[Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
 
@@ -42,13 +42,13 @@ export class LoginComponent implements OnInit {
           this.redirect();
         })
         .catch(err => {
-          this.err = err.error;
+          this.err = "Wrong password";
           console.log(err);
         })
     }
     else {
-      this.err = "Please provide valid credentials!";
+      this.err = "Please provide valid email and password!";
     }
   }
-
 }
+
