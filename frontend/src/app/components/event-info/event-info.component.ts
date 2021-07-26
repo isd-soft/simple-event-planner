@@ -62,7 +62,7 @@ export class EventInfoComponent implements OnInit {
   }
 
   redirection() {
-    this.router.navigate([EVENTS])
+    this.router.navigate(["/"])
   }
 
   openDialog() {
