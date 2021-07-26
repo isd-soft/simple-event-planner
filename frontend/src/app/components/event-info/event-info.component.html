@@ -47,8 +47,8 @@
 
     <mat-card-actions>
       <button mat-button (click)="openDialog()">ATTENDEES</button>
-      <button *ngIf = "role === 'ADMIN'" mat-button (click)="editEvent()" >EDIT</button>
-      <button *ngIf = "role === 'ADMIN'" mat-button (click)="deleteEvent()" color="warn">DELETE</button>
+      <button *ngIf = "role === 'ADMIN' || event.host.id == userId" mat-button (click)="editEvent()" >EDIT</button>
+      <button *ngIf = "role === 'ADMIN'|| event.host.id == userId" mat-button (click)="deleteEvent()" color="warn">DELETE</button>
     </mat-card-actions>
   </mat-card>
 </div>

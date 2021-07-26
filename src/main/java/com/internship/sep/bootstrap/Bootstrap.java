@@ -3,17 +3,16 @@ import com.internship.sep.models.Role;
 
 import com.internship.sep.security.jwt.JwtTokenUtil;
 import com.internship.sep.services.EventCategoryService;
-
+import com.internship.sep.services.EventService;
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.EventCategoryDTO;
-
 import com.internship.sep.web.UserDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 
 @RequiredArgsConstructor
 @Component
@@ -21,6 +20,7 @@ public class Bootstrap implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final EventCategoryService eventCategoryService;
+    private final EventService eventService;
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
@@ -34,7 +34,7 @@ public class Bootstrap implements CommandLineRunner {
     private void loadUsers() {
         UserDTO testUser1 = new UserDTO();
         testUser1.setEmail("user1@email.com");
-        testUser1.setPassword(passwordEncoder.encode("password"));
+        testUser1.setPassword("password");
         testUser1.setFirstName("user1");
         testUser1.setLastName("user1");
         testUser1.setAge(100);
@@ -73,6 +73,7 @@ public class Bootstrap implements CommandLineRunner {
                 jwtTokenUtil.generateToken(userDetailsService.loadUserByUsername(testUser2.getEmail())));
     }
 
+    @SneakyThrows
     private void loadEvents() {
 
         UserDTO testUser3 = new UserDTO();
@@ -99,8 +100,7 @@ public class Bootstrap implements CommandLineRunner {
         eventCategoryService.addCategory(eventCategoryDTO);
         eventCategoryService.addCategory(eventCategoryDTO1);
         eventCategoryService.addCategory(eventCategoryDTO2);
-
-
+        
     }
 
 }

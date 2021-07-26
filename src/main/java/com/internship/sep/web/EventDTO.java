@@ -17,9 +17,11 @@ public class EventDTO {
     private Long id;
     private String name;
     private String location;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime startDateTime;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime endDateTime;
