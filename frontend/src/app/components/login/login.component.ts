@@ -29,7 +29,10 @@ export class LoginComponent implements OnInit {
 
 
   redirect(): void {
-    this.router.navigate(["/"]);
+    this.router.navigate(['/'])
+      .then(() => {
+        window.location.reload();
+      });
   }
 
   submit() {
