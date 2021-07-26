@@ -138,6 +138,8 @@ class EventServiceImpl implements EventService {
 
         oldEvent.setAttendees(new ArrayList<>());
 
+
+
         oldEvent.getLinks().forEach(linkDBRepository::delete);
 
         oldEvent.setLinks(new ArrayList<>());
@@ -150,7 +152,6 @@ class EventServiceImpl implements EventService {
                 .map(linkMapper::unmap)
                 .forEach(oldEvent::addLinkDB);
 
-        // eventRepository.save(oldEvent);
         oldEvent.getAttachments().retainAll(eventDTO.getAttachments()
                 .stream()
                 .map(fileMapper::unmap)
@@ -161,7 +162,7 @@ class EventServiceImpl implements EventService {
                 .map(fileMapper::unmap)
                 .forEach(oldEvent::addAttachment);
 
-        eventRepository.save(oldEvent);
+       eventRepository.save(oldEvent);
 
         if(oldEvent.getIsApproved()) {
             try {
@@ -285,7 +286,6 @@ class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new ResourceNotFoundException("File with id: " + id + " does not exists"));
 
         FileDTO fileDTO = fileMapper.map(file);
-//        fileDTO.setContent(Base64.getEncoder().encodeToString(file.getContent()));
         fileDTO.setContent(new String(file.getContent(), StandardCharsets.UTF_8));
         return fileDTO;
 
