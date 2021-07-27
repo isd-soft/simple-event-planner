@@ -38,7 +38,7 @@ export class SignupComponent implements OnInit {
           this.router.navigate(["/"]);
         })
         .catch(() => {
-          this.err = 'Please provide valid credentials!';
+          this.err = 'Email is occupied';
         })
     } else {
       this.err = 'Please provide valid credentials!';
