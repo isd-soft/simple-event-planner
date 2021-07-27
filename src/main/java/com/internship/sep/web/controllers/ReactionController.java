@@ -7,7 +7,6 @@ import com.internship.sep.services.ReactionService;
 import com.internship.sep.web.CommentDTO;
 import com.internship.sep.web.CommentReactionDTO;
 import com.internship.sep.web.EventReactionDTO;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(ReactionController.BASE_URL)
-@SecurityRequirement(name = "bearerAuth")
 public class ReactionController {
     public static final String BASE_URL = "/reactions";
     public final ReactionService reactionService;

@@ -6,7 +6,6 @@ import com.internship.sep.services.EventService;
 import com.internship.sep.services.ResourceNotFoundException;
 import com.internship.sep.web.EventDTO;
 import com.internship.sep.web.FileDTO;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(EventController.BASE_URL)
-@SecurityRequirement(name = "bearerAuth")
 public class EventController {
 
     public static final String BASE_URL = "/events";
