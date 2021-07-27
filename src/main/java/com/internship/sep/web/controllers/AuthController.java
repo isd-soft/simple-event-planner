@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin (origins = "*" , exposedHeaders = "**")
 public class AuthController {
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;

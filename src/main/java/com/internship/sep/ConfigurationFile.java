@@ -16,7 +16,8 @@ public class ConfigurationFile {
                     registry.addMapping("/**");
                 }
             };
-        }}
+        }
+}
 
 
 

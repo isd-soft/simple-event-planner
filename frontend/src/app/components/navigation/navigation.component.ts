@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../services/auth.service";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.css']
+  styleUrls: ['./navigation.component.css'],
 })
 export class NavigationComponent implements OnInit {
-
   authenticated: boolean = false;
   isAdmin: boolean = false;
 
   constructor(private authService: AuthService) {
     this.authenticated = authService.isAuthenticated();
     this.isAdmin = authService.isAdmin();
+    this.authService.subscribe((x: any) => console.log(x));
   }
 
   logout() {
@@ -25,5 +25,4 @@ export class NavigationComponent implements OnInit {
       this.authenticated = x;
     });
   }
-
 }
