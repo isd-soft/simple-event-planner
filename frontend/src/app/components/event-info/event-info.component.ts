@@ -62,8 +62,8 @@ export class EventInfoComponent implements OnInit {
   }
 
   redirection() {
-    this.router.navigate(["/"]).then(() => {
-      window.location.reload();
+    this.router.navigate(["/events"]).then(() => {
+      window.location.reload(); 
    });
   }
 
