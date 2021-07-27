@@ -1,4 +1,4 @@
-export const BASE_URL: string = 'http://localhost:8080';
+export const BASE_URL: string = 'https://simple-event-planner.herokuapp.com/';
 
 export const SIGN_IN: string = '/login';
 export const SIGN_IN_URL: string = BASE_URL + SIGN_IN;
@@ -36,8 +36,8 @@ export const STATISTICS_URL: string = BASE_URL + STATISTICS;
 export const COMMENTS: string = '/comments';
 export const COMMENTS_URL: string = BASE_URL + COMMENTS;
 
-export const EVENT_REACTION: string = '/reactions/events'
+export const EVENT_REACTION: string = '/reactions/events';
 export const EVENT_REACTION_URL: string = BASE_URL + EVENT_REACTION;
 
-export const COMMENT_REACTION: string = '/reactions/comments'
+export const COMMENT_REACTION: string = '/reactions/comments';
 export const COMMENT_REACTION_URL: string = BASE_URL + COMMENT_REACTION;

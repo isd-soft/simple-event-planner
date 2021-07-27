@@ -4,6 +4,7 @@ import com.internship.sep.services.CommentService;
 import com.internship.sep.services.EventService;
 
 import com.internship.sep.web.CommentDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(CommentController.BASE_URL)
-
+@SecurityRequirement(name = "bearerAuth")
 public class CommentController {
     public static final String BASE_URL = "/comments";
     public final CommentService commentService;

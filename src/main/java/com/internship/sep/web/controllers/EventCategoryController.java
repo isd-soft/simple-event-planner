@@ -2,6 +2,7 @@ package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.EventCategoryServiceImpl;
 import com.internship.sep.web.EventCategoryDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/categories")
+@SecurityRequirement(name = "bearerAuth")
 public class EventCategoryController {
 
 
