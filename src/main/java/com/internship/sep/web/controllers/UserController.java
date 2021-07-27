@@ -2,6 +2,7 @@ package com.internship.sep.web.controllers;
 
 import com.internship.sep.services.UserService;
 import com.internship.sep.web.UserDTO;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/users")
+@SecurityRequirement(name = "bearerAuth")
 public class UserController {
     private final UserService userService;
 

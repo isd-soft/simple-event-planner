@@ -41,10 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().and()
                 .csrf().disable()
+                .cors().disable()
 
                 .authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
+                .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/categories").hasRole(Role.ADMIN.name())
                 .antMatchers(HttpMethod.DELETE, "/categories/*").hasRole(Role.ADMIN.name())
@@ -66,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        http.cors();
         http.addFilterBefore(requestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
