@@ -62,7 +62,9 @@ export class EventInfoComponent implements OnInit {
   }
 
   redirection() {
-    this.router.navigate(["/"])
+    this.router.navigate(["/"]).then(() => {
+      window.location.reload();
+   });
   }
 
   openDialog() {
