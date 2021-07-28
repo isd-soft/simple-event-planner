@@ -27,9 +27,7 @@ export class AnalyticsComponent {
   constructor(
     private statisticsService: StatisticsService,
     private categoryService: EventCategoriesService
-  ) {
-
-  }
+  ) {}
 
   doughnutChartLabels: Label[] = ['Unapproved', 'Approved', 'Total'];
   doughnutChartData: MultiDataSet = [
@@ -88,14 +86,10 @@ export class AnalyticsComponent {
     });
     this.statisticsService.getAppInfo().subscribe((app: any) => {
       this.app = app;
-      console.log(app.app.name)
-      console.log(app.app.appInfo.name);
+      console.log(app.app.name);
     });
     this.categoryService.getAllCategories().subscribe((categories) => {
       this.categories = categories;
     });
-
   }
-  
-
 }
