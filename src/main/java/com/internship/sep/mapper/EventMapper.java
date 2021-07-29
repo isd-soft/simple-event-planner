@@ -98,8 +98,8 @@ public class EventMapper implements Mapper<Event, EventDTO> {
         final Event event = new Event();
 
         event.setDescription(dto.getDescription());
-        event.setStartDateTime(dto.getStartDateTime());
-        event.setEndDateTime(dto.getEndDateTime());
+        event.setStartDateTime(dto.getStartDateTime().plusHours(3));
+        event.setEndDateTime(dto.getEndDateTime().plusHours(3));
         event.setIsApproved(dto.getIsApproved());
         event.setName(dto.getName());
         event.setLocation(dto.getLocation());
