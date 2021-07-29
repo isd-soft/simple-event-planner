@@ -128,8 +128,8 @@ class EventServiceImpl implements EventService {
         }
 
         oldEvent.setName(eventDTO.getName());
-        oldEvent.setStartDateTime(eventDTO.getStartDateTime());
-        oldEvent.setEndDateTime(eventDTO.getEndDateTime());
+        oldEvent.setStartDateTime(eventDTO.getStartDateTime().plusHours(3));
+        oldEvent.setEndDateTime(eventDTO.getEndDateTime().plusHours(3));
         oldEvent.setLocation(eventDTO.getLocation());
         oldEvent.setDescription(eventDTO.getDescription());
         oldEvent.setEventCategory(eventCategoryMapper.unmap(eventDTO.getEventCategory()));
